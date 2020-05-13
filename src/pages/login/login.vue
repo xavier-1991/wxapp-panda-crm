@@ -22,5 +22,5 @@ const pd = require('../../utils/pd');
     }
 </script>
 <style lang="stylus">
-    @import "./index"
+    @import "./login"
 </style>
