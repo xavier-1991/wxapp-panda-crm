@@ -1,5 +1,6 @@
 <template lang="pug">
     view
+        //- 头部信息
         view(class="header re")
             image(class="banner" src="../../static/index/banner.png")
             view(class="re header-main")
@@ -68,6 +69,10 @@
                             view(class="btn-item") 已审核
                             view(class="btn-item btn-item-gray") 未下单
                         image(class="arrow-right" src="../../static/arrow-right.png")
+        
+        
+        //- tabbar 
+        tabbar(currTabbar="index")
 
                     
 </template>
@@ -76,19 +81,23 @@ const urls = require('../../utils/urls');
 const util = require('../../utils/util');
 const http = require('../../utils/http');
 const pd = require('../../utils/pd');
-    export default {
-        data(){
-            return {
+import tabbar from "../../components/tabbar/tabbar.vue";
+export default {
+    data(){
+        return {
 
-            }
-        },
-        onLoad(){
-
-        },
-        methods: {
-            
         }
+    },
+    components:{
+        tabbar
+    },
+    onLoad(){
+
+    },
+    methods: {
+        
     }
+}
 </script>
 <style lang="stylus">
     @import "./index"

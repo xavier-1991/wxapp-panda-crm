@@ -36,7 +36,9 @@ function linkto(pageName, params, success, need_login = false) {
     //tabBar 页面
     let nativeUrls = [
         "/pages/index/index",
-        "/pages/usercenter/usercenter",
+        "/pages/store-manage/store-manage",
+        "/pages/order-list/order-list",
+        "/pages/set/set"
     ];
     if (nativeUrls.join('').indexOf(url) >= 0) {
         uni.switchTab({ url: url + (!params ? '' : `?${params}`) });
