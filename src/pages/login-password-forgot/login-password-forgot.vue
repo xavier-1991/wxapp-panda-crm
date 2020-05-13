@@ -2,21 +2,20 @@
     view(class="wrap re")
         image(class="bg" mode="widthFix" src="../../static/login/login-bg.png")
         view(class="main")
-            view
-                view(class="df jcc mt70")
-                    image(class="logo" src="../../static/login/logo.png")
-                view(class="fs36 cor mt15 tac") 欢迎来到CRM平台
-            view(class="inp-wrap mt15")
+            view(class="inp-wrap ")
                 view(class="item df ai-center")
                     image(src="../../static/login/phone.png")
                     input(placeholder="请输入手机号" type="number" maxlength="11")
+                view(class="item df ai-center re")
+                    image(src="../../static/login/safe.png")
+                    input(placeholder="请输入验证码" type="number")
+                    view(class="code") 获取验证码
                 view(class="item df ai-center")
                     image(src="../../static/login/safe.png")
-                    input(placeholder="请输入密码" type="password")
+                    input(placeholder="请输入新密码" type="password")
             view(class="btn_wrap")
                 view(class="btn-default") 登录
-                view(class="df jcfe mt30")
-                    view(class="forgot" @tap="toForgotPassword()") 忘记密码
+                
 
 </template>
 <script>
@@ -44,5 +43,5 @@ const pd = require('../../utils/pd');
     }
 </script>
 <style lang="stylus">
-    @import "./login"
+    @import "./login-password-forgot"
 </style>

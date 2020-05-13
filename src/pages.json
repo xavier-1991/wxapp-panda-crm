@@ -11,12 +11,18 @@
             "style": {
                 "navigationBarTitleText": "登录"
             }
+        },
+        {
+            "path": "pages/login-password-forgot/login-password-forgot",
+            "style": {
+                "navigationBarTitleText": "忘记密码"
+            }
         }
     ],
     "globalStyle": {
-        "navigationBarTextStyle": "black",
+        "navigationBarTextStyle": "light",
         "navigationBarTitleText": "uni-app",
-        "navigationBarBackgroundColor": "#F8F8F8",
+        "navigationBarBackgroundColor": "#1677FE",
         "backgroundColor": "#F8F8F8"
     }
 }
