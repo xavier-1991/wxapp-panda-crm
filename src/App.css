@@ -617,4 +617,8 @@ video {
     width:100%;
     box-sizing: border-box;
     background: #F1EFF0;
+    z-index: 100;
+}
+.bg_sky{
+    background-color: skyblue;
 }
