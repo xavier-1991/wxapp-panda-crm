@@ -1,6 +1,6 @@
 /*每个页面公共css */
 page {
-    background: #f9f9f9;
+    background: #F1EFF0;
 }
 image,
 video {
@@ -608,4 +608,13 @@ video {
 }
 .can-use{
     opacity:1 !important;
+}
+.search-wrap{
+    padding:25rpx;
+    position: fixed;
+    left:0;
+    top: 0;
+    width:100%;
+    box-sizing: border-box;
+    background: #F1EFF0;
 }

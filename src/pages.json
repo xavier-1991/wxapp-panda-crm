@@ -17,6 +17,12 @@
             "style": {
                 "navigationBarTitleText": "忘记密码"
             }
+        },
+        {
+            "path": "pages/latent-custom/latent-custom",
+            "style": {
+                "navigationBarTitleText": "潜在客户"
+            }
         }
     ],
     "globalStyle": {

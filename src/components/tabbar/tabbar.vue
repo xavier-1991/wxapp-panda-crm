@@ -3,8 +3,8 @@
         view(class="tabbar df jcsba ai-center" :style="{bottom:isipx?'68rpx':'0'}")
             view(v-for="(item,index) in limit" :key="index" @tap="toTabbar(item.page)")
                 view(class="df jcc")
-                    image(v-if="currTabbar===item.page" class="tabbar-img" :src="'../../static/tabbar/'+item.page+'-01.png'")
-                    image(v-else class="tabbar-img" :src="'../../static/tabbar/'+item.page+'-02.png'")
+                    image(v-if="currTabbar===item.page" class="tabbar-img" :src="'../../static/image/tabbar/'+item.page+'-01.png'")
+                    image(v-else class="tabbar-img" :src="'../../static/image/tabbar/'+item.page+'-02.png'")
                 view(:class="['text',currTabbar===item.page?'curr-text':'']") {{item.name}}
         ipx(v-if="isipx")
         
