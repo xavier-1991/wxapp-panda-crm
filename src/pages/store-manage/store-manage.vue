@@ -11,7 +11,7 @@
                     text 筛选
                     image(class="arrow ml5" src="../../static/image/arrow-down.png")
         view(class="list")
-            view(class="item df")
+            view(class="item df" v-for="(item,index) in 5" :key="index")
                 image(src="" class="store-img bg_sky")
                 view(class="item-main")
                     view(class="df jcsb ai-center")
@@ -29,6 +29,36 @@
                     view(class="df jcsb mt30")
                         view(class="btn0") 编辑
                         view(class="btn0 btn1") 拜访
+        view(class="mask" v-if="0")
+            view(class="filter")
+                view(class="f-item")
+                    view(class="f-title") 门店类型
+                    view(class="df")
+                        view(class="f-tag curr-f-tag mr-y") 单体门店
+                        view(class="f-tag") 连锁门店
+                view(class="f-item")
+                    view(class="f-title") 门店状态
+                    view(class="df")
+                        view(class="f-tag  mr-y") 正常
+                        view(class="f-tag") 关闭
+                view(class="f-item")
+                    view(class="f-title") 审核状态
+                    view(class="df")
+                        view(class="f-tag mr-y") 待审核
+                        view(class="f-tag mr-y") 审核通过
+                        view(class="f-tag") 审核未通过
+                view(class="f-item")
+                    view(class="f-title") 下单记录
+                    view(class="df")
+                        view(class="f-tag mr-y") 注册未下单
+                        view(class="f-tag") 已下单
+                view(class="f-btn-wrap df")
+                    view(class="f-btn f-btn1") 取消
+                    view(class="f-btn f-btn2") 确定
+
+                
+
+
 
         
 
