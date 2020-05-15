@@ -39,7 +39,7 @@ export default {
             this.$emit("outKeyWord", this.keyWord);
         },
         toAdd(){
-            
+            util.linkto('store-add');
         }
        
     }

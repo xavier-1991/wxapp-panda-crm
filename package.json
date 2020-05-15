@@ -63,10 +63,12 @@
     "cross-env": "^7.0.2",
     "mini-types": "*",
     "miniprogram-api-typings": "^2.8.0-2",
+    "node-sass": "^4.14.1",
     "postcss-comment": "^2.0.0",
     "pug": "^2.0.4",
     "pug-html-loader": "^1.1.5",
     "pug-plain-loader": "^1.0.0",
+    "sass-loader": "^8.0.2",
     "stylus": "^0.54.7",
     "stylus-loader": "^3.0.2",
     "vue-template-compiler": "^2.6.11"

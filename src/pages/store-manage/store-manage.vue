@@ -6,7 +6,7 @@
                 view(class="nav curr-nav") 全部
                 view(class="nav") 今日
                 view(class="nav") 本月
-                view(class="nav") 自定义
+                view(class="nav" @click="onShowDatePicker('range')") 自定义
                 view(class="nav df jcc ai-center")
                     text 筛选
                     image(class="arrow ml5" src="../../static/image/arrow-down.png")
@@ -55,23 +55,8 @@
                 view(class="f-btn-wrap df")
                     view(class="f-btn f-btn1") 取消
                     view(class="f-btn f-btn2") 确定
-
-                
-
-
-
-        
-
-
-
-
-
-
-
-
-
-
-
+        //- 时间选择器
+        <mx-date-picker :show="showPicker" :type="type" :value="value" :show-tips="true" color="#1677FE" :showHoliday="false" begin-text="开始" end-text="结束"  @confirm="onSelected" @cancel="onSelected" />
         //- tabbar 
         tabbar(currTabbar="store-manage")
 
@@ -81,17 +66,23 @@
 const urls = require('../../utils/urls');
 const util = require('../../utils/util');
 const http = require('../../utils/http');
-import search from "../../components/search/search"
+import search from "../../components/search/search";
 import tabbar from "../../components/tabbar/tabbar.vue";
+import MxDatePicker  from "../../components/mx-datepicker/mx-datepicker.vue";
 export default {
     data(){
         return {
-
+            // 时间选择器插件
+            showPicker: false,
+            type: 'range',
+            value: '',
+            aaa:''
         }
     },
     components:{
         search,
-        tabbar
+        tabbar,
+        MxDatePicker
     },
     onLoad(){
 
@@ -99,6 +90,18 @@ export default {
     methods: {
         outKeyWord(e){
             console.log(e);
+        },
+        onShowDatePicker(type){//显示
+            this.type = type;
+            this.showPicker = true;
+            this.value = this[type];
+        },
+        onSelected(e) {//选择
+            this.showPicker = false;
+            if(e) {
+                this[this.type] = e.value;
+                this.aaa=e.value.join('至')
+            }
         }
     }
 }

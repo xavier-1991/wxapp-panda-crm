@@ -29,6 +29,18 @@
             "style": {
                 "navigationBarTitleText": "门店管理"
             }
+        },
+        {
+            "path": "pages/store-add/store-add",
+            "style": {
+                "navigationBarTitleText": ""
+            }
+        },
+        {
+            "path": "pages/map-choose-address/map-choose-address",
+            "style": {
+                "navigationBarTitleText": "选择位置"
+            }
         }
     ],
     "globalStyle": {
