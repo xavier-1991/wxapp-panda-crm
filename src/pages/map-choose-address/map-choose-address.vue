@@ -61,19 +61,15 @@ export default {
     onShow() {},
     onLoad() {
         wx.getLocation({
-            type: 'gcj02 ',
+            type: 'gcj02', //返回可以用于wx.openLocation的经纬度
             success (res) {
                 const latitude = res.latitude
                 const longitude = res.longitude
-                const speed = res.speed
-                const accuracy = res.accuracy
-                 wx.chooseLocation({
-                     latitude,
-                     longitude,
-                     success(e){
-                         console.log(e)
-                     }
-                 })
+                wx.openLocation({
+                    latitude,
+                    longitude,
+                    scale: 18
+                })
             }
         })
     },
