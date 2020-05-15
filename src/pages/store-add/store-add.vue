@@ -64,11 +64,6 @@
                     view(class="fs28 cor mt15 tac") 陈列照
             view(style="padding:68rpx 108rpx 0;")
                 view(class="btn-default") 保存
-                    
-
-
-        
-   
 </template>
 <script>
 const urls = require("../../utils/urls");
@@ -84,7 +79,45 @@ export default {
     onLoad() {},
     methods: {
         chooseAddress() {
-            util.linkto('map-choose-address');
+            new Promise((reslove, reject) => {
+                uni.authorize({
+                    scope: "scope.userLocation",
+                    success() {
+                        reslove();
+                    },
+                    fail() {
+                        reject();
+                    }
+                });
+            }).then(() => {
+                   wx.getLocation({
+                        type: 'gcj02 ',
+                        success (res) {
+                            wx.chooseLocation({
+                                latitude:res.latitude,
+                                longitude:res.longitude,
+                                success(e){
+                                    console.log(e)
+                                }
+                            })
+                        }
+                    })
+                })
+                .catch(() => {
+                    uni.showModal({
+                        title: "提示",
+                        content: "您未授权获取地理位置,请授权后使用",
+                        showCancel: true,
+                        confirmText: "授权",
+                        confirmColor: "#52a2d8",
+                        success: function(res) {
+                            if (res.confirm) {
+                                //确认则打开设置页面
+                                uni.openSetting();
+                            }
+                        }
+                    });
+                });
         }
     }
 };
