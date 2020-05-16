@@ -41,6 +41,12 @@
             "style": {
                 "navigationBarTitleText": "选择位置"
             }
+        },
+        {
+            "path": "pages/order-list/order-list",
+            "style": {
+                "navigationBarTitleText": "订单"
+            }
         }
     ],
     "globalStyle": {
@@ -60,6 +66,10 @@
             },
             {
                 "pagePath": "pages/store-manage/store-manage",
+                "text": "门店管理"
+            },
+            {
+                "pagePath": "pages/order-list/order-list",
                 "text": "门店管理"
             }
         ]
