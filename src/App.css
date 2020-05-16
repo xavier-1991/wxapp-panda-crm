@@ -297,6 +297,9 @@ video {
 .pb20 {
     padding-bottom: 20rpx;
 }
+.pb25 {
+    padding-bottom: 25rpx;
+}
 .pb30 {
     padding-bottom: 30rpx;
 }
@@ -364,13 +367,13 @@ video {
 
 /**border**/
 .bb1 {
-    border-bottom: solid 1rpx #eee;
+    border-bottom: solid 1rpx #F1EFF0;
 }
 .bt1 {
-    border-top: solid 1rpx #eee;
+    border-top: solid 1rpx #F1EFF0;
 }
 .border1 {
-    border: solid 1rpx #eee;
+    border: solid 1rpx #F1EFF0;
 }
 
 /***背景**/
@@ -441,7 +444,15 @@ video {
 .wp100 {
     width: 100%;
 }
-
+.w300{
+    width:300rpx;
+}
+.w400{
+    width:400rpx;
+}
+.w500{
+    width:500rpx;
+}
 /**高度**/
 .hp100 {
     height: 100%;
