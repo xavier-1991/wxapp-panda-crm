@@ -38,7 +38,7 @@ function linkto(pageName, params, success, need_login = false) {
         "/pages/index/index",
         "/pages/store-manage/store-manage",
         "/pages/order-list/order-list",
-        "/pages/set/set"
+        "/pages/account-set/account-set"
     ];
     if (nativeUrls.join('').indexOf(url) >= 0) {
         uni.switchTab({ url: url + (!params ? '' : `?${params}`) });

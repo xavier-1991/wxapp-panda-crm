@@ -40,7 +40,7 @@ export default {
                     name: "订单列表"
                 },
                 {
-                    page: "set",
+                    page: "account-set",
                     name: "账号设置"
                 },
             ]

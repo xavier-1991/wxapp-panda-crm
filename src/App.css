@@ -313,6 +313,9 @@ video {
 .pl20 {
     padding-left: 20rpx;
 }
+.pl25 {
+    padding-left: 25rpx;
+}
 .pl30 {
     padding-left: 30rpx;
 }
@@ -353,6 +356,9 @@ video {
 }
 .p20 {
     padding: 20rpx;
+}
+.p25 {
+    padding: 25rpx;
 }
 .p30 {
     padding: 30rpx;

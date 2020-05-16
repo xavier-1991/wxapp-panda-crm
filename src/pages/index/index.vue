@@ -46,7 +46,7 @@
         view(class="section")
             view(class="title") 数据分析
             view(class="mt15 df jcsba analysis")
-                view(class="analysis-item")
+                view(class="analysis-item" @tap="toStoreVisit")
                     view(class="df jcc")
                         image(class="icon" src="../../static/image/index/icon1.png")
                     view(class="fs24 cor mt10") 门店拜访
@@ -97,6 +97,9 @@ export default {
     methods: {
         toLatentCustom(){
             util.linkto('latent-custom');
+        },
+        toStoreVisit(){
+            util.linkto('store-visit');
         }
     }
 }

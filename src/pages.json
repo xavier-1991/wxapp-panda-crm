@@ -47,6 +47,30 @@
             "style": {
                 "navigationBarTitleText": "订单"
             }
+        },
+        {
+            "path": "pages/account-set/account-set",
+            "style": {
+                "navigationBarTitleText": "账号设置"
+            }
+        },
+        {
+            "path": "pages/login-password-reset/login-password-reset",
+            "style": {
+                "navigationBarTitleText": "修改密码"
+            }
+        },
+        {
+            "path": "pages/order-logistics/order-logistics",
+            "style": {
+                "navigationBarTitleText": "物流信息"
+            }
+        },
+        {
+            "path": "pages/store-visit/store-visit",
+            "style": {
+                "navigationBarTitleText": "门店拜访"
+            }
         }
     ],
     "globalStyle": {
@@ -70,7 +94,11 @@
             },
             {
                 "pagePath": "pages/order-list/order-list",
-                "text": "门店管理"
+                "text": "订单列表"
+            },
+            {
+                "pagePath": "pages/account-set/account-set",
+                "text": "账号设置"
             }
         ]
     }

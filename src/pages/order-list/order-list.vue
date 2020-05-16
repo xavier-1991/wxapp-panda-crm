@@ -76,23 +76,7 @@
                     view(style="width:606rpx;height:100rpx" class="bt1 df jcfe ai-center")
                         view(class="fs24 cor") 合计金额:
                         view(class="all-money ml10") ￥9990.10
-                            
-
-
                         
-
-
-
-
-
-
-
-
-
-
-
-
-
         //- 时间选择器
         <mx-date-picker :show="showPicker" :type="type" :value="value" :show-tips="true" color="#1677FE" :showHoliday="false" begin-text="开始" end-text="结束"  @confirm="onSelected" @cancel="onSelected" />
         //- tabbar 
