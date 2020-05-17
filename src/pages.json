@@ -83,6 +83,12 @@
             "style": {
                 "navigationBarTitleText": "数据分析"
             }
+        },
+        {
+            "path": "pages/pie/pie",
+            "style": {
+                "navigationBarTitleText": "pie"
+            }
         }
     ],
     "globalStyle": {

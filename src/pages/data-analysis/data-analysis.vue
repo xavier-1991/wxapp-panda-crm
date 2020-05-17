@@ -42,8 +42,9 @@
                     view(class="order-top") 
                         text 客单价格：
                         text 1800元
-                view(class="df jcc")
-                    canvas(canvas-id="canvas2" style="width:340rpx;height:340px;border:1px solid #ccc;margin-top:30rpx;")
+                view(class="df jcc canvas-wrap")
+                    canvas(canvas-id="canvasPie" id="canvasPie" class="charts" @touchstart="touchPie")
+                
                 view()
                     view(class="df ai-center")
                         view(class="dot-wrap df jcc")
@@ -92,69 +93,82 @@
 
 </template>
 <script>
-const urls = require('../../utils/urls');
-const util = require('../../utils/util');
-const http = require('../../utils/http');
-const pd = require('../../utils/pd');
-    export default {
-        data(){
-            return {
-
-            }
+const urls = require("../../utils/urls");
+const util = require("../../utils/util");
+const http = require("../../utils/http");
+const pd = require("../../utils/pd");
+import uCharts from "../../components/uCharts-for-UNIAPP/u-charts";
+var _self;
+var canvaPie = null;
+export default {
+    data() {
+        return {
+            cWidth: "",
+            cHeight: "",
+            pixelRatio: 1,
+            serverData: ""
+        };
+    },
+    components: {
+        uCharts
+    },
+    onLoad() {
+        this.creatCanvas();
+    },
+    methods: {
+        creatCanvas() {
+            _self = this;
+            this.cWidth = uni.upx2px(750);
+            this.cHeight = uni.upx2px(500);
+            this.getServerData();
         },
-        onLoad(){
-           this.creatCanvas();
+        getServerData() {
+            uni.request({
+                url: "https://www.ucharts.cn/data.json",
+                data: {},
+                success: function(res) {
+                    console.log(res.data.data);
+                    let Pie = { series: [] };
+                    //这里我后台返回的是数组，所以用等于，如果您后台返回的是单条数据，需要push进去
+                    Pie.series = res.data.data.Pie.series;
+                    _self.showPie("canvasPie", Pie);
+                },
+                fail: () => {
+                    _self.tips = "网络错误，小程序端请检查合法域名";
+                }
+            });
         },
-        methods: {
-            creatCanvas(){
-                var context = wx.createContext();
-                // 画饼图
-                //  数据源
-                var array = [20, 30, 40, 40];
-                var colors = ["#ff0000", "#ffff00", "#0000ff", "#00ff00"];
-                var total = 0;
-                //  计算问题
-                for (let index = 0; index < array.length; index++) {
-                    total += array[index];
-                }
-                //  定义圆心坐标
-                var point = {x: 100, y: 100};
-                //  定义半径大小
-                var radius = 60;
-                
-                /*  循环遍历所有的pie */
-                for (let i = 0; i < array.length; i++) {
-                    context.beginPath();
-                //    起点弧度
-                    var start = 0;
-                    if (i > 0) {
-                //      计算开始弧度是前几项的总和，即从之前的基础的上继续作画
-                    for (let j = 0; j < i; j++) {
-                        start += array[j] / total * 2 * Math.PI; 
+        showPie(canvasId, chartData) {
+            canvaPie = new uCharts({
+                $this: _self,
+                canvasId: canvasId,
+                type: "pie",
+                fontSize: 11,
+                legend: { show: true },
+                background: "#FFFFFF",
+                pixelRatio: _self.pixelRatio,
+                series: chartData.series,
+                animation: true,
+                width: _self.cWidth * _self.pixelRatio,
+                height: _self.cHeight * _self.pixelRatio,
+                dataLabel: true,
+                extra: {
+                    pie: {
+                        lableWidth: 15
                     }
-                    }
-                    console.log("i:" + i);
-                    console.log("start:" + start);
-                //   1.先做第一个pie
-                //    2.画一条弧，并填充成三角饼pie，前2个参数确定圆心，第3参数为半径，第4参数起始旋转弧度数，第5参数本次扫过的弧度数，第6个参数为时针方向-false为顺时针
-                context.arc(point.x, point.y, radius, start, array[i] / total * 2 * Math.PI, false);
-                //   3.连线回圆心
-                context.lineTo(point.x, point.y);
-                //   4.填充样式
-                context.setFillStyle(colors[i]);
-                //   5.填充动作
-                context.fill();
-                context.closePath();
                 }
-                
-                wx.drawCanvas({
-                    canvasId: 'canvas2',
-                    actions: context.getActions()
-                });
-            }
+            });
+        },
+        touchPie(e) {
+            canvaPie.showToolTip(e, {
+                format: function(item) {
+                    return item.name + ":" + item.data;
+                }
+            });
         }
     }
+};
 </script>
 <style lang="stylus">
-    @import "./data-analysis"
+@import './data-analysis'
 </style>
