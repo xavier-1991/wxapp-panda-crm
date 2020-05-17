@@ -71,6 +71,12 @@
             "style": {
                 "navigationBarTitleText": "门店拜访"
             }
+        },
+        {
+            "path": "pages/store-choose/store-choose",
+            "style": {
+                "navigationBarTitleText": "选择门店"
+            }
         }
     ],
     "globalStyle": {

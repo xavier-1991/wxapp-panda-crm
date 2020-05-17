@@ -3,7 +3,7 @@
         view(class="df jcsb input-wrap")
             view(class="df ai-center")
                 image(class="search-img" src="../../static/image/search/search.png")
-                input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keyWord" @input="inputKeyWrod")
+                input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keyWord" @input="inputKeyWrod" confirm-type="搜索" @confirm="toSearch")
             image(@tap="clear" class="search-del" src="../../static/image/search/del.png")
         view(class="add" @tap="toAdd") 新增
         
@@ -40,8 +40,10 @@ export default {
         },
         toAdd(){
             util.linkto('store-add');
+        },
+        toSearch(){
+            console.log('搜索');
         }
-       
     }
 };
 </script>

@@ -6,17 +6,23 @@
         view(class="main")
             //- 拜访签到
             view(v-if="1")
-                view(class="map")
+                map(class="map" :longitude="longitude" :latitude="latitude")
                 view(class="qiaodao p25lr")
-                    view(style="padding:32rpx 0 16rpx" class="fs28 cor") 万象城巴拉巴拉巴拉
+                    view(class="df jcsb ai-center choose-store" @tap="toChooseStore")
+                        view(v-if="1")
+                            text(class="fs28 cor fwb5") 请选择拜访门店
+                            text(class="xing ml5") *
+                        view(v-else class="fs28 cor") 万象城巴拉巴拉巴拉
+                        image(src="../../static/image/arrow-right.png" class="arrow")
                     view(class="riji")
                         view(class="fs28 cor") 拜访日记
                         textarea(placeholder="请输入此拜访沟通的内容及结果~" class="area" placeholder-class='pl')
                 view(class="df mt15 p25lr")
                     view(class="up-img-wrap re")
-                        image(src="" class="up-img bk_f")
-                    view(class="up-img-wrap re")
-                        image(src="" class="up-img bk_f")
+                        image(src="" lazy-load="true" mode="aspectFill" class="up-img bk_f")
+                        image(@click="deleteImg"
+                               class="delimg"
+                               src="../../static/image/other/del_img.png")
                     view(class="df jcc ai-center fldc up-img-wrap bk_f")
                         image(class="camera" src="../../static/image/store/camera.png")
                         view(class="mt5")
@@ -52,32 +58,75 @@
                                     image(src="" class="bg_sky jl-store-img")
                             
 
-
-
-
-
-                
-
 </template>
 <script>
-const urls = require('../../utils/urls');
-const util = require('../../utils/util');
-const http = require('../../utils/http');
-const pd = require('../../utils/pd');
-    export default {
-        data(){
-            return {
-
+const urls = require("../../utils/urls");
+const util = require("../../utils/util");
+const http = require("../../utils/http");
+const pd = require("../../utils/pd");
+export default {
+    data() {
+        return {
+            latitude: "",
+            longitude: ""
+        };
+    },
+    onLoad() {},
+    onShow() {
+        this.getPosition();
+    },
+    methods: {
+        toChooseStore() {
+            util.linkto("store-choose");
+        },
+        getPosition() {
+            let that = this;
+            new Promise((reslove, reject) => {
+                uni.authorize({
+                    scope: "scope.userLocation",
+                    success() {
+                        reslove();
+                    },
+                    fail() {
+                        reject();
+                    }
+                });
+            })
+                .then(() => {
+                    wx.getLocation({
+                        type: "wgs84",
+                        success(res) {
+                            that.latitude = res.latitude;
+                            that.longitude = res.longitude;
+                            // that.mapShow = true;
+                        },
+                        fail(e) {
+                            reauthorization();
+                        }
+                    });
+                })
+                .catch(() => {
+                    reauthorization();
+                });
+            function reauthorization() {
+                uni.showModal({
+                    title: "提示",
+                    content: "您未授权获取地理位置,请授权后使用",
+                    showCancel: true,
+                    confirmText: "授权",
+                    confirmColor: "#52a2d8",
+                    success: function(res) {
+                        if (res.confirm) {
+                            //确认则打开设置页面
+                            uni.openSetting();
+                        }
+                    }
+                });
             }
-        },
-        onLoad(){
-          
-        },
-        methods: {
-           
         }
     }
+};
 </script>
 <style lang="stylus">
-    @import "./store-visit"
+@import './store-visit'
 </style>
