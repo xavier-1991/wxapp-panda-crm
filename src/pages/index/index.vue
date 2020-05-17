@@ -56,7 +56,7 @@
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/icon2.png")
                         view(class="fs24 cor mt10") 潜在客户
-                    view(class="analysis-item")
+                    view(class="analysis-item" @tap="toDataAnalysis")
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/icon3.png")
                         view(class="fs24 cor mt10") 数据统计
@@ -113,6 +113,9 @@ export default {
         },
         toStoreVisit(){
             util.linkto('store-visit');
+        },
+        toDataAnalysis(){
+            util.linkto('data-analysis');
         }
     }
 }

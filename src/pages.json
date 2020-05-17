@@ -77,6 +77,12 @@
             "style": {
                 "navigationBarTitleText": "选择门店"
             }
+        },
+        {
+            "path": "pages/data-analysis/data-analysis",
+            "style": {
+                "navigationBarTitleText": "数据分析"
+            }
         }
     ],
     "globalStyle": {

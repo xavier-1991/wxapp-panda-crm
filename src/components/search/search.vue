@@ -6,10 +6,6 @@
                 input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keyWord" @input="inputKeyWrod" confirm-type="搜索" @confirm="toSearch")
             image(@tap="clear" class="search-del" src="../../static/image/search/del.png")
         view(class="add" @tap="toAdd") 新增
-        
-                
-
-
 </template>
 
 <script>
