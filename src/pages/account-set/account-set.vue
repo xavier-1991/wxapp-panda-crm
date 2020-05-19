@@ -3,7 +3,7 @@
         image(class="bg" mode="widthFix" src="../../static/image/login/login-bg.png")
         view(class="main")
             view(class="btn_wrap")
-                view(class="btn-default") 退出登录
+                view(class="btn-default" @tap="toLoginOut") 退出登录
                 view(class="df jcfe mt30")
                     view(class="forgot" @tap="toResetPassword()") 修改密码
                
@@ -35,6 +35,15 @@ export default {
     methods: {
         toResetPassword(){
             util.linkto('login-password-reset')
+        },
+        toLoginOut(){
+            util.showConfirm('','退出登录','是否退出当前账号',()=>{
+                util.showLoadingDialog('正在加载');
+                http.request(urls.LOGIN_OUT, "GET", null).then(result => {
+                    util.hideLoadingDialog();
+                    util.reLaunch('login');
+                });
+            })
         }
     }
 }

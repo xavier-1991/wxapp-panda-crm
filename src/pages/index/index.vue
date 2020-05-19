@@ -105,9 +105,12 @@ export default {
         tabbar
     },
     onLoad(){
-
+        this.loadData();
     },
     methods: {
+        loadData(){
+
+        },
         toLatentCustom(){
             util.linkto('latent-custom');
         },
