@@ -9,6 +9,9 @@ var urls = {
     CHANGE_PASSWORD: 'api/auth/change-password',
     SEND_CODE: 'api/common/sent-verification-code',
     SALESMAN: 'api/salesman',
+    STORE: 'api/store',
+    STORE_LIST: 'api/salesman/store-list',
+    CUSTOMER: 'api/customer',
 
    
 };

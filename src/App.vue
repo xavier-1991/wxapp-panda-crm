@@ -140,16 +140,16 @@ export default {
                 /*
                  *用于兼容 ES2018的Promise.prototype.finally()方法
                  */
-                // Promise.prototype.finally = function(callback) {
-                //     let P = this.constructor;
-                //     return this.then(
-                //         value => P.resolve(callback()).then(() => value),
-                //         reason =>
-                //             P.resolve(callback()).then(() => {
-                //                 throw reason;
-                //             })
-                //     );
-                // };
+                Promise.prototype.finally = function(callback) {
+                    let P = this.constructor;
+                    return this.then(
+                        value => P.resolve(callback()).then(() => value),
+                        reason =>
+                            P.resolve(callback()).then(() => {
+                                throw reason;
+                            })
+                    );
+                };
             })();
         }
     }

@@ -639,3 +639,11 @@ video {
 .bg_sky{
     background-color: skyblue;
 }
+.no-list{
+    height: 200rpx;
+    line-height: 200rpx;
+    text-align: center;
+    color: #31313f;
+    font-size: 28rpx;
+}
+    

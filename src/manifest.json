@@ -61,13 +61,7 @@
 		"usingComponents": true,
         "permission": {
             "scope.userLocation": {
-                "desc": "你的位置信息将用于小程序位置接口的效果展示"
-            }
-        },
-        "plugins": {
-            "chooseLocation": {
-                "version": "1.0.3",
-                "provider": "wx76a9a06e5b4e693e"
+                "desc": "您的位置信息将用于获取附近门店的信息"
             }
         }
 	},

@@ -2,8 +2,8 @@
     view(class="df jcsb ai-center")
         view(class="df jcsb input-wrap")
             view(class="df ai-center")
-                image(class="search-img" src="../../static/image/search/search.png")
-                input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keyWord" @input="inputKeyWrod" confirm-type="搜索" @confirm="toSearch")
+                image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
+                input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keyWord" @input="inputKW" confirm-type="search" @confirm="toSearch")
             image(@tap="clear" class="search-del" src="../../static/image/search/del.png")
         view(class="add" @tap="toAdd") 新增
 </template>
@@ -12,7 +12,7 @@
 const util = require('../../utils/util');
 export default {
     props: {
-        currTabbar: {
+        btnType: {
             type: String,
             default: ""
         }
@@ -22,23 +22,23 @@ export default {
             keyWord:''            
         };
     },
-    created: function() {
-        this.isipx = this.$globalData.isipx;
-    },
-    watch: {},
     methods: {
         clear(){
             this.keyWord='';
             this.$emit("outKeyWord",'');
         },
-        inputKeyWrod(){
+        toAdd(){
+            if(this.btnType=='latent'){
+                util.linkto('latent-custom-add');
+            }else{
+                util.linkto('store-add');
+            }
+        },
+        inputKW(){
             this.$emit("outKeyWord", this.keyWord);
         },
-        toAdd(){
-            util.linkto('store-add');
-        },
         toSearch(){
-            console.log('搜索');
+            this.$emit("search");
         }
     }
 };

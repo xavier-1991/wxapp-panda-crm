@@ -3,7 +3,8 @@
         {
             "path": "pages/index/index",
             "style": {
-                "navigationBarTitleText": "艺朝艺夕"
+                "navigationBarTitleText": "艺朝艺夕",
+                "enablePullDownRefresh": true
             }
         },
         {
@@ -21,7 +22,8 @@
         {
             "path": "pages/latent-custom/latent-custom",
             "style": {
-                "navigationBarTitleText": "潜在客户"
+                "navigationBarTitleText": "潜在客户",
+                "enablePullDownRefresh": true
             }
         },
         {
@@ -82,6 +84,12 @@
             "path": "pages/data-analysis/data-analysis",
             "style": {
                 "navigationBarTitleText": "数据分析"
+            }
+        },
+        {
+            "path": "pages/latent-custom-add/latent-custom-add",
+            "style": {
+                "navigationBarTitleText": "新增潜在客户"
             }
         },
         {
