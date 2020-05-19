@@ -1,7 +1,7 @@
 <template lang="pug">
-    view(v-if="hasData")
+    view
         //- 已登录
-        view(v-if="1" style="padding-bottom:200rpx")
+        view(v-if="hasData" style="padding-bottom:200rpx")
             //- 头部信息
             view(class="header re")
                 image(class="banner" src="../../static/image/index/banner.png")
@@ -74,7 +74,9 @@
             
             //- tabbar 
             tabbar(currTabbar="index")
-        view(v-else class="wrap re")
+        
+        //- 引导页
+        view(v-if="actionShow" class="wrap re")
             image(class="bg" mode="widthFix" src="../../static/image/login/login-bg.png")
             view(class="main")
                 view(class="action df jcc")
@@ -83,7 +85,7 @@
                 view(class="mt40 tac") 
                     text(class="cor fs28 fwb4") 让员工快捷管理门店\n查看数据统计及订单信息
                 view(class="btn_wrap2")
-                    view(class="btn-default") 立即进入
+                    view(class="btn-default" @tap="toLogin") 立即进入
 
 
                     
@@ -103,15 +105,24 @@ export default {
             page:1,
             count:0,
             pageTotal:0,
-            showLoadMoreLoading:false
+            showLoadMoreLoading:false,
+            actionShow:false
         };
     },
     components: {
         tabbar
     },
     onLoad() {
-        this.loadData();
-        this.loadStoreList();
+        let userInfo = pd.getUserInfo();
+        let token = userInfo ? userInfo.token:'';
+        let nowTime=Math.ceil(new Date().getTime()/1000);
+        if (userInfo && userInfo.token && nowTime < userInfo.tokenExpireTime){
+            this.loadData();
+            this.loadStoreList();
+        }else{
+            this.actionShow=true;
+        } 
+        
     },
     onPullDownRefresh() {
         this.page=1;
@@ -173,6 +184,9 @@ export default {
         },
         toDataAnalysis() {
             util.linkto("data-analysis");
+        },
+        toLogin(){
+            util.reLaunch("login");
         }
     }
 };

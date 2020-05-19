@@ -4,8 +4,13 @@ function getUserInfo() {
 function storeUserInfo(userinfo) {
     uni.setStorageSync('userinfo', userinfo);
 }
-
-
+function isLogin() {
+    let userInfo = getUserInfo();
+    if (userInfo && userInfo.token) {
+        return true;
+    }
+    return false;
+}
 function getPosition() {
     return uni.authorize({scope: "scope.userLocation"}).then((resArr)=>{
         if (resArr[1]){
@@ -46,5 +51,6 @@ function getPosition() {
 module.exports={
     getUserInfo,
     storeUserInfo,
-    getPosition
+    getPosition,
+    isLogin
 }
