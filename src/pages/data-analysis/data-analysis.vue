@@ -1,5 +1,5 @@
 <template lang="pug">
-    view(class="wrap")
+    view(class="wrap" v-if="1")
         view(class="top df ai-center re bk_f")
             view(class="top-item")
                 view(class="fs40 cor fwb5") 2019
@@ -36,15 +36,15 @@
                             view(class="fs40 cor fwb5") 20
                             view(class="fs24 cor fwb4 mt10") 新增潜在客户
         view()
-            view(class="fwb5 cor fs28 mt30") 订单分析
+            view(class="fwb5 cor fs28 mt30" @tap="changeData") 订单分析
             view(class="order mt30")
                 view(class="df jcfe")
                     view(class="order-top") 
                         text 客单价格：
                         text 1800元
                 view(class="df jcc canvas-wrap")
-                    canvas(canvas-id="canvasPie" id="canvasPie" class="charts" @touchstart="touchPie")
-                
+                    view(class="qiun-charts")
+                        canvas(canvas-id="canvasPie" id="canvasPie" class="charts" @touchstart="touchPie")
                 view()
                     view(class="df ai-center")
                         view(class="dot-wrap df jcc")
@@ -97,46 +97,98 @@ const urls = require("../../utils/urls");
 const util = require("../../utils/util");
 const http = require("../../utils/http");
 const pd = require("../../utils/pd");
-import uCharts from "../../components/uCharts-for-UNIAPP/u-charts";
+import uCharts from "../../components/u-charts/u-charts";
 var _self;
 var canvaPie = null;
 export default {
     data() {
         return {
+            hasData:false,
+            data:null,
+            //请求参数
+            type:"today",
+            startTime:"",
+            endTime:"",
+            //图表数据
             cWidth: "",
             cHeight: "",
             pixelRatio: 1,
-            serverData: ""
-        };
-    },
-    components: {
-        uCharts
+            chartData:{
+                "series": [{
+                    "name": "一班",
+                    "data": 50
+                }, {
+                    "name": "二班",
+                    "data": 30
+                }, {
+                    "name": "三班",
+                    "data": 20
+                }, {
+                    "name": "四班",
+                    "data": 18
+                }, {
+                    "name": "六班",
+                    "data": 8
+                }]
+            },
+            chartData2:{
+                "series": [{
+                    "name": "一班",
+                    "data": 3
+                }, {
+                    "name": "二班",
+                    "data": 3
+                }, {
+                    "name": "三班",
+                    "data": 20
+                }, {
+                    "name": "四班",
+                    "data": 18
+                }, {
+                    "name": "六班",
+                    "data": 8
+                },
+                 {
+                    "name": "8班",
+                    "data": 8
+                }]
+            },
+        }
     },
     onLoad() {
+        //this.loadData();
         this.creatCanvas();
     },
     methods: {
+        loadData(){
+            util.showLoadingDialog('加载中');
+            let params={
+                type:this.type
+            }
+            if(this.startTime){
+                params.startTime=startTime;
+                params.endTime=endTime;
+            }
+            http.request(
+                urls.STATISTICS,
+                "GET",
+                params
+            ).then(data => {
+                this.data=data;
+                this.hasData=data;
+                util.hideLoadingDialog();
+            })
+        },
         creatCanvas() {
             _self = this;
-            this.cWidth = uni.upx2px(750);
+            this.cWidth = uni.upx2px(700);
             this.cHeight = uni.upx2px(500);
             this.getServerData();
         },
         getServerData() {
-            uni.request({
-                url: "https://www.ucharts.cn/data.json",
-                data: {},
-                success: function(res) {
-                    console.log(res.data.data);
-                    let Pie = { series: [] };
-                    //这里我后台返回的是数组，所以用等于，如果您后台返回的是单条数据，需要push进去
-                    Pie.series = res.data.data.Pie.series;
-                    _self.showPie("canvasPie", Pie);
-                },
-                fail: () => {
-                    _self.tips = "网络错误，小程序端请检查合法域名";
-                }
-            });
+            let Pie =this.chartData;
+             _self.textarea = JSON.stringify(this.chartData);
+            _self.showPie("canvasPie", Pie);
         },
         showPie(canvasId, chartData) {
             canvaPie = new uCharts({
@@ -164,6 +216,11 @@ export default {
                 format: function(item) {
                     return item.name + ":" + item.data;
                 }
+            });
+        },
+        changeData() {
+             canvaPie.updateData({
+                series: this.chartData2.series
             });
         }
     }

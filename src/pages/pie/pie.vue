@@ -45,7 +45,7 @@
 </template>
 
 <script>
-import uCharts from "../../components/uCharts-for-UNIAPP/u-charts";
+import uCharts from "../../components/u-charts/u-charts";
 import { isJSON } from "../../common/checker.js";
 var _self;
 var canvaPie = null;
