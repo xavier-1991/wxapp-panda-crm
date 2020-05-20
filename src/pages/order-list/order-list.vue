@@ -46,7 +46,7 @@
                         view(class="ic-left pt10") 地址
                         view(class="ic-addr df jcsb ai-center bb1")
                             view(class="cor fs24 textFlow w400") {{item.address}}
-                            view(class="wuliu") 查看物流
+                            view(v-if="item.displayExpress" class="wuliu" @tap="toLogistics(item.orderId)") 查看物流
                 view(class="item-goods")
                     view(class="ig-top df ai-center jcsb pb20" @tap="loadGoods(item)")
                         view(class="df ai-center")
@@ -239,6 +239,9 @@ export default {
                     util.hideTopLoading();
                 })
             }
+        },
+        toLogistics(id){
+            util.linkto('order-logistics',`id=${id}`);
         },
         toCall(phone){
             wx.makePhoneCall({

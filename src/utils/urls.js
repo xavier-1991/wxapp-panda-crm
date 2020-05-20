@@ -14,6 +14,7 @@ var urls = {
     CUSTOMER: 'api/customer',
     ORDER: 'api/order',
     ORDER_GOODS: 'api/order/related-goods/{0}',
+    EXPRESS_INFO: 'api/order/express-info/{0}',
 };
 
 

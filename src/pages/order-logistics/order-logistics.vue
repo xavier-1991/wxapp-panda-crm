@@ -21,14 +21,24 @@ const pd = require('../../utils/pd');
     export default {
         data(){
             return {
-
+                data:null
             }
         },
-        onLoad(){
-          
+        onLoad(options){
+            this.loadData(options.id);
         },
         methods: {
-           
+            loadData(id){
+                util.showLoadingDialog('加载中');
+                http.request(
+                    urls.EXPRESS_INFO.format(id),
+                    "GET"
+                ).then(data => {
+                    this.data=data;
+                    this.hasData=data;
+                    util.hideLoadingDialog();
+                })
+           }
         }
     }
 </script>
