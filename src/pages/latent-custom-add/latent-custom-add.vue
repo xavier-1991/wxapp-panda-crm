@@ -3,41 +3,45 @@
         view(class="item df ai-center jcsb")
             view(class="item-left") 门店名称
             view(class="item-right")
-                input(class="inp" placeholder="必填2-20字" placeholder-class='pl')
+                input(v-model="params.storeName" class="inp" placeholder="必填2-20字" placeholder-class='pl')
         view(class="item df ai-center jcsb")
             view(class="item-left") 经营品牌
             view(class="item-right")
-                input(class="inp" placeholder="必填(经营多个品牌 “，” 隔开)" placeholder-class='pl')
+                input(v-model="params.brands" class="inp" placeholder="必填(经营多个品牌 “，” 隔开)" placeholder-class='pl')
         view(class="item df ai-center jcsb")
             view(class="item-left") 联系人
             view(class="item-right")
-                input(class="inp" placeholder="必填" placeholder-class='pl')
+                input(v-model="params.contacts" class="inp" placeholder="必填" placeholder-class='pl')
         view(class="item df ai-center jcsb")
             view(class="item-left") 联系电话
             view(class="item-right")
-                input(class="inp" placeholder="必填，11位手机号" placeholder-class='pl' maxlength='11' type='number')
+                input(v-model="params.mobile" class="inp" placeholder="必填，11位手机号" placeholder-class='pl' maxlength='11' type='number')
         view(class="item df ai-center jcsb re")
             view(class="item-left") 门店地址
             view(class="item-right re" @tap="chooseAddress")
-                input(class="inp" :disabled="true" placeholder="必填" placeholder-class='pl')
+                input(v-model="params.locationAddr" class="inp" :disabled="true" placeholder="必填" placeholder-class='pl')
                 image(src="../../static/image/arrow-right.png" class="arrow-right")
         view(class="item df ai-center jcsb re")
             view(class="item-left") 详细地址
             view(class="item-right re")
-                input(class="inp" placeholder="必填(小区门派号)" placeholder-class='pl')
+                input(v-model="params.address" class="inp" placeholder="必填(小区门牌号)" placeholder-class='pl')
         view(class="item df ai-center jcsb")
             view(class="item-left") 门店类型
             view(class="item-right df ai-center")
-                view(class="df ai-center select")
-                    image(src="../../static/image/store/selected-no.png")
+                view(class="df ai-center select" @tap="changeType(0)")
+                    image(v-if="params.storeType===0" src="../../static/image/store/selected.png")
+                    image(v-else src="../../static/image/store/selected-no.png")
                     view 单体门店
-                view(class="df ai-center select")
-                    image(src="../../static/image/store/selected.png")
+                view(class="df ai-center select"  @tap="changeType(1)")
+                    image(v-if="params.storeType===1" src="../../static/image/store/selected.png")
+                    image(v-else src="../../static/image/store/selected-no.png")
                     view 连锁门店
-        view
-            view(class="fs28 cor" style="margin:30rpx 0 0 24rpx") 资质信息
-            textarea()
-        view(style="padding:68rpx 108rpx 0;")
+        view(class="p20lr")
+            view(class="fs28 cor mt30") 资质信息
+            view(class="df area-wrap mt15")
+                image(class="edit" src="../../static/image/other/edit.png")
+                textarea(v-model="params.unregisteredReason" placeholder-class='pl2')
+        view(style="padding:68rpx 108rpx 0;" @tap="toSubmit")
             view(class="btn-default") 保存
 </template>
 <script>
@@ -48,12 +52,48 @@ const pd = require("../../utils/pd");
 
 export default {
     data() {
-        return {};
+        return {
+            params: {
+                // provinceId:360000,
+                // cityId:360100,  
+                // districtId:360102,
+                storeName: "",
+                brands: "",
+                contacts: "",
+                mobile: "",
+                locationAddr: "",
+                address:"",
+                unregisteredReason: "",
+                lat: "",
+                lng: "",
+                storeType: 0
+            }
+        };
     },
 
     onLoad() {},
+    onShow() {},
     methods: {
+        changeType(type) {
+            this.params.storeType = type;
+            
+        },
         chooseAddress() {
+            let that = this;
+            pd.getPosition().then((res)=>{
+                wx.chooseLocation({
+                    latitude: res.latitude,
+                    longitude: res.longitude,
+                    success(e) {
+                        console.log(e)
+                        that.params.locationAddr = e.address;
+                        that.params.lat = e.latitude + "";
+                        that.params.lng = e.longitude + "";
+                    }
+                });
+                console.log(res)
+            })
+            return;
             new Promise((reslove, reject) => {
                 uni.authorize({
                     scope: "scope.userLocation",
@@ -64,19 +104,23 @@ export default {
                         reject();
                     }
                 });
-            }).then(() => {
-                   wx.getLocation({
-                        type: 'gcj02 ',
-                        success (res) {
+            })
+                .then(() => {
+                    wx.getLocation({
+                        type: "gcj02 ",
+                        success(res) {
                             wx.chooseLocation({
-                                latitude:res.latitude,
-                                longitude:res.longitude,
-                                success(e){
+                                latitude: res.latitude,
+                                longitude: res.longitude,
+                                success(e) {
                                     console.log(e)
+                                    that.params.locationAddr = e.address;
+                                    that.params.lat = e.latitude + "";
+                                    that.params.lng = e.longitude + "";
                                 }
-                            })
+                            });
                         }
-                    })
+                    });
                 })
                 .catch(() => {
                     uni.showModal({
@@ -93,6 +137,41 @@ export default {
                         }
                     });
                 });
+        },
+        toSubmit(){
+            let params=this.params;
+            // params={
+            //     address: "203",
+            //     brands: "生鲜",
+            //     contacts: "张三",
+            //     lat: "31.82057",
+            //     locationAddr: "安徽省合肥市蜀山区行政外环路",
+            //     mobile: "19999999999",
+            //     storeName: "永辉超市",
+            //     storeType: 1,
+            //     unregisteredReason: "喂喂喂喂喂喂我我我",
+            // }
+            if(!params.storeName.trim()||!params.brands.trim()||!params.contacts.trim()||!params.locationAddr.trim()||!params.unregisteredReason.trim()){
+                util.showToast('请完善必填信息')
+                return;
+            }
+            if (!util.checkPhone(params.mobile)) {
+                util.showToast("请输入正确的手机号");
+                return;
+            }
+            util.showLoadingDialog("加载中");
+            http.request(
+                urls.CUSTOMER,
+                "POST",
+                params
+            ).then(data => {
+                util.showToast('新增成功');
+                setTimeout(() => {
+                    uni.navigateBack();
+                }, 1500);
+            }).finally(()=>{
+                uni.stopPullDownRefresh();
+            })
         }
     }
 };

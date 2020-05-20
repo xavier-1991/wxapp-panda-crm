@@ -12,8 +12,8 @@ var urls = {
     STORE: 'api/store',
     STORE_LIST: 'api/salesman/store-list',
     CUSTOMER: 'api/customer',
-
-   
+    ORDER: 'api/order',
+    ORDER_GOODS: 'api/order/related-goods/{0}',
 };
 
 
