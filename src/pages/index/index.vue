@@ -56,6 +56,10 @@
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/icon2.png")
                         view(class="fs24 cor mt10") 潜在客户
+                    view(class="analysis-item" @tap="toDataAnalysis")
+                        view(class="df jcc")
+                            image(class="icon" src="../../static/image/index/icon3.png")
+                        view(class="fs24 cor mt10") 数据分析
                     
             //- 本月新增门店
             view(class="section")

@@ -6,12 +6,12 @@
                 view(class="top-right") {{data.deliveryWay}}
             view(class="df mt15")
                 view(class="top-left") 快递公司
-                view(class="top-right") {{data.expressCompany}}
+                view(class="top-right") {{data.expressCompany||"暂无"}}
             view(class="df mt15")
                 view(class="top-left") 快递单号
                 view(class="top-right df jcsb" style="width:560rpx") 
-                    text {{data.logistics}}
-                    text(class="copy" @tap="toCopy(data.logistics)") 复制
+                    text {{data.logistics||'暂无物流单号'}}
+                    text(v-if="data.logistics" class="copy" @tap="toCopy(data.logistics)") 复制
         view(class="bk_f p25 mt25" )
             //- 收货地址
             view(class="item df")
@@ -61,7 +61,7 @@ const pd = require('../../utils/pd');
             loadData(id){
                 util.showLoadingDialog('加载中');
                 http.request(
-                    urls.EXPRESS_INFO.format('177566'),
+                    urls.EXPRESS_INFO.format(id),
                     "GET"
                 ).then(data => {
                     this.data=data;

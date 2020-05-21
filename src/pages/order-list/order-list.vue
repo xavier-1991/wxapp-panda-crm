@@ -216,6 +216,7 @@ export default {
             }).finally(()=>{
                 this.showLoadMoreLoading=false;
                 util.hideTopLoading();
+                uni.stopPullDownRefresh()
             })
         },
         loadGoods(item){
