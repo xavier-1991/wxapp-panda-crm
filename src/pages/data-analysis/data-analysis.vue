@@ -8,11 +8,11 @@
                 view(class="fs40 cor fwb5") 223316
                 view(class="fs24 cor fwb4 mt10") 全部潜在客户
         view(class="df jcsb nav-wrap")
-            view(class="nav curr-nav") 今日
-            view(class="nav") 昨日
-            view(class="nav") 本月
-            view(class="nav") 上月
-            view(class="nav") 选择时间
+            view(:class="['nav',type=='today'?'curr-nav':'']" @tap="changType('today')") 今日
+            view(:class="['nav',type=='yesterday'?'curr-nav':'']" @tap="changType('yesterday')") 昨日
+            view(:class="['nav',type=='month'?'curr-nav':'']" @tap="changType('month')") 本月
+            view(:class="['nav',type=='lastMonth'?'curr-nav':'']" @tap="changType('lastMonth')") 上月
+            view(:class="['nav',type=='custom'?'curr-nav':'']" @tap="changType('custom')") 选择时间
         view(class="df ai-center fs24 pb10" v-if="1")
             view() 2019/09/09 - 2020/02/09
             view(class="reChoose") 重新选择
@@ -156,7 +156,7 @@ export default {
         }
     },
     onLoad() {
-        //this.loadData();
+        this.loadData();
         this.creatCanvas();
     },
     methods: {
@@ -178,6 +178,13 @@ export default {
                 this.hasData=data;
                 util.hideLoadingDialog();
             })
+        },
+        changType(type){
+            if(this.type==type){
+                return;
+            }
+            this.type=type;
+            this.loadData()
         },
         creatCanvas() {
             _self = this;
