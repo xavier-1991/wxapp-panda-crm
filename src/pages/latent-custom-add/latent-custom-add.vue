@@ -54,9 +54,6 @@ export default {
     data() {
         return {
             params: {
-                // provinceId:360000,
-                // cityId:360100,  
-                // districtId:360102,
                 storeName: "",
                 brands: "",
                 contacts: "",
@@ -85,72 +82,59 @@ export default {
                     latitude: res.latitude,
                     longitude: res.longitude,
                     success(e) {
-                        console.log(e)
                         that.params.locationAddr = e.address;
                         that.params.lat = e.latitude + "";
                         that.params.lng = e.longitude + "";
                     }
                 });
-                console.log(res)
             })
-            return;
-            new Promise((reslove, reject) => {
-                uni.authorize({
-                    scope: "scope.userLocation",
-                    success() {
-                        reslove();
-                    },
-                    fail() {
-                        reject();
-                    }
-                });
-            })
-                .then(() => {
-                    wx.getLocation({
-                        type: "gcj02 ",
-                        success(res) {
-                            wx.chooseLocation({
-                                latitude: res.latitude,
-                                longitude: res.longitude,
-                                success(e) {
-                                    console.log(e)
-                                    that.params.locationAddr = e.address;
-                                    that.params.lat = e.latitude + "";
-                                    that.params.lng = e.longitude + "";
-                                }
-                            });
-                        }
-                    });
-                })
-                .catch(() => {
-                    uni.showModal({
-                        title: "提示",
-                        content: "您未授权获取地理位置,请授权后使用",
-                        showCancel: true,
-                        confirmText: "授权",
-                        confirmColor: "#52a2d8",
-                        success: function(res) {
-                            if (res.confirm) {
-                                //确认则打开设置页面
-                                uni.openSetting();
-                            }
-                        }
-                    });
-                });
+            // return;
+            // new Promise((reslove, reject) => {
+            //     uni.authorize({
+            //         scope: "scope.userLocation",
+            //         success() {
+            //             reslove();
+            //         },
+            //         fail() {
+            //             reject();
+            //         }
+            //     });
+            // })
+            //     .then(() => {
+            //         wx.getLocation({
+            //             type: "gcj02 ",
+            //             success(res) {
+            //                 wx.chooseLocation({
+            //                     latitude: res.latitude,
+            //                     longitude: res.longitude,
+            //                     success(e) {
+            //                         console.log(e)
+            //                         that.params.locationAddr = e.address;
+            //                         that.params.lat = e.latitude + "";
+            //                         that.params.lng = e.longitude + "";
+            //                     }
+            //                 });
+            //             }
+            //         });
+            //     })
+            //     .catch(() => {
+            //         uni.showModal({
+            //             title: "提示",
+            //             content: "您未授权获取地理位置,请授权后使用",
+            //             showCancel: true,
+            //             confirmText: "授权",
+            //             confirmColor: "#52a2d8",
+            //             success: function(res) {
+            //                 if (res.confirm) {
+            //                     //确认则打开设置页面
+            //                     uni.openSetting();
+            //                 }
+            //             }
+            //         });
+            //     });
         },
         toSubmit(){
             let params=this.params;
-            // params={
-            //     address: "203",
-            //     brands: "生鲜",
-            //     contacts: "张三",
-            //     lat: "31.82057",
-            //     locationAddr: "安徽省合肥市蜀山区行政外环路",
-            //     mobile: "19999999999",
-            //     storeName: "永辉超市",
-            //     storeType: 1,
-            //     unregisteredReason: "喂喂喂喂喂喂我我我",
-            // }
             if(!params.storeName.trim()||!params.brands.trim()||!params.contacts.trim()||!params.locationAddr.trim()||!params.unregisteredReason.trim()){
                 util.showToast('请完善必填信息')
                 return;

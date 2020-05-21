@@ -31,7 +31,7 @@ export default {
             if(this.btnType=='latent'){
                 util.linkto('latent-custom-add');
             }else{
-                util.linkto('store-add');
+                util.linkto('store-add','type=add');
             }
         },
         inputKW(){
