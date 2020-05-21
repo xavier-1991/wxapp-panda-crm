@@ -51,7 +51,7 @@
                                 view(class="dot" :style="{background:item.color}")
                             view(class="order-r bb1 df ai-center jcsb fs28 cor")
                                 view(class="df ai-center")
-                                    view(class="or-1") {{item.name}}订单
+                                    view(class="or-1") {{item.name}}
                                     view(class="or-2") {{item.data}}笔
                                 view(class="or-3") ￥{{item.totalPrice}}
                 view(v-else class="no-list") 暂无相关数据
@@ -158,45 +158,34 @@ export default {
         formatPieData(data) {
             let series = data.map(item => {
                 /*  status
-                0   => '待付款',
-                10  => '已取消',
-                20  => '待发货',
-                30  => '退款中',
-                50  => '已退款',
-                60  => '待收货',
-                70  => '待评价',
+                1  => '待付款',
+                2  => '已付款',
+                3  => '已成交',
+                4  => '已取消',
+                5  => '退款订单'
                 */
                 let obj = {
                     name: item.statusStr,
                     data: item.orderCount,
                     totalPrice: item.totalPrice
                 };
-                // switch (item.status) {
-                //     case 0:
-                //         obj.color="#6FD0A4"
-                //         break;
-                //     case 10:
-                //         obj.color="#8EB8FF"
-                //         break;
-                //     case 20:
-                //         obj.color=""
-                //         break;
-                //     case 30:
-                //         obj.color="#6FD0A4"
-                //         break;
-                //     case 0:
-                //         obj.color="#6FD0A4"
-                //         break;
-                //     case 0:
-                //         obj.color="#6FD0A4"
-                //         break;
-                //     case 0:
-                //         obj.color="#6FD0A4"
-                //         break;
-
-                //     default:
-                //         break;
-                // }
+                switch (item.status) {
+                    case 1:
+                        obj.color="#6FD0A4"
+                        break;
+                    case 2:
+                        obj.color="#7085FE"
+                        break;
+                    case 3:
+                        obj.color="#FFA0A0"
+                        break;
+                    case 4:
+                        obj.color="#8EB8FF"
+                        break;
+                    case 5:
+                        obj.color="#BABABA"
+                        break;
+                }
                 return obj;
             });
             this.chartData.series = series;
@@ -224,14 +213,14 @@ export default {
                 type: "pie",
                 fontSize: 11,
                 legend: {
-                    show: true,
-                    position: "right",
-                    float: "center",
-                    itemGap: 10,
-                    padding: 5,
-                    lineHeight: 26,
-                    margin: 5,
-                    borderWidth: 1
+                    show: false,
+                    // position: "right",
+                    // float: "center",
+                    // itemGap: 10,
+                    // padding: 5,
+                    // lineHeight: 26,
+                    // margin: 5,
+                    // borderWidth: 1
                 },
                 background: "#FFFFFF",
                 pixelRatio: _self.pixelRatio,

@@ -23,21 +23,21 @@
             view(class="section mt20")
                 view(class="title") 待办事项
                 view(class="mt15 df jcsb")
-                    view(class="re todo-item")
+                    view(class="re todo-item" @tap="toStore('audit','0')")
                         image(class="toDoImg" src="../../static/image/index/bg1.png")
                         view(class="todo-item-main")
                             view(class="df ai-center jcsb")
                                 view(class="fs24 cor") 待审核门店
                                 image(class="arrow-right" src="../../static/image/arrow-right.png")
                             view(class="todo-num") {{data.toBeReviewed}}
-                    view(class="re todo-item")
+                    view(class="re todo-item" @tap="toOrder('status',20)")
                         image(class="toDoImg" src="../../static/image/index/bg2.png")
                         view(class="todo-item-main")
                             view(class="df ai-center jcsb")
                                 view(class="fs24 cor") 待发货订单
                                 image(class="arrow-right" src="../../static/image/arrow-right.png")
                             view(class="todo-num") {{data.toBeDelivered}}
-                    view(class="re todo-item")
+                    view(class="re todo-item" @tap="toStore('orderOrNot','0')")
                         image(class="toDoImg" src="../../static/image/index/bg3.png")
                         view(class="todo-item-main")
                             view(class="df ai-center jcsb")
@@ -191,6 +191,14 @@ export default {
         },
         toLogin(){
             util.reLaunch("login");
+        },
+        toStore(params,data){
+            this.$globalData.tabbarPramas={[params]:data};
+            util.linkto('store-manage');
+        },
+        toOrder(params,data){
+            this.$globalData.tabbarPramas={[params]:data};
+            util.linkto('order-list');
         }
     }
 };

@@ -5,6 +5,7 @@ export default {
     onLaunch() {
         this.$globalData.lowestVersion = "2.3.0"; //低于该基础库提示更新微信 支持 录音，npm等
         this.$globalData.windowHeight = uni.getSystemInfoSync().windowHeight; //低于该基础库提示更新微信 支持 录音，npm等
+        this.$globalData.tabbarPramas = null;
         this.build();
         this.isIpx();
         this.checkVersion();

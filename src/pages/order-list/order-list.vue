@@ -119,6 +119,14 @@ export default {
         MxDatePicker
     },
     onLoad(){
+        // 首页带参数跳转过来
+        let tabbarPramas=this.$globalData.tabbarPramas;
+        if(tabbarPramas){
+            if(tabbarPramas.status){
+                this.status=tabbarPramas.status*1
+            }
+            this.$globalData.tabbarPramas=null;
+        }
         this.loadPage();
     },
     onPullDownRefresh() {

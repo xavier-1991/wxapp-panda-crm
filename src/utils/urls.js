@@ -15,7 +15,7 @@ var urls = {
     ORDER: 'api/order',
     ORDER_GOODS: 'api/order/related-goods/{0}',
     EXPRESS_INFO: 'api/order/express-info/{0}',
-    STATISTICS: 'api/statistics',
+    STATISTICS: 'api/statistics'
 };
 
 
