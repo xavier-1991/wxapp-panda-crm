@@ -6,7 +6,7 @@
         view(class="main")
             //- 拜访签到
             view(v-if="1")
-                map(class="map" :longitude="longitude" :latitude="latitude")
+                map(class="map" :longitude="lng" :latitude="lat")
                 view(class="qiaodao p25lr")
                     view(class="df jcsb ai-center choose-store" @tap="toChooseStore")
                         view(v-if="1")
@@ -67,13 +67,22 @@ const pd = require("../../utils/pd");
 export default {
     data() {
         return {
-            latitude: "",
-            longitude: ""
+            lat: "",
+            lng: "",
+            storeData:null
         };
     },
-    onLoad() {},
+    onLoad() {
+        console.log(this.$globalData.visitStore);
+        this.storeData=this.$globalData.visitStore
+    },
     onShow() {
-        this.getPosition();
+        if(!this.lat){
+            pd.getPosition().then((res)=>{
+                this.lat=res.latitude;
+                this.lng=res.longitude;
+            })
+        }
     },
     methods: {
         toChooseStore() {

@@ -10,12 +10,15 @@ var urls = {
     SEND_CODE: 'api/common/sent-verification-code',
     SALESMAN: 'api/salesman',
     STORE: 'api/store',
+    STORE_EDIT: 'api/store/{0}',
     STORE_LIST: 'api/salesman/store-list',
     CUSTOMER: 'api/customer',
     ORDER: 'api/order',
     ORDER_GOODS: 'api/order/related-goods/{0}',
     EXPRESS_INFO: 'api/order/express-info/{0}',
-    STATISTICS: 'api/statistics'
+    STATISTICS: 'api/statistics',
+    UPLOADS: 'api/common/uploads',
+    STORE_DETAIL: 'api/store/{0}',
 };
 
 

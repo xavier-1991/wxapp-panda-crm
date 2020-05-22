@@ -29,8 +29,8 @@
                             image(@tap="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")
                             image(@tap="toMap(item)" class="btn-img" src="../../static/image/other/latent-addr.png")
                     view(class="df jcsb mt30")
-                        view(class="btn0") 编辑
-                        view(class="btn0 btn1") 拜访
+                        view(class="btn0" @tap="toEdit(item.storeId)") 编辑
+                        view(class="btn0 btn1" @tap="toVisit(item)") 拜访
         //- 筛选框
         view(class="mask" v-if="filterShow" @tap.stop="toHideFilter")
             view(class="filter" @tap.stop="emptyFun")
@@ -69,6 +69,7 @@
 const urls = require('../../utils/urls');
 const util = require('../../utils/util');
 const http = require('../../utils/http');
+const pd = require('../../utils/pd');
 import search from "../../components/search/search";
 import tabbar from "../../components/tabbar/tabbar.vue";
 import MxDatePicker  from "../../components/mx-datepicker/mx-datepicker.vue";
@@ -114,8 +115,15 @@ export default {
             }
             this.$globalData.tabbarPramas=null;
         }
-        
-        this.loadPage();
+    },
+    onShow(){
+        if(!this.lat){
+            pd.getPosition().then((res)=>{
+                this.lat=res.latitude;
+                this.lng=res.longitude;
+                this.loadPage();
+            })
+        }
     },
     onPullDownRefresh() {
         this.page=1;
@@ -148,6 +156,8 @@ export default {
             let params={
                 page:this.page,
                 type:this.state,
+                lat:this.lat,
+                lng:this.lng
             }
             if(this.keywords){
                 params.keywords=this.keywords;
@@ -272,6 +282,15 @@ export default {
         },
         toHideFilter(){
             this.filterShow=false;
+        },
+        // 编辑门店
+        toEdit(id){
+            util.linkto('store-add',`type=edit&id=${id}`)
+        },
+        //拜访门店
+        toVisit(item){
+            this.$globalData.visitStore=item;
+            util.linkto('store-visit');
         },
         // 打电话，打开地图
         toCall(phone){

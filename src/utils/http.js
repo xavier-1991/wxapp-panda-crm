@@ -131,55 +131,55 @@ function isHttpMethodSupport(methodName) {
 }
 //文件上传
 function uploadFiles(filePathArr, success,fail) {
-    loginRequest().then(result => {
-        let header = {};
-        header['token'] = result.token;        
-        //header['content-type'] = 'multipart/form-data';
-        //header['content-type'] = 'application/x-www-form-urlencoded';
-        // header['content-type'] = 'application/json';
-        let uploadFilePromises = [];
-        filePathArr.forEach((path, index) => {
-            let promise = new Promise((resolve, reject) => {
-                let param = {
-                    url: `${urls.URL_API_BASE}${urls.UPLOAD_FILES}`,
-                    header: header,
-                    filePath: path,
-                    name: 'file',
-                    success: (res) => {
-                        console.log(res);
-                        if (res.statusCode === 200) {
-                            let result = JSON.parse(res.data);
-                            if (result.status == 1) {
-                                resolve(result.data);
-                            } else if (result.status == -4) {
-                                util.reLaunch('login');
-                                reject('uploadError');
-                            }else{
-                                reject('uploadError');
-                            }
-                        } else {
+    let header = {};
+    let userInfo = pd.getUserInfo();
+    header['Authorization'] = `Bearer ${userInfo.token}`;  
+    header['content-type'] = 'multipart/form-data';     
+    //header['content-type'] = 'multipart/form-data';
+    //header['content-type'] = 'application/x-www-form-urlencoded';
+    // header['content-type'] = 'application/json';
+    let uploadFilePromises = [];
+    filePathArr.forEach((path, index) => {
+        console.log('path',path)
+        let promise = new Promise((resolve, reject) => {
+            console.log('0000000',`${urls.URL_API_BASE}${urls.UPLOADS}`)
+            let param = {
+                url: `${urls.URL_API_BASE}${urls.UPLOADS}`,
+                header: header,
+                filePath: path,
+                name: 'file',
+                success: (res) => {
+                    console.log(res);
+                    if (res.statusCode === 200) {
+                        let result = JSON.parse(res.data);
+                        if (result.error == 0) {
+                            resolve(result.data);
+                        } else if (result.error == 401) {
+                            util.reLaunch('login');
+                            reject('uploadError');
+                        }else{
                             reject('uploadError');
                         }
-                    },
-                    fail: (res) => {
-                        reject(res);
+                    } else {
+                        reject('uploadError');
                     }
-                };
-                uni.uploadFile(param)
-            });
-            uploadFilePromises.push(promise);
+                },
+                fail: (res) => {
+                    reject(res);
+                }
+            };
+            uni.uploadFile(param)
         });
-        Promise.all(uploadFilePromises).then((res) => {
-            success(res);
-        }).catch(res => {
-            fail(res);
-            console.error(res);
-            util.showToast('上传失败，请重新上传')
-        });
-    }).catch(err => {
-        return Promise.reject(err);
-    })
-    
+        uploadFilePromises.push(promise);
+    });
+    Promise.all(uploadFilePromises).then((res) => {
+        success(res);
+    }).catch(res => {
+        fail&&fail(res);
+        console.error(res);
+        util.showToast('上传失败，请重新上传')
+    });
+   
 }
 
 
