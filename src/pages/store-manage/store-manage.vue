@@ -17,7 +17,7 @@
                 image(:src="item.storeFacedPic" class="store-img" mode="aspectFill" :lazy-load="true")
                 view(class="item-main")
                     view(class="df jcsb ai-center")
-                        view(class="textFlow store-name") {{item.name}}
+                        view(class="textFlow store-name") {{item.storeName}}
                         view(class="df")
                             view(:class="['tag',item.storeType?'tag2':'']") {{item.storeType?'连锁':'单体'}}
                             view(:class="['tag','ml15',item.orderOrNot?'tag4':'tag3']") {{item.orderOrNot?'已下单':'未下单'}} 

@@ -19,6 +19,7 @@ var urls = {
     STATISTICS: 'api/statistics',
     UPLOADS: 'api/common/uploads',
     STORE_DETAIL: 'api/store/{0}',
+    VISITED: 'api/visited/',
 };
 
 
