@@ -7,7 +7,7 @@
         //- view(class="item df ai-center jcsb")
         //-     view(class="item-left") 店铺logo
         //-     view(class="item-right re df ai-center")
-        //-         image(src="" class="bg_sky" class="logo_img")
+        //-         image(src="" class="bk_gray" class="logo_img")
         //-         image(src="../../static/image/arrow-right.png" class="arrow-right")
         view(class="item df ai-center jcsb")
             view(class="item-left") 证件信息
@@ -51,22 +51,22 @@
                 view(class="camara-item" @tap="chooseImage('storeFacedPic')")
                     view(class="c-item-top re" v-if="!localSrc.storeFacedPic")
                         image(src="../../static/image/store/camera.png")
-                    image(v-else :src="localSrc.storeFacedPic" class="bg_sky c-item-top")
+                    image(v-else :src="localSrc.storeFacedPic" class="bk_gray c-item-top")
                     view(class="fs28 cor mt15 tac") 门脸照
                 view(class="camara-item" @tap="chooseImage('storeEnvironPic')")
                     view(class="c-item-top re" v-if="!localSrc.storeEnvironPic")
                         image(src="../../static/image/store/camera.png")
-                    image(v-else :src="localSrc.storeEnvironPic" class="bg_sky c-item-top")
+                    image(v-else :src="localSrc.storeEnvironPic" class="bk_gray c-item-top")
                     view(class="fs28 cor mt15 tac") 店内环境照
                 view(class="camara-item" @tap="chooseImage('licensePic')")
                     view(class="c-item-top re" v-if="!localSrc.licensePic")
                         image(src="../../static/image/store/camera.png")
-                    image(v-else :src="localSrc.licensePic" class="bg_sky c-item-top")
+                    image(v-else :src="localSrc.licensePic" class="bk_gray c-item-top")
                     view(class="fs28 cor mt15 tac") 营业执照
                 view(class="camara-item" @tap="chooseImage('userIdPic')")
                     view(class="c-item-top re" v-if="!localSrc.userIdPic")
                         image(src="../../static/image/store/camera.png")
-                    image(v-else :src="localSrc.userIdPic" class="bg_sky c-item-top")
+                    image(v-else :src="localSrc.userIdPic" class="bk_gray c-item-top")
                     view(class="fs28 cor mt15 tac") 手持身份证照
             view(style="padding:68rpx 108rpx 0;")
                 view(class="btn-default" @tap="toSend") 保存

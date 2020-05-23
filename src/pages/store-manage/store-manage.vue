@@ -1,7 +1,7 @@
 <template lang="pug">
     view(v-if="hasData")
         view(class="search-wrap")
-            search(@outKeyWord="outKeyWord" @search="toSearch")
+            search(@outKeyWord="outKeyWord" @search="toSearch" :kw="keywords")
             view(class="df jcsb mt20")
                 view(:class="['nav',state=='all'?'curr-nav':'']" @tap="changeState('all')") 全部
                 view(:class="['nav',state=='today'?'curr-nav':'']" @tap="changeState('today')") 今日
@@ -104,19 +104,29 @@ export default {
         MxDatePicker
     },
     onLoad(options){
+        
+    },
+    onShow(){
         // 首页带参数跳转过来
         let tabbarPramas=this.$globalData.tabbarPramas;
         if(tabbarPramas){
             if(tabbarPramas.audit){
-                this.audit=tabbarPramas.audit*1
+                this.paramsReset();
+                this.audit=tabbarPramas.audit*1;
             }
             if(tabbarPramas.orderOrNot){
-                this.orderOrNot=tabbarPramas.orderOrNot*1
+                this.paramsReset();
+                this.orderOrNot=tabbarPramas.orderOrNot*1;
+            }
+            if(tabbarPramas.keywords){
+                this.paramsReset();
+                this.keywords=tabbarPramas.keywords;
             }
             this.$globalData.tabbarPramas=null;
+            if(this.lat){
+                this.loadPage();
+            }
         }
-    },
-    onShow(){
         if(!this.lat){
             pd.getPosition().then((res)=>{
                 this.lat=res.latitude;
@@ -126,16 +136,7 @@ export default {
         }
     },
     onPullDownRefresh() {
-        this.page=1;
-        this.state='all';
-        this.startTime='';
-        this.endTime='';
-        this.keywords='';
-        this.storeType=-1;
-        this.storeStatus=-1;
-        this.audit=-1;
-        this.orderOrNot=-1;
-        this[this.type]=""; //清除上次时间选择在日历上的样式渲染
+        this.paramsReset();
         this.loadPage();
     },
     onReachBottom() {
@@ -210,6 +211,7 @@ export default {
             this.filterShow=!this.filterShow;
         },
         changeState(state){
+            this.keywords='';
             this.filterShow=false;
             if(this.state===state&&this.state!='custom'){
                 return;
@@ -304,6 +306,18 @@ export default {
                 longitude:item.lng*1,
                 scale: 18
             })
+        },
+        paramsReset(){
+            this.page=1;
+            this.state='all';
+            this.startTime='';
+            this.endTime='';
+            this.keywords='';
+            this.storeType=-1;
+            this.storeStatus=-1;
+            this.audit=-1;
+            this.orderOrNot=-1;
+            this[this.type]=""; //清除上次时间选择在日历上的样式渲染
         }
     }
 }

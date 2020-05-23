@@ -65,7 +65,7 @@
             view(class="section")
                 view(class="title") 本月新增门店
                 view(class="mt15 newly-added")
-                    view(class="newly-item df ai-center jcsb" v-for="(item,index) in list" :key="index" @tap="toStoreDetail")
+                    view(class="newly-item df ai-center jcsb" v-for="(item,index) in list" :key="index" @tap="toStore('keywords',item.name)")
                         view(class="textFlow newly-store") {{item.name}}
                         viwe(class="df ai-center")
                             view(class="btn_wrap df")

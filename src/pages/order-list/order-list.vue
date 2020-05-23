@@ -15,7 +15,7 @@
                         view(:class="['nav-item',status==-1?'curr-item':'']" @tap="changeType(-1)") 全部订单
                         view(:class="['nav-item',status==0?'curr-item':'']" @tap="changeType(0)") 待付款
                         view(:class="['nav-item',status==20?'curr-item':'']" @tap="changeType(20)") 待发货
-                        view(:class="['nav-item',status==60?'curr-item':'']" @tap="changeType(60)") 待收货
+                        view(:class="['nav-item',status==60?'curr-item':'']" @tap="changeType(60)") 待收货/待自提
                         view(:class="['nav-item',status==70?'curr-item':'']" @tap="changeType(70)") 待评价
                         view(:class="['nav-item',status==10?'curr-item':'']" @tap="changeType(10)") 已取消
                         view(:class="['nav-item',status==30?'curr-item':'']" @tap="changeType(30)") 退款中
@@ -37,13 +37,13 @@
                         view(class="copy" @tap="setClipboard(item.orderId)") 复制
                     view(class="df jcsb ai-center mt-x")
                         view(class="df ai-center")
-                            view(class="ic-left") 收件人
+                            view(class="ic-left") {{item.hasSelfExtract?'卖方信息':'收件人'}}
                             view(class="cor fs24")
-                                text {{item.consignee}}
+                                text {{item.contact}}
                                 text(class="ml15") {{item.mobile}}
                             image(class="phone" src="../../static/image/order/phone.png" @tap="toCall(item.mobile)")
                     view(class="df jcsb mt-x")
-                        view(class="ic-left pt10") 地址
+                        view(class="ic-left pt10") {{item.hasSelfExtract?'自提点':'地址'}}
                         view(class="ic-addr df jcsb ai-center bb1")
                             view(class="cor fs24 textFlow w400") {{item.address}}
                             view(v-if="item.displayExpress" class="wuliu" @tap="toLogistics(item.orderId)") 查看物流
@@ -62,7 +62,7 @@
                                 view() 供货商
                                 view(class="w500 textFlow ml40") 南京雨宝巴拉巴拉巴拉圭公司
                             view(class="df jcsb mt25" v-for="(gItem,idx) in item.goodsData.list" :key="idx")
-                                image(:src="gItem.goodsPic" class="good-img bg_sky")
+                                image(:src="gItem.goodsPic" class="good-img bk_gray")
                                 view(class="df fldc jcsb good-right")
                                     view()
                                         view(class="fs24 cor fwb5 textFlow w400") {{gItem.shopName}}

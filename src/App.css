@@ -395,8 +395,8 @@ video {
 .bk_main {
     background-color: #3d92e1;
 }
-.bk_blue {
-    background: skyblue;
+.bk_gray {
+    background: #BABABA;
 }
 
 /**圆角**/
@@ -635,9 +635,6 @@ video {
     box-sizing: border-box;
     background: #F1EFF0;
     z-index: 100;
-}
-.bg_sky{
-    background-color: skyblue;
 }
 .no-list{
     height: 200rpx;

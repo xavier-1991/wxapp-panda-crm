@@ -73,7 +73,8 @@
         {
             "path": "pages/store-visit/store-visit",
             "style": {
-                "navigationBarTitleText": "门店拜访"
+                "navigationBarTitleText": "门店拜访",
+                "enablePullDownRefresh": true
             }
         },
         {

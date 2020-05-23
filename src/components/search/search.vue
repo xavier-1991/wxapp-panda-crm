@@ -3,7 +3,7 @@
         view(class="df jcsb input-wrap")
             view(class="df ai-center")
                 image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
-                input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keyWord" @input="inputKW" confirm-type="search" @confirm="toSearch")
+                input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="kw" @input="inputKW" confirm-type="search" @confirm="toSearch")
             image(@tap="clear" class="search-del" src="../../static/image/search/del.png")
         view(class="add" @tap="toAdd") 新增
 </template>
@@ -15,6 +15,10 @@ export default {
         btnType: {
             type: String,
             default: ""
+        },
+        kw: {
+            type: String,
+            default: ""
         }
     },
     data() {
@@ -24,7 +28,7 @@ export default {
     },
     methods: {
         clear(){
-            this.keyWord='';
+            this.kw='';
             this.$emit("outKeyWord",'');
         },
         toAdd(){
@@ -35,7 +39,7 @@ export default {
             }
         },
         inputKW(){
-            this.$emit("outKeyWord", this.keyWord);
+            this.$emit("outKeyWord", this.kw);
         },
         toSearch(){
             this.$emit("search");
