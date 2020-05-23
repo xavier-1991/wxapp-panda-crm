@@ -80,7 +80,8 @@
         {
             "path": "pages/store-choose/store-choose",
             "style": {
-                "navigationBarTitleText": "选择门店"
+                "navigationBarTitleText": "选择门店",
+                "enablePullDownRefresh": true
             }
         },
         {

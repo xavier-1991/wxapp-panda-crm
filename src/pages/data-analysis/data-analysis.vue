@@ -15,6 +15,7 @@
             view(:class="['nav',state=='custom'?'curr-nav':'']" @tap="changType('custom')") 选择时间
         view(class="df ai-center fs24 pb10" v-if="showTimeRange")
             view(class="cor_9") {{startTime}} - {{endTime}}
+            view(@tap="reChooseTime" class="reChoose") 重新选择
         view()
             view(class="fwb5 cor fs28 mt10") 数据统计
             view(class="data re mt30")

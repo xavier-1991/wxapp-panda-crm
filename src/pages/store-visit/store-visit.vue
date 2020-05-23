@@ -6,7 +6,7 @@
         view(class="main")
             //- 拜访签到
             view(v-if="tab==1")
-                map(class="map" :longitude="params.lng" :latitude="params.lat")
+                map(class="map" :longitude="params.lng" :latitude="params.lat" :markers="markers")
                 view(class="qiaodao p25lr")
                     view(class="df jcsb ai-center choose-store" @tap="toChooseStore")
                         view(v-if="!storeName")
@@ -60,6 +60,7 @@
                                 view(class="fs24 cor pr15") 门店图片
                                 view(class="df" v-for="(ptItem,idx) in item.photos" :key="idx")
                                     image(:src="ptItem" class="bk_gray jl-store-img")
+                    view(v-if="!list.length" class="no-list") 暂无相关数据
                 //- 时间选择器
                 <mx-date-picker :show="showPicker" :type="type" :value="value" :show-tips="true" color="#1677FE" :showHoliday="false" begin-text="开始" end-text="结束"  @confirm="onSelected" @cancel="onSelected" />
 
@@ -103,7 +104,8 @@ export default {
             // 时间选择器插件数据
             showPicker: false,
             type: 'range',
-            value: ''
+            value: '',
+            markers:[]
         };
     },
     components:{
@@ -132,18 +134,26 @@ export default {
         this.loadRecord();
     },
     onShow() {
+        if(this.$globalData.visitStore){
+            let visitStore=this.$globalData.visitStore;
+            this.storeName=visitStore.storeName;
+            this.params.storeId=visitStore.storeId;
+            this.params.deviation=visitStore.distance;
+            this.$globalData.visitStore=null;
+        }
         if(!this.params.lat){
             util.showLoadingDialog('加载中...');
             pd.getPosition().then((res)=>{
                 this.params.lat=res.latitude+'';
                 this.params.lng=res.longitude+'';
-                if(this.$globalData.visitStore){
-                    let visitStore=this.$globalData.visitStore;
-                    this.storeName=visitStore.storeName;
-                    this.params.storeId=visitStore.storeId;
-                    this.params.deviation=visitStore.distance;
-                    this.$globalData.visitStore=null;
-                }
+                this.markers=[{
+                    latitude:res.latitude,
+                    longitude:res.longitude,
+                    iconPath:'../../static/image/other/qian.png',
+                    width:'20rpx',
+                    height:'20rpx'
+                    
+                }]
                 util.hideLoadingDialog();
                 this.hasData=true;
             })
