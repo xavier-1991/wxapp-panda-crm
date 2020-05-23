@@ -20,7 +20,9 @@ function getPosition() {
         }
     }).then(()=>{
         return uni.getLocation({
-            type: "wgs84"
+            type: "wgs84",
+            highAccuracyExpireTime:3500,
+            isHighAccuracy:true,
         }).then((resArr)=>{
             if (resArr[1]) {
                 return Promise.resolve(resArr[1])
