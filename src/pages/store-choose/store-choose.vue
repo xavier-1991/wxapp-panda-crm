@@ -19,7 +19,7 @@
                 view(class="list" v-if="tab==1")
                     view(class="item" v-for="(item,index) in store.list" :key="index" @tap="chooseStore(item)")
                         view(class="df jcsb")
-                            view(class="fs28 cor textFlow store-name") {{item.name}}
+                            view(class="fs28 cor textFlow store-name") {{item.storeName}}
                             view(class="fs24 cor_9") 距离{{item.distance}}
                         view(class="df jcsb ai-end")
                             view(class="fs24 cor_9")
