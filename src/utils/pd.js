@@ -54,7 +54,7 @@ function getPosition() {
     })
 }
 function formatNumber(num){
-    return Math.round(num * 10000) / 10000
+    return Math.round(num * 1000000) / 1000000
 }
 
 module.exports={

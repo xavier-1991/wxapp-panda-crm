@@ -68,7 +68,7 @@
                         image(src="../../static/image/store/camera.png")
                     image(v-else :src="localSrc.userIdPic" class="bk_gray c-item-top")
                     view(class="fs28 cor mt15 tac") 手持身份证照
-            view(style="padding:68rpx 108rpx 0;")
+            view(class="baocun")
                 view(class="btn-default" @tap="toSend") 保存
 </template>
 <script>

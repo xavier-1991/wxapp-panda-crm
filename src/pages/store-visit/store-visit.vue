@@ -223,6 +223,7 @@ export default {
         chooseImage() {
             uni.chooseImage({
                 count: this.count,
+                sourceType:['camera'],
                 sizeType: ["compressed"],
                 success: res => {
                     this.imageArr = [...this.imageArr, ...res.tempFilePaths];

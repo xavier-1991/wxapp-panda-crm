@@ -36,6 +36,10 @@ export default {
             frontColor: "#000000",
             backgroundColor: "#ffffff"
         });
+        let userInfo=pd.getUserInfo();
+        if(userInfo&&userInfo.mobile){
+            this.mobile=userInfo.mobile;
+        }
     },
     methods: {
         toLogin() {

@@ -13,6 +13,7 @@ var urls = {
     STORE_EDIT: 'api/store/{0}',
     STORE_LIST: 'api/salesman/store-list',
     CUSTOMER: 'api/customer',
+    CUSTOMER_DETAIL: 'api/customer/{0}',
     ORDER: 'api/order',
     ORDER_GOODS: 'api/order/related-goods/{0}',
     EXPRESS_INFO: 'api/order/express-info/{0}',

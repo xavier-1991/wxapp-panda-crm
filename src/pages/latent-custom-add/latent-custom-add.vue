@@ -53,6 +53,8 @@ const pd = require("../../utils/pd");
 export default {
     data() {
         return {
+            type:"",
+            id:"",
             params: {
                 storeName: "",
                 brands: "",
@@ -68,12 +70,27 @@ export default {
         };
     },
 
-    onLoad() {},
+    onLoad(options) {
+        this.type=options.type;
+        if(this.type=="edit"){
+            this.id=options.id;
+            this.getCustomDetail();
+        }
+    },
     onShow() {},
     methods: {
+        getCustomDetail(){
+            util.showLoadingDialog('加载中');
+            http.request(
+                urls.CUSTOMER_DETAIL.format(this.id),
+                "GET"
+            ).then(data => {
+                this.params=data.detail;
+                util.hideLoadingDialog();
+            })
+        },
         changeType(type) {
             this.params.storeType = type;
-            
         },
         chooseAddress() {
             let that = this;
@@ -88,50 +105,6 @@ export default {
                     }
                 });
             })
-            // return;
-            // new Promise((reslove, reject) => {
-            //     uni.authorize({
-            //         scope: "scope.userLocation",
-            //         success() {
-            //             reslove();
-            //         },
-            //         fail() {
-            //             reject();
-            //         }
-            //     });
-            // })
-            //     .then(() => {
-            //         wx.getLocation({
-            //             type: "gcj02 ",
-            //             success(res) {
-            //                 wx.chooseLocation({
-            //                     latitude: res.latitude,
-            //                     longitude: res.longitude,
-            //                     success(e) {
-            //                         console.log(e)
-            //                         that.params.locationAddr = e.address;
-            //                         that.params.lat = e.latitude + "";
-            //                         that.params.lng = e.longitude + "";
-            //                     }
-            //                 });
-            //             }
-            //         });
-            //     })
-            //     .catch(() => {
-            //         uni.showModal({
-            //             title: "提示",
-            //             content: "您未授权获取地理位置,请授权后使用",
-            //             showCancel: true,
-            //             confirmText: "授权",
-            //             confirmColor: "#52a2d8",
-            //             success: function(res) {
-            //                 if (res.confirm) {
-            //                     //确认则打开设置页面
-            //                     uni.openSetting();
-            //                 }
-            //             }
-            //         });
-            //     });
         },
         toSubmit(){
             let params=this.params;
@@ -143,19 +116,35 @@ export default {
                 util.showToast("请输入正确的手机号");
                 return;
             }
-            util.showLoadingDialog("加载中");
-            http.request(
-                urls.CUSTOMER,
-                "POST",
-                params
-            ).then(data => {
-                util.showToast('新增成功');
-                setTimeout(() => {
-                    uni.navigateBack();
-                }, 1500);
-            }).finally(()=>{
-                uni.stopPullDownRefresh();
-            })
+            util.showLoadingDialog("请稍候");
+            if(this.type=="add"){
+                http.request(
+                    urls.CUSTOMER,
+                    "POST",
+                    params
+                ).then(data => {
+                    util.showToast('新增成功');
+                    setTimeout(() => {
+                        uni.navigateBack();
+                    }, 1500);
+                }).finally(()=>{
+                    uni.stopPullDownRefresh();
+                })
+            }else{
+                http.request(
+                    urls.CUSTOMER_DETAIL.format(this.id),
+                    "PUT",
+                    params
+                ).then(data => {
+                    util.showToast('编辑成功');
+                    setTimeout(() => {
+                        uni.navigateBack();
+                    }, 1500);
+                }).finally(()=>{
+                    uni.stopPullDownRefresh();
+                })
+            }
+            
         }
     }
 };

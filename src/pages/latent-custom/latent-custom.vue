@@ -7,21 +7,21 @@
                         image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
                         input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
                     image(v-if="keywords" @tap="clear" class="search-del" src="../../static/image/search/del.png")
-                view(class="add" @tap="toAdd") 新增
+                view(class="add" @tap="toAdd('add')") 新增
         view(class="p25lr" style="margin-top:114rpx;")
             view(class="fs28 cor fwb5") 门店列表
             view(class="list")
-                view(class="item" v-for="(item,index) in list" :key="index")
+                view(class="item" v-for="(item,index) in list" :key="index" @tap="toAdd('edit',item.storeId)")
                     view(class="df jcsb")
                         view(class="fs28 cor textFlow store-name") {{item.storeName}}
                         view(class="fs24 cor_9") 距离{{item.distance}}
                     view(class="df jcsb ai-end")
                         view(class="fs24 cor_9")
-                            view(class="mt-x") {{item.contact}} {{item.mobile}}
+                            view(class="mt-x") {{item.contacts}} {{item.mobile}}
                             view(class="mt-x") {{item.address}}
                         view(class="df")
-                            image(@tap="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")
-                            image(@tap="toMap(item)" class="btn-img" src="../../static/image/other/latent-addr.png")
+                            image(@tap.stop="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")
+                            image(@tap.stop="toMap(item)" class="btn-img" src="../../static/image/other/latent-addr.png")
                 view(v-if="!list.length" class="no-list") 暂无数据
 
 
@@ -74,8 +74,8 @@ export default {
         clear(){
             this.keywords='';
         },
-        toAdd(){
-            util.linkto('latent-custom-add');
+        toAdd(type,id=''){
+            util.linkto('latent-custom-add',`type=${type}&id=${id}`);
         },
         toSearch(){
             this.page=1;

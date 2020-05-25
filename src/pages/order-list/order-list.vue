@@ -39,7 +39,7 @@
                         view(class="df ai-center")
                             view(class="ic-left") {{item.hasSelfExtract?'卖方信息':'收件人'}}
                             view(class="cor fs24")
-                                text {{item.contact}}
+                                text {{item.contacts}}
                                 text(class="ml15") {{item.mobile}}
                             image(class="phone" src="../../static/image/order/phone.png" @tap="toCall(item.mobile)")
                     view(class="df jcsb mt-x")

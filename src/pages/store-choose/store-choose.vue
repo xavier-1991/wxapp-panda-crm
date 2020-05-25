@@ -33,7 +33,7 @@
                             view(class="fs24 cor_9") 距离{{item.distance}}
                         view(class="df jcsb ai-end")
                             view(class="fs24 cor_9")
-                                view(class="mt-x") {{item.contact}} {{item.mobile}}
+                                view(class="mt-x") {{item.contacts}} {{item.mobile}}
                                 view(class="mt-x") {{item.address}}
                             view(class="df")
                                 image(@tap.stop="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")

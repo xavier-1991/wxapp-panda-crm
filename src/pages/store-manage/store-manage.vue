@@ -22,11 +22,11 @@
             view(class="item df" v-for="(item,index) in list" :key="index")
                 image(:src="item.storeFacedPic" class="store-img" mode="aspectFill" :lazy-load="true")
                 view(class="item-main")
-                    view(class="df jcsb ai-center")
+                    view(class="df ai-center")
                         view(class="textFlow store-name") {{item.storeName}}
-                        view(class="df")
+                        view(class="df ml15")
                             view(:class="['tag',item.storeType?'tag2':'']") {{item.storeType?'连锁':'单体'}}
-                            view(:class="['tag','ml15',item.orderOrNot?'tag4':'tag3']") {{item.orderOrNot?'已下单':'未下单'}} 
+                            view(:class="['tag','ml15',item.orderOrNot?'tag3':'tag4']") {{item.orderOrNot?'已下单':'未下单'}} 
                     view(class="df jcsb ai-end")
                         view(class="fs24 cor_9")
                             view(class="mt-x") {{item.trueName}} {{item.mobile}}
