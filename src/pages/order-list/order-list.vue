@@ -7,7 +7,7 @@
                         view(class="df ai-center")
                             image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
                             input(class="search-inp" placeholder="请输入门店名称/订单号" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
-                        image(@tap="clear" class="search-del" src="../../static/image/search/del.png")
+                        image(@tap="clear" v-if="keywords" class="search-del" src="../../static/image/search/del.png")
                     image(@tap="onShowDatePicker('range')" class="time" src="../../static/image/order/time.png")
             view(class="nav-wrap")
                 scroll-view(:scroll-x="true" class="scroll-view") 

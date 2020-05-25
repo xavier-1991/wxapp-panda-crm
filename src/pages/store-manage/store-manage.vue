@@ -1,7 +1,13 @@
 <template lang="pug">
     view(v-if="hasData")
         view(class="search-wrap")
-            search(@outKeyWord="outKeyWord" @search="toSearch" :kw="keywords")
+            view(class="df jcsb ai-center")
+                view(class="df jcsb input-wrap")
+                    view(class="df ai-center")
+                        image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
+                        input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
+                    image(v-if="keywords" @tap="clear" class="search-del" src="../../static/image/search/del.png")
+                view(class="add" @tap="toAdd") 新增
             view(class="df jcsb mt20")
                 view(:class="['nav',state=='all'?'curr-nav':'']" @tap="changeState('all')") 全部
                 view(:class="['nav',state=='today'?'curr-nav':'']" @tap="changeState('today')") 今日
@@ -157,8 +163,8 @@ export default {
             let params={
                 page:this.page,
                 type:this.state,
-                lat:this.lat,
-                lng:this.lng
+                lat:this.lat+'',
+                lng:this.lng+''
             }
             if(this.keywords){
                 params.keywords=this.keywords;
@@ -264,6 +270,12 @@ export default {
             }
         },
         //搜索部分
+        clear(){
+            this.keywords='';
+        },
+        toAdd(){
+            util.linkto('store-add','type=add');
+        },
         toSearch(){
             this.page=1;
             this.state='all';
@@ -274,9 +286,6 @@ export default {
             this.audit=-1;
             this.orderOrNot=-1;
             this.loadPage()
-        },
-        outKeyWord(data){
-            this.keywords=data;
         },
         //隐藏筛选框，阻止冒泡
         emptyFun(){

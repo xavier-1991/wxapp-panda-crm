@@ -2,6 +2,8 @@
     view(class="wrap re")
         image(class="bg" mode="widthFix" src="../../static/image/login/login-bg.png")
         view(class="main")
+            view()
+                image(class="lock" src="../../static/image/login/lock-big.png")
             view(class="btn_wrap")
                 view(class="btn-default" @tap="toLoginOut") 退出登录
                 view(class="df jcfe mt30")

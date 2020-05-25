@@ -149,9 +149,9 @@ export default {
                 this.markers=[{
                     latitude:res.latitude,
                     longitude:res.longitude,
-                    iconPath:'../../static/image/other/qian.png',
-                    width:'20rpx',
-                    height:'20rpx'
+                    iconPath:'../../static/image/other/mark.png',
+                    width:'40rpx',
+                    height:'40rpx'
                     
                 }]
                 util.hideLoadingDialog();

@@ -20,17 +20,21 @@ function getPosition() {
         }
     }).then(()=>{
         return uni.getLocation({
-            type: "wgs84",
-            highAccuracyExpireTime:3500,
-            isHighAccuracy:true,
+            type: "wgs84"
+            // highAccuracyExpireTime:3500,
+            // isHighAccuracy:true,
         }).then((resArr)=>{
+            console.log('位置获取成功', resArr)
             if (resArr[1]) {
+                resArr[1].latitude = formatNumber(resArr[1].latitude);
+                resArr[1].longitude = formatNumber(resArr[1].longitude);
                 return Promise.resolve(resArr[1])
             } else {
                 return Promise.reject('error');
             }
         })
     }).catch((err)=>{
+        console.log('位置获取失败',err)
         if (err =='refuse'){
             uni.showModal({
                 title: "重要提示",
@@ -48,6 +52,9 @@ function getPosition() {
         }
         return Promise.reject(err)
     })
+}
+function formatNumber(num){
+    return Math.round(num * 10000) / 10000
 }
 
 module.exports={

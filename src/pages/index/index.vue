@@ -64,15 +64,16 @@
             //- 本月新增门店
             view(class="section")
                 view(class="title") 本月新增门店
-                view(class="mt15 newly-added")
-                    view(class="newly-item df ai-center jcsb" v-for="(item,index) in list" :key="index" @tap="toStore('keywords',item.name)")
-                        view(class="textFlow newly-store") {{item.name}}
-                        viwe(class="df ai-center")
-                            view(class="btn_wrap df")
-                                view(:class="['btn-item',item.audit===1?'':'btn-item-gray']") {{item.auditStr}}
-                                view(v-if="item.audit===1" :class="['btn-item',item.orderOrNot===1?'':'btn-item-gray']") {{item.orderOrNotStr}}
-                            image(class="arrow-right" src="../../static/image/arrow-right.png")
-                    view(v-if="!list.length" class="no-list") 暂无数据
+                scroll-view(:scroll-y="true" class="scroll-view mt15" @scrolltolower="scrolltolower")
+                    view(class="newly-added")
+                        view(class="newly-item df ai-center jcsb" v-for="(item,index) in list" :key="index" @tap="toStore('keywords',item.name)")
+                            view(class="textFlow newly-store") {{item.name}}
+                            viwe(class="df ai-center")
+                                view(class="btn_wrap df")
+                                    view(:class="['btn-item',item.audit===1?'':'btn-item-gray']") {{item.auditStr}}
+                                    view(v-if="item.audit===1" :class="['btn-item',item.orderOrNot===1?'':'btn-item-gray']") {{item.orderOrNotStr}}
+                                image(class="arrow-right" src="../../static/image/arrow-right.png")
+                        view(v-if="!list.length" class="no-list") 暂无数据
                
             
             
@@ -80,7 +81,7 @@
             tabbar(currTabbar="index")
         
         //- 引导页
-        view(v-if="actionShow" class="wrap re")
+        view(v-if="actionShow" class="wrap re" :style="{'height':wh+'px'}")
             image(class="bg" mode="widthFix" src="../../static/image/login/login-bg.png")
             view(class="main")
                 view(class="action df jcc")
@@ -110,13 +111,21 @@ export default {
             count:0,
             pageTotal:0,
             showLoadMoreLoading:false,
-            actionShow:false
+            actionShow:false,
+            wh:0
         };
     },
     components: {
         tabbar
     },
     onLoad() {
+        let that=this;
+        uni.getSystemInfo({
+            success: function (res) {
+                //用于未登录状态下底部背景为白色
+                that.wh=res.windowHeight;
+            }
+        });
         let userInfo = pd.getUserInfo();
         let token = userInfo ? userInfo.token:'';
         let nowTime=Math.ceil(new Date().getTime()/1000);
@@ -133,18 +142,18 @@ export default {
         this.loadData();
         this.loadStoreList();
     },
-    onReachBottom() {
-        if (this.showLoadMoreLoading) {
-            return;
-        }
-        if (this.page >= this.pageTotal) {
-            util.showToast('没有更多了');
-            return;
-        }
-        this.page += 1;
-        this.loadStoreList();
-    },
     methods: {
+        scrolltolower() {
+            if (this.showLoadMoreLoading) {
+                return;
+            }
+            if (this.page >= this.pageTotal) {
+                util.showToast('没有更多了');
+                return;
+            }
+            this.page += 1;
+            this.loadStoreList();
+        },
         loadData() {
             util.showLoadingDialog("加载中");
             http.request(

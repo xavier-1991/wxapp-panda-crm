@@ -1,7 +1,13 @@
 <template lang="pug">
     view(v-if="hasData")
         view(class="search-wrap")
-            search(@outKeyWord="outKeyWord" @search="toSearch" btnType="latent")
+            view(class="df jcsb ai-center")
+                view(class="df jcsb input-wrap")
+                    view(class="df ai-center")
+                        image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
+                        input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
+                    image(v-if="keywords" @tap="clear" class="search-del" src="../../static/image/search/del.png")
+                view(class="add" @tap="toAdd") 新增
         view(class="p25lr" style="margin-top:114rpx;")
             view(class="fs28 cor fwb5") 门店列表
             view(class="list")
@@ -65,8 +71,11 @@ export default {
         this.loadPage();
     },
     methods: {
-        outKeyWord(kw){
-            this.keywords=kw
+        clear(){
+            this.keywords='';
+        },
+        toAdd(){
+            util.linkto('latent-custom-add');
         },
         toSearch(){
             this.page=1;

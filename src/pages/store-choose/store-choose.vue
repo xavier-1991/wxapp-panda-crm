@@ -10,7 +10,7 @@
                         view(class="df ai-center")
                             image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
                             input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
-                        image(@tap="clear" class="search-del" src="../../static/image/search/del.png")
+                        image(@tap="clear" v-if="keywords" class="search-del" src="../../static/image/search/del.png")
                     view(class="se" @tap="toSearch") 搜索
         view(class="main")
             view(class="p25lr" style="margin-top:114rpx;")
