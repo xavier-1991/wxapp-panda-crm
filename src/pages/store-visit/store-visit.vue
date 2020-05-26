@@ -75,64 +75,66 @@ const urls = require("../../utils/urls");
 const util = require("../../utils/util");
 const http = require("../../utils/http");
 const pd = require("../../utils/pd");
-import MxDatePicker  from "../../components/mx-datepicker/mx-datepicker.vue";
+import MxDatePicker from "../../components/mx-datepicker/mx-datepicker.vue";
 export default {
     data() {
         return {
-            hasData:false,
+            hasData: false,
             //拜访记录相关
-            state:'all',
-            startTime:'',
-            endTime:'',
-            tab:1,
-            list:[],
-            page:1,
-            count:0,
-            pageTotal:0,
-            showLoadMoreLoading:false,
+            state: "all",
+            startTime: "",
+            endTime: "",
+            tab: 1,
+            list: [],
+            page: 1,
+            count: 0,
+            pageTotal: 0,
+            showLoadMoreLoading: false,
             // 签到相关
             lat: "",
             lng: "",
-            storeName:'',
+            storeName: "",
             count: 3, //随着imageArr的length改变而改变,最多传3张图
             imageArr: [], //本地
             // 签到参数
-            params:{
-                storeId:'',
-                lat:'',
-                lng:'',
-                notes:'',
-                deviation:'',
-                isLeads:0,
-                photos:[]
+            params: {
+                storeId: "",
+                lat: "",
+                lng: "",
+                notes: "",
+                deviation: "",
+                isLeads: 0,
+                photos: []
             },
             // 时间选择器插件数据
             showPicker: false,
-            type: 'range',
-            value: '',
-            markers:[]
+            type: "range",
+            value: "",
+            markers: []
         };
     },
-    components:{
+    components: {
         MxDatePicker
     },
-    onLoad() {
-       
+    onLoad(options) {
+        if (options.id) {
+            this.params.storeId = options.id;
+        }
     },
     onPullDownRefresh() {
-        if(this.tab==1){
-            uni.stopPullDownRefresh()
+        if (this.tab == 1) {
+            uni.stopPullDownRefresh();
             return;
         }
-        this.page=1;
+        this.page = 1;
         this.loadRecord();
     },
     onReachBottom() {
-        if (this.showLoadMoreLoading||this.tab==1) {
+        if (this.showLoadMoreLoading || this.tab == 1) {
             return;
         }
         if (this.page >= this.pageTotal) {
-            util.showToast('没有更多了');
+            util.showToast("没有更多了");
             return;
         }
         this.page += 1;
@@ -146,35 +148,57 @@ export default {
             this.params.deviation=visitStore.distance;
             this.$globalData.visitStore=null;
         }
-        if(!this.params.lat){
-            util.showLoadingDialog('加载中...');
-            pd.getPosition().then((res)=>{
-                this.params.lat=res.latitude+'';
-                this.params.lng=res.longitude+'';
-                this.markers=[{
-                    latitude:res.latitude,
-                    longitude:res.longitude,
-                    iconPath:'../../static/image/other/mark.png',
-                    width:'40rpx',
-                    height:'40rpx'
-                    
-                }]
-                util.hideLoadingDialog();
-                this.hasData=true;
-            })
+
+        if (!this.params.lat) {
+            util.showLoadingDialog("加载中...");
+            pd.getPosition().then(res => {
+                this.params.lat = res.latitude + "";
+                this.params.lng = res.longitude + "";
+                this.markers = [
+                    {
+                        latitude: res.latitude,
+                        longitude: res.longitude,
+                        iconPath: "../../static/image/other/mark.png",
+                        width: "40rpx",
+                        height: "40rpx"
+                    }
+                ];
+                if (this.params.storeId) {
+                    // 从门店管理进入
+                    http.request(
+                        urls.STORE_DETAIL.format(this.params.storeId),
+                        "GET",
+                        {
+                            type: "visit",
+                            lat: this.params.lat,
+                            lng: this.params.lng
+                        }
+                    ).then(data => {
+                        this.storeName=data.detail.name;
+                        this.params.deviation=data.detail.distance;
+                        this.hasData = true;
+                        util.hideLoadingDialog();
+                    });
+                }else{
+                    util.hideLoadingDialog();
+                    this.hasData = true;
+                }
+
+                
+            });
         }
     },
     methods: {
-        changeNav(type){
-            if(this.tab==type){
-                return
+        changeNav(type) {
+            if (this.tab == type) {
+                return;
             }
-            this.tab=type;
-            if(this.tab==2&&!this.list.length){
+            this.tab = type;
+            if (this.tab == 2 && !this.list.length) {
                 this.loadRecord();
             }
         },
-        changType(state){
+        changType(state) {
             if (this.state == state && this.state != "custom") {
                 return;
             }
@@ -182,44 +206,42 @@ export default {
             if (this.state == "custom") {
                 this.onShowDatePicker();
             } else {
-                this.startTime='';
-                this.endTime='';
+                this.startTime = "";
+                this.endTime = "";
                 this.loadRecord();
             }
         },
-        loadRecord(){
-            let params={
-                type:this.state,
-                page:this.page
+        loadRecord() {
+            let params = {
+                type: this.state,
+                page: this.page
+            };
+            if (this.startTime) {
+                params.startTime = this.startTime;
+                params.endTime = this.endTime;
             }
-            if(this.startTime){
-                params.startTime=this.startTime;
-                params.endTime=this.endTime;
-            }
-            if(this.page==1){
-                util.showLoadingDialog('加载中');
-            }else{
+            if (this.page == 1) {
+                util.showLoadingDialog("加载中");
+            } else {
                 util.showTopLoading();
             }
-            this.showLoadMoreLoading=true;
-            http.request(
-                urls.VISITED,
-                "GET",
-                params
-            ).then(data => {
-                if(this.page==1){
-                    this.count=data.count;
-                    this.pageTotal=data.pageTotal;
-                    this.list=data.list;
-                    this.hasData=true;
-                    util.hideLoadingDialog();
-                }else{
-                    this.list=[...this.list,...data.list];
-                }
-            }).finally(()=>{
-                this.showLoadMoreLoading=false;
-                util.hideTopLoadingStopRefresh();
-            })
+            this.showLoadMoreLoading = true;
+            http.request(urls.VISITED, "GET", params)
+                .then(data => {
+                    if (this.page == 1) {
+                        this.count = data.count;
+                        this.pageTotal = data.pageTotal;
+                        this.list = data.list;
+                        this.hasData = true;
+                        util.hideLoadingDialog();
+                    } else {
+                        this.list = [...this.list, ...data.list];
+                    }
+                })
+                .finally(() => {
+                    this.showLoadMoreLoading = false;
+                    util.hideTopLoadingStopRefresh();
+                });
         },
         toChooseStore() {
             util.linkto("store-choose");
@@ -228,7 +250,7 @@ export default {
         chooseImage() {
             uni.chooseImage({
                 count: this.count,
-                sourceType:['camera'],
+                sourceType: ["camera"],
                 sizeType: ["compressed"],
                 success: res => {
                     this.imageArr = [...this.imageArr, ...res.tempFilePaths];
@@ -240,52 +262,50 @@ export default {
             this.imageArr.splice(index, 1);
             this.count = 3 - this.imageArr.length;
         },
-        toSend(){
-            if(this.params.storeId===''){
+        toSend() {
+            if (this.params.storeId === "") {
                 util.showToast("请选择需要拜访的门店");
                 return;
             }
-            if(this.params.notes.trim()===''){
+            if (this.params.notes.trim() === "") {
                 util.showToast("请填写拜访日记");
                 return;
             }
-            if(!this.imageArr.length){
+            if (!this.imageArr.length) {
                 util.showToast("请上传门店图片");
                 return;
             }
-            util.showLoadingDialog('提交中');
+            util.showLoadingDialog("提交中");
             http.uploadFiles(this.imageArr, res => {
-                console.log('res',res)
-                this.params.photos=res.map((ele)=>{
-                    return ele.imgUrl
-                })
-                http.request(
-                    urls.VISITED,
-                    "POST",
-                    this.params
-                ).then(data => {
-                    util.showToast('拜访成功');
+                console.log("res", res);
+                this.params.photos = res.map(ele => {
+                    return ele.imgUrl;
+                });
+                http.request(urls.VISITED, "POST", this.params).then(data => {
+                    util.showToast("拜访成功");
                     setTimeout(() => {
                         uni.navigateBack();
                     }, 1500);
-                })
+                });
             });
         },
-        showMore(item){
-            item.showMore=!item.showMore;
+        showMore(item) {
+            item.showMore = !item.showMore;
         },
         //时间选择器
-        onShowDatePicker(type){//显示
+        onShowDatePicker(type) {
+            //显示
             this.type = type;
             this.showPicker = true;
             this.value = this[type];
         },
-        onSelected(e) {//选择
+        onSelected(e) {
+            //选择
             this.showPicker = false;
-            if(e) {
-                this[this.type] = e.value; 
-                this.startTime= e.value[0];
-                this.endTime=e.value[1];
+            if (e) {
+                this[this.type] = e.value;
+                this.startTime = e.value[0];
+                this.endTime = e.value[1];
                 this.loadRecord();
             }
         }

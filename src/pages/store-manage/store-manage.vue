@@ -110,7 +110,7 @@ export default {
         MxDatePicker
     },
     onLoad(options){
-        
+        this.loadPage();
     },
     onShow(){
         // 首页带参数跳转过来
@@ -129,17 +129,17 @@ export default {
                 this.keywords=tabbarPramas.keywords;
             }
             this.$globalData.tabbarPramas=null;
-            if(this.lat){
+            // if(this.lat){
                 this.loadPage();
-            }
+            // }
         }
-        if(!this.lat){
-            pd.getPosition().then((res)=>{
-                this.lat=res.latitude;
-                this.lng=res.longitude;
-                this.loadPage();
-            })
-        }
+        // if(!this.lat){
+        //     pd.getPosition().then((res)=>{
+        //         this.lat=res.latitude;
+        //         this.lng=res.longitude;
+        //         this.loadPage();
+        //     })
+        // }
     },
     onPullDownRefresh() {
         this.paramsReset();
@@ -163,8 +163,8 @@ export default {
             let params={
                 page:this.page,
                 type:this.state,
-                lat:this.lat+'',
-                lng:this.lng+''
+                // lat:this.lat+'',
+                // lng:this.lng+''
             }
             if(this.keywords){
                 params.keywords=this.keywords;
@@ -300,8 +300,8 @@ export default {
         },
         //拜访门店
         toVisit(item){
-            this.$globalData.visitStore=item;
-            util.linkto('store-visit');
+            // this.$globalData.visitStore=item;
+            util.linkto('store-visit',`id=${item.storeId}`);
         },
         // 打电话，打开地图
         toCall(phone){
