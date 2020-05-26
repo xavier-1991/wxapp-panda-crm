@@ -20,7 +20,9 @@
         //- 门店列表
         view(class="list")
             view(class="item df" v-for="(item,index) in list" :key="index")
-                image(:src="item.storeFacedPic" class="store-img" mode="aspectFill" :lazy-load="true")
+                view(class="store-img-wrap re")
+                    image(:src="item.storeFacedPic" class="store-img" mode="aspectFill" :lazy-load="true")
+                    view(:class="['status',item.audit===1?'status2':'']") {{item.auditStr}}
                 view(class="item-main")
                     view(class="df ai-center")
                         view(class="textFlow store-name") {{item.storeName}}

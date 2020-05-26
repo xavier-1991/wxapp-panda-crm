@@ -136,7 +136,7 @@ export default {
     },
     onPullDownRefresh() {
         this.page=1;
-        this.status=-1;
+        // this.status=-1;
         this.startTime='';
         this.endTime='';
         this.keywords='';
