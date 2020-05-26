@@ -11,30 +11,43 @@
                             image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
                             input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
                         image(@tap="clear" v-if="keywords" class="search-del" src="../../static/image/search/del.png")
-                    view(class="se" @tap="toSearch") 搜索
+                    view(v-if="tab==1" class="se" @tap="toSearch") 搜索
+                    view(v-else class="add" @tap="toAdd('add')") 新增
         view(class="main")
             view(class="p25lr" style="margin-top:114rpx;")
                 view(class="fs28 cor fwb5") 门店列表
                 //- 门店列表
                 view(class="list" v-if="tab==1")
                     view(class="item" v-for="(item,index) in store.list" :key="index" @tap="chooseStore(item)")
-                        view(class="df jcsb")
-                            view(class="fs28 cor textFlow store-name") {{item.storeName}}
+                        view(class="df jcsb ai-center")
+                            view(class="df ai-center")
+                                image(class="store-icon mr20" src="../../static/image/other/store.png")
+                                view(class="fs28 cor textFlow store-name") {{item.storeName}}
                             view(class="fs24 cor_9") 距离{{item.distance}}
                         view(class="df jcsb ai-end")
-                            view(class="fs24 cor_9")
-                                view(class="mt-x") {{item.address}}
+                            view(class="fs24 cor_9 df ai-center")
+                                view(class="df jcc ai-center mr20" style="width:40rpx;height:40rpx")
+                                    image(class="time-icon" src="../../static/image/other/addr.png")
+                                view() {{item.address}}
                     view(v-if="!store.list.length&&store.list.hasGet" class="no-list") 暂无相关数据
                 //- 潜在客户
                 view(class="list" v-else)
                     view(class="item" v-for="(item,index) in latent.list" :key="index" @tap="chooseStore(item)")
                         view(class="df jcsb")
-                            view(class="fs28 cor textFlow store-name") {{item.storeName}}
+                            view(class="df ai-center")
+                                image(class="store-icon mr20" src="../../static/image/other/store.png")
+                                view(class="fs28 cor textFlow store-name") {{item.storeName}}
                             view(class="fs24 cor_9") 距离{{item.distance}}
                         view(class="df jcsb ai-end")
                             view(class="fs24 cor_9")
-                                view(class="mt-x") {{item.contacts}} {{item.mobile}}
-                                view(class="mt-x") {{item.address}}
+                                view(class="df ai-center")
+                                    view(class="df jcc ai-center mr20" style="width:40rpx;height:40rpx")
+                                        image(class="time-icon" src="../../static/image/other/person.png")
+                                    view() {{item.contacts}} {{item.mobile}}
+                                view(class="df ai-center")
+                                    view(class="df jcc ai-center mr20" style="width:40rpx;height:40rpx")
+                                        image(class="time-icon" src="../../static/image/other/addr.png")
+                                    view() {{item.address}}
                             view(class="df")
                                 image(@tap.stop="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")
                                 image(@tap.stop="toMap(item)" class="btn-img" src="../../static/image/other/latent-addr.png")
@@ -81,6 +94,10 @@ export default {
                 this.lng=res.longitude+'';
                 this.loadList();
             })
+        }else{
+            this[this.tabStr].page=1;
+            this.keywords="";
+            this.loadList();
         }
       
     },
@@ -174,6 +191,9 @@ export default {
         chooseStore(item){
             this.$globalData.visitStore=item;
             uni.navigateBack();
+        },
+        toAdd(type,id=''){
+            util.linkto('latent-custom-add',`type=${type}&id=${id}`);
         }
     }
 };

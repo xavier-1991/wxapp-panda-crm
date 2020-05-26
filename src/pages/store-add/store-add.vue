@@ -18,22 +18,22 @@
             view(class="item-right")
                 input(v-model="params.brands" class="inp" placeholder="必填(经营多个品牌 “，” 隔开)" placeholder-class='pl')
         view(class="item df ai-center jcsb")
-            view(class="item-left") 姓名
+            view(class="item-left") 联系人
             view(class="item-right")
                 input(v-model="params.trueName" class="inp" placeholder="必填" placeholder-class='pl')
         view(class="item df ai-center jcsb")
             view(class="item-left") 联系电话
             view(class="item-right")
-                input(v-model="params.mobile" class="inp" placeholder="请输入号码" placeholder-class='pl' type="number" maxlength='11')
+                input(v-model="params.mobile" class="inp" placeholder="必填，11位手机号" placeholder-class='pl' type="number" maxlength='11')
         view(class="item df ai-center jcsb re")
             view(class="item-left") 门店地址
             view(class="item-right re" @tap="chooseAddress")
-                input(v-model="params.locationAddr" class="inp" :disabled="true" placeholder="请选择地址" placeholder-class='pl')
+                input(v-model="params.locationAddr" class="inp" :disabled="true" placeholder="必填" placeholder-class='pl')
                 image(src="../../static/image/arrow-right.png" class="arrow-right")
         view(class="item df ai-center jcsb re")
             view(class="item-left") 详细地址
             view(class="item-right re")
-                input(v-model="params.address" class="inp" placeholder="请输入详细地址" placeholder-class='pl')
+                input(v-model="params.address" class="inp" placeholder="必填（小区门牌号等）" placeholder-class='pl')
         view(class="item df ai-center jcsb")
             view(class="item-left") 门店类型
             view(class="item-right df ai-center")
@@ -126,7 +126,8 @@ export default {
             util.showLoadingDialog('加载中');
             http.request(
                 urls.STORE_DETAIL.format(this.params.id),
-                "GET"
+                "GET",
+                {type:'edit'}
             ).then(data => {
                 this.params=data.detail;
                 this.localSrc.storeFacedPic=this.params.storeFacedPic;
@@ -163,26 +164,65 @@ export default {
             });
         },
         toSend() {
-            for (let attr in this.params) {
-                if (this.params[attr] === "") {
-                    util.showToast("请完善以上信息");
-                    return;
-                }
+            // for (let attr in this.params) {
+            //     if (this.params[attr] === "") {
+            //         util.showToast("请完善以上信息");
+            //         return;
+            //     }
+            // }
+            if(!this.params.name.trim()){
+                util.showToast("门店名称不能为空");
+                return;
             }
-            for (let attr in this.localSrc) {
-                if (this.localSrc[attr] === "") {
-                    util.showToast("请完善以上信息");
-                    return;
-                }
-            }
-            if(this.params.name.length<2||this.params.name.length>16){
+             if(this.params.name.length<2||this.params.name.length>16){
                 util.showToast("门店名称为2至16个字");
                 return;
             }
-            if (!util.checkPhone(this.params.mobile)) {
-                util.showToast("请输入正确的手机号");
+            if(!this.params.organizationCode.trim()){
+                util.showToast("证件信息不能为空");
                 return;
             }
+            if(!this.params.brands.trim()){
+                util.showToast("经营品牌不能为空");
+                return;
+            }
+            if(!this.params.trueName.trim()){
+                util.showToast("联系人不能为空");
+                return;
+            }
+            if(!this.params.mobile.trim()){
+                util.showToast("联系电话不能为空");
+                return;
+            }
+            if (!util.checkPhone(this.params.mobile)) {
+                util.showToast("请输入正确格式的手机号");
+                return;
+            }
+            if(!this.params.locationAddr.trim()){
+                util.showToast("门店地址不能为空");
+                return;
+            }
+            if(!this.params.address.trim()){
+                util.showToast("详细地址不能为空");
+                return;
+            }
+            let phoneEmpty = false
+            for (let attr in this.localSrc) {
+                if (this.localSrc[attr]) {
+                    phoneEmpty=true
+                }
+            }
+            if(!phoneEmpty){
+                util.showToast("必须上传门店资质信息");
+                return;
+            }
+            for (let attr in this.localSrc) {
+                if (this.localSrc[attr] === "") {
+                    util.showToast("门店信息图片不足");
+                    return;
+                }
+            }
+           
             // if(this.pageType=='add'){
             //     // 新增门店
             //     let localSrc = this.localSrc;

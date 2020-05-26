@@ -43,12 +43,16 @@ export default {
     },
     methods: {
         toLogin() {
+            if (!this.mobile) {
+                util.showToast("请输入手机号");
+                return;
+            }
             if (!/^1[3456789]\d{9}$/.test(this.mobile)) {
                 util.showToast("手机号格式错误");
                 return;
             }
             if (!this.password) {
-                util.showToast("请填写密码");
+                util.showToast("请输入密码");
                 return;
             }
             util.showLoadingDialog("正在登录");

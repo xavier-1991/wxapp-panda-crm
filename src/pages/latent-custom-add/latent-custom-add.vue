@@ -37,7 +37,7 @@
                     image(v-else src="../../static/image/store/selected-no.png")
                     view 连锁门店
         view(class="p20lr")
-            view(class="fs28 cor mt30") 资质信息
+            view(class="fs28 cor mt30") 未注册原因
             view(class="df area-wrap mt15")
                 image(class="edit" src="../../static/image/other/edit.png")
                 textarea(v-model="params.unregisteredReason" placeholder-class='pl2')
@@ -108,12 +108,36 @@ export default {
         },
         toSubmit(){
             let params=this.params;
-            if(!params.storeName.trim()||!params.brands.trim()||!params.contacts.trim()||!params.locationAddr.trim()||!params.unregisteredReason.trim()){
-                util.showToast('请完善必填信息')
+            if(!params.storeName.trim()){
+                util.showToast('门店名称不能为空')
+                return;
+            }
+            if(!params.brands.trim()){
+                util.showToast('经营品牌不能为空')
+                return;
+            }
+            if(!params.contacts.trim()){
+                util.showToast('联系人不能为空')
+                return;
+            }
+            if(!params.mobile.trim()){
+                util.showToast('联系电话不能位空')
                 return;
             }
             if (!util.checkPhone(params.mobile)) {
                 util.showToast("请输入正确的手机号");
+                return;
+            }
+            if(!params.locationAddr.trim()){
+                util.showToast('门店地址不能为空')
+                return;
+            }
+            if(!params.address.trim()){
+                util.showToast('详细地址不能为空')
+                return;
+            }
+            if(!params.unregisteredReason.trim()){
+                util.showToast('未注册原因不能为空')
                 return;
             }
             util.showLoadingDialog("请稍候");

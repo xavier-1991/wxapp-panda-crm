@@ -643,4 +643,25 @@ video {
     color: #31313f;
     font-size: 28rpx;
 }
-  
+.store-icon{
+    width: 40rpx;
+    height:40rpx;
+}
+.time-icon{
+    width:26rpx;
+    height:26rpx;
+    /* padding: 0 2rpx; */
+}
+
+
+
+
+
+
+
+
+
+
+
+
+

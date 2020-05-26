@@ -24,17 +24,22 @@
             view(class="item" v-for="(item,index) in list" :key="index")
                 view(class="item-top")
                     view(class="df ai-center jcsb")
-                        view(class="textFlow s-name") {{item.storeName}}
+                        view(class="df ai-center")
+                            image(class="store-icon mr20" src="../../static/image/other/store.png")
+                            view(class="textFlow s-name") {{item.storeName}}
                         view(class="s-state") {{item.status}}
                     view(class="df ai-center jcsb cor_9 fs24 mt15")
-                        view() 下单时间
+                        view(class="df ai-center")
+                            view(class="df jcc ai-center mr20" style="width:40rpx;height:40rpx")
+                                image(class="time-icon" src="../../static/image/other/time.png")
+                            view() 下单时间
                         view() {{item.createTime}}
                 view(class="item-center")
                     view(class="df jcsb ai-center")
                         view(class="df")
                             view(class="ic-left") 订单号
                             view(class="cor fs24") {{item.orderSn}}
-                        view(class="copy" @tap="setClipboard(item.orderId)") 复制
+                        view(class="copy" @tap="setClipboard(item.orderSn)") 复制
                     view(class="df jcsb ai-center mt-x")
                         view(class="df ai-center")
                             view(class="ic-left") {{item.hasSelfExtract?'卖方信息':'收件人'}}
@@ -176,8 +181,8 @@ export default {
         toSearch(){
             this.page=1;
             this.status=-1;
-            this.startTime='';
-            this.endTime='';
+            // this.startTime='';
+            // this.endTime='';
             this.loadPage()
         },
         loadPage(){

@@ -42,9 +42,14 @@
                 view(class="jilu-list")
                     view(class="jilu-item bk_f" v-for="(item,index) in list" :key="index")
                         view(class="jl-item-top p25 bb1")
-                            view(class="fs28 cor fwb5") {{item.storeName}}
+                            view(class="df ai-center")
+                                image(class="store-icon mr20" src="../../static/image/other/store.png")
+                                view(class="fs28 cor fwb5") {{item.storeName}}
                             view(class="fs24 cor_9 df jcsb mt15")
-                                view() 拜访时间
+                                view(class="df ai-center")
+                                    view(class="df jcc ai-center mr20" style="width:40rpx;height:40rpx")
+                                        image(class="time-icon" src="../../static/image/other/time.png")
+                                    view() 拜访时间
                                 view() {{item.createTime}}
                         view(class="bf-xq df ai-center jcsb" @tap="showMore(item)")
                             view(class="df ai-center")
