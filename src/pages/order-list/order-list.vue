@@ -25,12 +25,12 @@
                 view(class="item-top")
                     view(class="df ai-center jcsb")
                         view(class="df ai-center")
-                            image(class="store-icon mr20" src="../../static/image/other/store.png")
+                            image(class="store-icon mr5" src="../../static/image/other/store.png")
                             view(class="textFlow s-name") {{item.storeName}}
-                        view(class="s-state") {{item.status}}
+                        view(:class="['s-state',item.status=='已取消'?'cor_9':'']") {{item.status}}
                     view(class="df ai-center jcsb cor_9 fs24 mt15")
                         view(class="df ai-center")
-                            view(class="df jcc ai-center mr20" style="width:40rpx;height:40rpx")
+                            view(class="df jcc ai-center mr5" style="width:40rpx;height:40rpx")
                                 image(class="time-icon" src="../../static/image/other/time.png")
                             view() 下单时间
                         view() {{item.createTime}}

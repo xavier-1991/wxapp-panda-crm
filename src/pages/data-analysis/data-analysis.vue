@@ -12,10 +12,22 @@
             view(:class="['nav',state=='yesterday'?'curr-nav':'']" @tap="changType('yesterday')") 昨日
             view(:class="['nav',state=='month'?'curr-nav':'']" @tap="changType('month')") 本月
             view(:class="['nav',state=='lastMonth'?'curr-nav':'']" @tap="changType('lastMonth')") 上月
-            view(:class="['nav',state=='custom'?'curr-nav':'']" @tap="changType('custom')") 选择时间
-        view(class="df ai-center fs24 pb10" v-if="showTimeRange")
-            view(class="cor_9") {{startTime}} - {{endTime}}
-            view(@tap="reChooseTime" class="reChoose") 重新选择
+            view(:class="['nav',state=='custom'?'curr-nav':'']" @tap="changType('custom')") 自定义
+        view(class="df ai-center fs24 pb10" v-show="state=='custom'")
+            //- view(class="df ai-center fs24 pb10" v-if="showTimeRange")
+                //- view(class="cor_9") {{startTime}} - {{endTime}}
+                //- view(@tap="reChooseTime" class="reChoose") 重新选择
+            view(class="re")
+                view(class="df ai-center jcsb date-box")
+                    input(class="date-inp" v-model="startTime" placeholder='开始时间' :disabled='true' placeholder-class='data-pl')
+                    image(src="../../static/image/other/date.png" class="date-img")
+                picker(class="date-picker" :value="startTime" mode="date" @change="chooseStart") 11
+            view(class="date-line")
+            view(class="re")
+                view(class="df ai-center jcsb date-box")
+                    input(class="date-inp" v-model="endTime" placeholder='结束时间' :disabled='true' placeholder-class='data-pl')
+                    image(src="../../static/image/other/date.png" class="date-img")
+                picker(class="date-picker" :value="endTime" mode="date" @change="chooseEnd") 12
         view()
             view(class="fwb5 cor fs28 mt10") 数据统计
             view(class="data re mt30")
@@ -92,23 +104,26 @@ export default {
                 series: []
             },
             // 时间选择器插件数据
-            showPicker: false,
-            type: "range",
-            value: ""
+            // showPicker: false,
+            // type: "range",
+            // value: ""
         };
     },
-    components: {
-        MxDatePicker
-    },
+    // components: {
+    //     MxDatePicker
+    // },
     onLoad() {
         this.loadData();
     },
     onPullDownRefresh() {
-        this.state = "today";
-        this.startTime = "";
-        this.endTime = "";
-        this[this.type] = ""; //清除上次时间选择在日历上的样式渲染
+        // this.state = "today";
+        // this.startTime = "";
+        // this.endTime = "";
+        // this[this.type] = ""; //清除上次时间选择在日历上的样式渲染
         this.loadData();
+    },
+    onUnload(){
+        canvaPie = null;
     },
     methods: {
         loadData() {
@@ -116,7 +131,7 @@ export default {
             let params = {
                 type: this.state
             };
-            if (this.state == "custom" && this.startTime) {
+            if (this.state == "custom" && this.startTime && this.endTime) {
                 params.startTime = this.startTime;
                 params.endTime = this.endTime;
             }
@@ -136,19 +151,10 @@ export default {
                 return;
             }
             this.state = state;
-            if (this.state == "custom") {
-                if (this.startTime) {
-                    //点击自定义 已经选过时间：显示已选时间，并加载数据
-                    this.showTimeRange = true;
-                    this.loadData();
-                } else {
-                    //点击自定义 没选过时间：隐藏已选时间，弹起时间控件
-                    this.showTimeRange = false;
-                    this.showPicker = true;
-                }
-            } else {
-                //点击除自定义以外的：隐藏已选时间, 并加载数据
-                this.showTimeRange = false;
+            if (this.state == "custom" && this.startTime && this.endTime) {
+                this.loadData();               
+            }
+            if(this.state != "custom"){
                 this.loadData();
             }
         },
@@ -250,21 +256,33 @@ export default {
             });
         },
         // 时间选择器方法
-        onShowDatePicker(type) {
-            //显示
-            this.type = type;
-            this.showPicker = true;
-            this.value = this[type];
+        // onShowDatePicker(type) {
+        //     //显示
+        //     this.type = type;
+        //     this.showPicker = true;
+        //     this.value = this[type];
+        // },
+        // onSelected(e) {
+        //     //选择
+        //     this.showPicker = false;
+        //     if (e) {
+        //         this[this.type] = e.value;
+        //         this.startTime = e.value[0];
+        //         this.endTime = e.value[1];
+        //         this.showTimeRange = true;
+        //         this.loadData();
+        //     }
+        // },
+        chooseStart(e){
+            this.startTime=e.detail.value;
+            if(this.startTime&&this.endTime){
+                 this.loadData();
+            }
         },
-        onSelected(e) {
-            //选择
-            this.showPicker = false;
-            if (e) {
-                this[this.type] = e.value;
-                this.startTime = e.value[0];
-                this.endTime = e.value[1];
-                this.showTimeRange = true;
-                this.loadData();
+        chooseEnd(e){
+            this.endTime=e.detail.value;
+            if(this.startTime&&this.endTime){
+                 this.loadData();
             }
         }
     }

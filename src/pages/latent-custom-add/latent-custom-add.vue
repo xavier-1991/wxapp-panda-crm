@@ -40,7 +40,7 @@
             view(class="fs28 cor mt30") 未注册原因
             view(class="df area-wrap mt15")
                 image(class="edit" src="../../static/image/other/edit.png")
-                textarea(v-model="params.unregisteredReason" placeholder-class='pl2')
+                textarea(v-model="params.unregisteredReason" placeholder-class='pl2' placeholder='请输入未注册原因')
         view(style="padding:68rpx 108rpx 0;" @tap="toSubmit")
             view(class="btn-default") 保存
 </template>

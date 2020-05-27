@@ -14,17 +14,17 @@
                 view(class="item" v-for="(item,index) in list" :key="index" @tap="toAdd('edit',item.storeId)")
                     view(class="df jcsb")
                         view(class="df ai-center")
-                            image(class="store-icon mr20" src="../../static/image/other/store.png")
+                            image(class="store-icon mr5" src="../../static/image/other/store.png")
                             view(class="fs28 cor textFlow store-name") {{item.storeName}}
                         view(class="fs24 cor_9") 距离{{item.distance}}
                     view(class="df jcsb ai-end")
                         view(class="fs24 cor_9")
                             view(class="df ai-center")
-                                view(class="df jcc ai-center mr20" style="width:40rpx;height:40rpx")
+                                view(class="df jcc ai-center mr5" style="width:40rpx;height:40rpx")
                                     image(class="time-icon" src="../../static/image/other/person.png")
                                 view() {{item.contacts}} {{item.mobile}}
                             view(class="df ai-center")
-                                view(class="df jcc ai-center mr20" style="width:40rpx;height:40rpx")
+                                view(class="df jcc ai-center mr5" style="width:40rpx;height:40rpx")
                                     image(class="time-icon" src="../../static/image/other/addr.png")
                                 view() {{item.address}}
                         view(class="df")
