@@ -5,7 +5,7 @@
                 view(class="df jcsb input-wrap")
                     view(class="df ai-center")
                         image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
-                        input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
+                        input(class="search-inp" placeholder="请输入门店名称或手机号" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
                     image(v-if="keywords" @tap="clear" class="search-del" src="../../static/image/search/del.png")
                 view(class="add" @tap="toAdd") 新增
             view(class="df jcsb mt20")
@@ -39,6 +39,7 @@
                     view(class="df jcsb mt30")
                         view(class="btn0" @tap="toEdit(item.storeId)") 编辑
                         view(class="btn0 btn1" @tap="toVisit(item)") 拜访
+        view(v-if="!list.length" class="no-list") 暂无此类门店
         //- 筛选框
         view(class="mask" v-if="filterShow" @tap.stop="toHideFilter")
             view(class="filter" @tap.stop="emptyFun")
@@ -144,7 +145,7 @@ export default {
         // }
     },
     onPullDownRefresh() {
-        this.paramsReset();
+        this.paramsReset2();
         this.loadPage();
     },
     onReachBottom() {
@@ -280,7 +281,6 @@ export default {
         },
         toSearch(){
             this.page=1;
-            this.state='all';
             this.startTime='';
             this.endTime='';
             this.storeType=-1;
@@ -321,6 +321,17 @@ export default {
         paramsReset(){
             this.page=1;
             this.state='all';
+            this.startTime='';
+            this.endTime='';
+            this.keywords='';
+            this.storeType=-1;
+            this.storeStatus=-1;
+            this.audit=-1;
+            this.orderOrNot=-1;
+            this[this.type]=""; //清除上次时间选择在日历上的样式渲染
+        },
+        paramsReset2(){
+            this.page=1;
             this.startTime='';
             this.endTime='';
             this.keywords='';

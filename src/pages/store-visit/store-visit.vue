@@ -146,6 +146,7 @@ export default {
             this.storeName=visitStore.storeName;
             this.params.storeId=visitStore.storeId;
             this.params.deviation=visitStore.distance;
+            this.params.isLeads=visitStore.isLeads||0;
             this.$globalData.visitStore=null;
         }
 
@@ -276,7 +277,7 @@ export default {
                 return;
             }
             util.showLoadingDialog("提交中");
-            http.uploadFiles(this.imageArr, res => {
+            http.uploadFiles(this.imageArr,{type:'visit'}, res => {
                 console.log("res", res);
                 this.params.photos = res.map(ele => {
                     return ele.imgUrl;

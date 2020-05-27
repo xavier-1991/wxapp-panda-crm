@@ -759,7 +759,7 @@ export default {
 </script>
 
 <style lang="scss" scoped>
-$z-index: 100;
+$z-index: 10000;
 $cell-spacing: 20upx;
 $calendar-size: 630upx;
 $calendar-item-size: 90upx;
@@ -809,10 +809,10 @@ $calendar-item-size: 90upx;
     &-modal {
         background: #fff;
         position: absolute;
-        top: 50%;
+        top: 10%;
         left: (750upx - $calendar-size) / 2;
         width: $calendar-size;
-        transform: translateY(-50%);
+        // transform: translateY(-50%);
         box-shadow: 0 0 20px 0 rgba(0, 0, 0, 0.1);
         border-radius: 12upx;
 

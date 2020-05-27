@@ -29,7 +29,7 @@
                                 view(class="df jcc ai-center mr20" style="width:40rpx;height:40rpx")
                                     image(class="time-icon" src="../../static/image/other/addr.png")
                                 view() {{item.address}}
-                    view(v-if="!store.list.length&&store.list.hasGet" class="no-list") 暂无相关数据
+                    view(v-if="!store.list.length" class="no-list") 暂无相关数据
                 //- 潜在客户
                 view(class="list" v-else)
                     view(class="item" v-for="(item,index) in latent.list" :key="index" @tap="chooseStore(item)")
@@ -51,7 +51,7 @@
                             view(class="df")
                                 image(@tap.stop="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")
                                 image(@tap.stop="toMap(item)" class="btn-img" src="../../static/image/other/latent-addr.png")
-                    view(v-if="!latent.list.length&&latent.list.hasGet" class="no-list") 暂无相关数据
+                    view(v-if="!latent.list.length" class="no-list") 暂无相关数据
 </template>
 <script>
 const urls = require("../../utils/urls");
@@ -189,6 +189,9 @@ export default {
             this.loadList();
         },
         chooseStore(item){
+            if(this.tab==2){
+                item.isLeads=1;
+            }
             this.$globalData.visitStore=item;
             uni.navigateBack();
         },

@@ -11,7 +11,7 @@
                     image(src="../../static/image/login/phone.png")
                     input(v-model="mobile" placeholder="请输入手机号" type="number" maxlength="11")
                 view(class="item df ai-center")
-                    image(src="../../static/image/login/safe.png")
+                    image(src="../../static/image/login/lock.png")
                     input(v-model="password" placeholder="请输入密码" type="password")
             view(class="btn_wrap")
                 view(class="btn-default" @tap="toLogin") 登录

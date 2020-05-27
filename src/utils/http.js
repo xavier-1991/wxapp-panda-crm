@@ -130,7 +130,7 @@ function isHttpMethodSupport(methodName) {
     return false;
 }
 //文件上传
-function uploadFiles(filePathArr, success,fail) {
+function uploadFiles(filePathArr,otherData, success,fail) {
     let header = {};
     let userInfo = pd.getUserInfo();
     header['Authorization'] = `Bearer ${userInfo.token}`;  
@@ -146,6 +146,7 @@ function uploadFiles(filePathArr, success,fail) {
             let param = {
                 url: `${urls.URL_API_BASE}${urls.UPLOADS}`,
                 header: header,
+                formData: otherData,
                 filePath: path,
                 name: 'file',
                 success: (res) => {

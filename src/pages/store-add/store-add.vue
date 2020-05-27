@@ -264,7 +264,7 @@ export default {
                 }
             };
             util.showLoadingDialog('上传中');
-            http.uploadFiles(upArr, result => {
+            http.uploadFiles(upArr,{type:'store'}, result => {
                 result.forEach((ele,i) => {
                     let type = arr[i].type;
                     this.params[type]=ele.imgUrl;

@@ -11,7 +11,7 @@
                     input(v-model="verificationCode" placeholder="请输入验证码" type="number")
                     view(class="code" @tap="toSendCode") {{codeStr}}
                 view(class="item df ai-center")
-                    image(src="../../static/image/login/safe.png")
+                    image(src="../../static/image/login/lock.png")
                     input(v-model="password" placeholder="请输入新密码" type="password")
             view(class="btn_wrap")
                 view(class="btn-default" @tap="toSubmit") 登录

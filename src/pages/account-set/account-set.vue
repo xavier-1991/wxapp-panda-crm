@@ -9,7 +9,7 @@
                 view(class="df jcfe mt30")
                     view(class="forgot" @tap="toResetPassword()") 修改密码
                
-        tabbar(currTabbar="set")
+        tabbar(currTabbar="account-set")
 
 
 </template>

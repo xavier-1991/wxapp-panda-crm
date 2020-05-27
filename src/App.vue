@@ -16,7 +16,7 @@ export default {
             //是否iphonx
             uni.getSystemInfo({
                 success: res => {
-                    if (res.model.indexOf("iPhone X") !== -1) {
+                    if (res.model.indexOf("iPhone X") !== -1||res.model.indexOf("iPhone11") !== -1||res.model.indexOf("iPhone12") !== -1) {
                         this.$globalData.isipx = true;
                     } else {
                         this.$globalData.isipx = false;

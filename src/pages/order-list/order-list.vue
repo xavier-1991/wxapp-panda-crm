@@ -14,8 +14,8 @@
                     view(class="df ai-center")
                         view(:class="['nav-item',status==-1?'curr-item':'']" @tap="changeType(-1)") 全部订单
                         view(:class="['nav-item',status==0?'curr-item':'']" @tap="changeType(0)") 待付款
-                        view(:class="['nav-item',status==20?'curr-item':'']" @tap="changeType(20)") 待发货
-                        view(:class="['nav-item',status==60?'curr-item':'']" @tap="changeType(60)") 待收货/待自提
+                        view(:class="['nav-item',status==20?'curr-item':'']" @tap="changeType(20)") 待发货/待自提
+                        view(:class="['nav-item',status==60?'curr-item':'']" @tap="changeType(60)") 待收货
                         view(:class="['nav-item',status==70?'curr-item':'']" @tap="changeType(70)") 待评价
                         view(:class="['nav-item',status==10?'curr-item':'']" @tap="changeType(10)") 已取消
                         view(:class="['nav-item',status==30?'curr-item':'']" @tap="changeType(30)") 退款中
@@ -124,6 +124,9 @@ export default {
         MxDatePicker
     },
     onLoad(){
+        
+    },
+    onShow(){
         // 首页带参数跳转过来
         let tabbarPramas=this.$globalData.tabbarPramas;
         if(tabbarPramas){
@@ -131,8 +134,12 @@ export default {
                 this.status=tabbarPramas.status*1
             }
             this.$globalData.tabbarPramas=null;
+            this.loadPage();
+        }else{
+            if(!this.hasData){
+                this.loadPage();
+            }
         }
-        this.loadPage();
     },
     onPullDownRefresh() {
         this.page=1;
@@ -180,7 +187,7 @@ export default {
         },
         toSearch(){
             this.page=1;
-            this.status=-1;
+            // this.status=-1;
             // this.startTime='';
             // this.endTime='';
             this.loadPage()
