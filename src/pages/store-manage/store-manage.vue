@@ -15,8 +15,12 @@
                 view(:class="['nav',state=='custom'?'curr-nav':'']" @tap="changeState('custom')") 自定义
                 view(:class="['nav','df','jcc','ai-center',storeType!=-1||storeStatus!=-1||audit!=-1||orderOrNot!=-1?'curr-nav':'']" @tap="toFilter")
                     text 筛选
-                    image(v-if="filterShow" class="arrow ml5" src="../../static/image/arrow-up.png")
-                    image(v-else class="arrow ml5" src="../../static/image/arrow-down.png")
+                    view(v-if="storeType!=-1||storeStatus!=-1||audit!=-1||orderOrNot!=-1")
+                        image(v-if="filterShow" class="arrow ml5" src="../../static/image/arrow-up-blue.png")
+                        image(v-else class="arrow ml5" src="../../static/image/arrow-down.png-blue")
+                    view(v-else)
+                        image(v-if="filterShow" class="arrow ml5" src="../../static/image/arrow-up.png")
+                        image(v-else class="arrow ml5" src="../../static/image/arrow-down.png")
         //- 门店列表
         view(class="list")
             view(class="item df" v-for="(item,index) in list" :key="index")
