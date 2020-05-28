@@ -21,13 +21,13 @@
                 view(class="df ai-center jcsb date-box")
                     input(class="date-inp" v-model="startTime" placeholder='开始时间' :disabled='true' placeholder-class='data-pl')
                     image(src="../../static/image/other/date.png" class="date-img")
-                picker(class="date-picker" :value="startTime" mode="date" @change="chooseStart") 11
+                picker(class="date-picker" :value="startTime" :end="dateNow" mode="date" @change="chooseStart") 11
             view(class="date-line")
             view(class="re")
                 view(class="df ai-center jcsb date-box")
                     input(class="date-inp" v-model="endTime" placeholder='结束时间' :disabled='true' placeholder-class='data-pl')
                     image(src="../../static/image/other/date.png" class="date-img")
-                picker(class="date-picker" :value="endTime" mode="date" @change="chooseEnd") 12
+                picker(class="date-picker" :value="endTime" :end="dateNow" mode="date" @change="chooseEnd") 12
         view()
             view(class="fwb5 cor fs28 mt10") 数据统计
             view(class="data re mt30")
@@ -83,7 +83,7 @@ const util = require("../../utils/util");
 const http = require("../../utils/http");
 const pd = require("../../utils/pd");
 import uCharts from "../../components/u-charts/u-charts";
-import MxDatePicker from "../../components/mx-datepicker/mx-datepicker.vue";
+// import MxDatePicker from "../../components/mx-datepicker/mx-datepicker.vue";
 var _self;
 var canvaPie = null;
 export default {
@@ -96,6 +96,7 @@ export default {
             state: "today",
             startTime: "",
             endTime: "",
+            dateNow:pd.dateNowStr(),
             //图表数据
             cWidth: "",
             cHeight: "",

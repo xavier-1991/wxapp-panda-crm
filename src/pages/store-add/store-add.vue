@@ -12,7 +12,7 @@
         view(class="item df ai-center jcsb")
             view(class="item-left") 证件信息
             view(class="item-right")
-                input(v-model="params.organizationCode" class="inp" placeholder="统一社会信用代码 (组织机构代码)" placeholder-class='pl')
+                input(v-model="params.organizationCode" class="inp" placeholder="必填，统一社会信用代码 (组织机构代码)" placeholder-class='pl')
         view(class="item df ai-center jcsb")
             view(class="item-left") 经营品牌
             view(class="item-right")
@@ -255,6 +255,9 @@ export default {
             let arr=[];
             let upArr=[];
             for (let attr in this.localSrc) {
+                console.log(attr,this.localSrc[attr])
+                console.log(attr,this.params[attr])
+                console.log(this.localSrc[attr] != this.params[attr])
                 if (this.localSrc[attr] != this.params[attr]) {
                     upArr.push(this.localSrc[attr])
                     arr.push({
@@ -263,11 +266,17 @@ export default {
                     })
                 }
             };
-            util.showLoadingDialog('上传中');
+            console.log('upArr',upArr);
+            if(upArr.length){
+                util.showLoadingDialog('上传中');
+            }else{
+                util.showLoadingDialog('保存中');
+            }
             http.uploadFiles(upArr,{type:'store'}, result => {
                 result.forEach((ele,i) => {
                     let type = arr[i].type;
                     this.params[type]=ele.imgUrl;
+                    this.localSrc[type]=ele.imgUrl;
                 });
                 let reUrl,method;
                 if(this.pageType=='add'){

@@ -56,10 +56,18 @@ function getPosition() {
 function formatNumber(num){
     return Math.round(num * 1000000) / 1000000
 }
+function dateNowStr(){
+    let now=new Date();
+    let y=now.getFullYear();
+    let m = now.getMonth() + 1 < 10 ? '0' + (now.getMonth() + 1) : '' + (now.getMonth() + 1);
+    let d=now.getDate();
+    return `${y}-${m}-${d}`;
+}
 
 module.exports={
     getUserInfo,
     storeUserInfo,
     getPosition,
-    isLogin
+    isLogin,
+    dateNowStr
 }

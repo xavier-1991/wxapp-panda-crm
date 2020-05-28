@@ -90,12 +90,6 @@
             "style": {
                 "navigationBarTitleText": "新增客户"
             }
-        },
-        {
-            "path": "pages/pie/pie",
-            "style": {
-                "navigationBarTitleText": "pie"
-            }
         }
     ],
     "globalStyle": {
