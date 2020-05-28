@@ -86,6 +86,10 @@ export default {
                 "GET"
             ).then(data => {
                 this.params=data.detail;
+                if(!data.detail.lat){
+                    delete this.params['lat'];
+                    delete this.params['lng'];
+                }
                 util.hideLoadingDialog();
             })
         },

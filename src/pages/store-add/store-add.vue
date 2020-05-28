@@ -86,8 +86,8 @@ export default {
                 brands: "",
                 trueName: "",
                 mobile: "",
-                lat: "",
-                lng: "",
+                // lat: "",
+                // lng: "",
                 address: "", //详细地址
                 locationAddr:'',  //定位详细地址
                 // storeFacedPic:'',   //门脸照
@@ -130,6 +130,11 @@ export default {
                 {type:'edit'}
             ).then(data => {
                 this.params=data.detail;
+                this.params.locationAddr=data.detail.storeAddress;
+                if(!data.detail.lat){
+                    delete this.params['lat'];
+                    delete this.params['lng'];
+                }
                 this.localSrc.storeFacedPic=this.params.storeFacedPic;
                 this.localSrc.storeEnvironPic=this.params.storeEnvironPic;
                 this.localSrc.licensePic=this.params.licensePic;
@@ -297,7 +302,7 @@ export default {
                         util.showToast('编辑成功');
                     }
                     setTimeout(() => {
-                        uni.navigateBack();
+                        util.reLaunch('store-manage');
                     }, 1500);
                 })
             });

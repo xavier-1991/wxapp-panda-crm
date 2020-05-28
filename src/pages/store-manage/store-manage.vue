@@ -140,13 +140,6 @@ export default {
                 this.loadPage();
             // }
         }
-        // if(!this.lat){
-        //     pd.getPosition().then((res)=>{
-        //         this.lat=res.latitude;
-        //         this.lng=res.longitude;
-        //         this.loadPage();
-        //     })
-        // }
     },
     onPullDownRefresh() {
         this.paramsReset2();
@@ -224,7 +217,7 @@ export default {
             this.filterShow=!this.filterShow;
         },
         changeState(state){
-            this.keywords='';
+            // this.keywords='';
             this.filterShow=false;
             if(this.state===state&&this.state!='custom'){
                 return;
@@ -234,6 +227,9 @@ export default {
                 this.onShowDatePicker('range');
             }else{
                 this.page=1
+                this.startTime='';
+                this.endTime='';
+                this[this.type]=""; //清除上次时间选择在日历上的样式渲染
                 this.loadPage()
             }
         },
@@ -285,13 +281,14 @@ export default {
         },
         toSearch(){
             this.page=1;
-            this.state="all";
-            this.startTime='';
-            this.endTime='';
-            this.storeType=-1;
-            this.storeStatus=-1;
-            this.audit=-1;
-            this.orderOrNot=-1;
+            // this.state="all";
+            // this.startTime='';
+            // this.endTime='';
+            // this[this.type]="";
+            // this.storeType=-1;
+            // this.storeStatus=-1;
+            // this.audit=-1;
+            // this.orderOrNot=-1;
             this.loadPage()
         },
         //隐藏筛选框，阻止冒泡
@@ -337,13 +334,13 @@ export default {
         },
         paramsReset2(){
             this.page=1;
-            this.startTime='';
-            this.endTime='';
-            this.storeType=-1;
-            this.storeStatus=-1;
-            this.audit=-1;
-            this.orderOrNot=-1;
-            this[this.type]=""; //清除上次时间选择在日历上的样式渲染
+            // this.startTime='';
+            // this.endTime='';
+            // this.storeType=-1;
+            // this.storeStatus=-1;
+            // this.audit=-1;
+            // this.orderOrNot=-1;
+            // this[this.type]=""; //清除上次时间选择在日历上的样式渲染
         }
     }
 }

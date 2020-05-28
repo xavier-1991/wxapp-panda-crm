@@ -144,10 +144,10 @@ export default {
     onPullDownRefresh() {
         this.page=1;
         // this.status=-1;
-        this.startTime='';
-        this.endTime='';
+        // this.startTime='';
+        // this.endTime='';
         // this.keywords='';
-        this[this.type]=""; //清除上次时间选择在日历上的样式渲染
+        // this[this.type]=""; //清除上次时间选择在日历上的样式渲染
         this.loadPage();
     },
     onReachBottom() {
@@ -188,8 +188,9 @@ export default {
         toSearch(){
             this.page=1;
             // this.status=-1;
-            this.startTime='';
-            this.endTime='';
+            // this.startTime='';
+            // this.endTime='';
+            // this[this.type]="";
             this.loadPage()
         },
         loadPage(){
