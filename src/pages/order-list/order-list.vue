@@ -65,12 +65,12 @@
                         view(class="pb25")
                             viwe(class="df fs24 cor_9")
                                 view() 供货商
-                                view(class="w500 textFlow ml40") 南京雨宝巴拉巴拉巴拉圭公司
+                                view(class="w500 textFlow ml40") {{item.goodsData.list[0].shopName}}
                             view(class="df jcsb mt25" v-for="(gItem,idx) in item.goodsData.list" :key="idx")
                                 image(:src="gItem.goodsPic" class="good-img bk_gray")
                                 view(class="df fldc jcsb good-right")
                                     view()
-                                        view(class="fs24 cor fwb5 textFlow w400") {{gItem.shopName}}
+                                        view(class="fs24 cor fwb5 textFlow w400") {{gItem.goodsName}}
                                         view(class="df jcsb mt15")
                                             view(class="fs24 cor_9 fwb4") {{gItem.goodsSpec}}
                                             view(class="fs24 co fwb4") x{{gItem.goodsNum}}
@@ -146,7 +146,7 @@ export default {
         // this.status=-1;
         this.startTime='';
         this.endTime='';
-        this.keywords='';
+        // this.keywords='';
         this[this.type]=""; //清除上次时间选择在日历上的样式渲染
         this.loadPage();
     },
@@ -188,8 +188,8 @@ export default {
         toSearch(){
             this.page=1;
             // this.status=-1;
-            // this.startTime='';
-            // this.endTime='';
+            this.startTime='';
+            this.endTime='';
             this.loadPage()
         },
         loadPage(){

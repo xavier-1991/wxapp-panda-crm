@@ -13,7 +13,7 @@
                 view(:class="['nav',state=='today'?'curr-nav':'']" @tap="changeState('today')") 今日
                 view(:class="['nav',state=='month'?'curr-nav':'']" @tap="changeState('month')") 本月
                 view(:class="['nav',state=='custom'?'curr-nav':'']" @tap="changeState('custom')") 自定义
-                view(class="nav df jcc ai-center" @tap="toFilter")
+                view(:class="['nav','df','jcc','ai-center',storeType!=-1||storeStatus!=-1||audit!=-1||orderOrNot!=-1?'curr-nav':'']" @tap="toFilter")
                     text 筛选
                     image(v-if="filterShow" class="arrow ml5" src="../../static/image/arrow-up.png")
                     image(v-else class="arrow ml5" src="../../static/image/arrow-down.png")
@@ -281,6 +281,7 @@ export default {
         },
         toSearch(){
             this.page=1;
+            this.state="all";
             this.startTime='';
             this.endTime='';
             this.storeType=-1;
@@ -334,7 +335,6 @@ export default {
             this.page=1;
             this.startTime='';
             this.endTime='';
-            this.keywords='';
             this.storeType=-1;
             this.storeStatus=-1;
             this.audit=-1;

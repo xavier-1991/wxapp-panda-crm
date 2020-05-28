@@ -91,9 +91,6 @@
                     text(class="cor fs28 fwb4") 让员工快捷管理门店\n查看数据统计及订单信息
                 view(class="btn_wrap2")
                     view(class="btn-default" @tap="toLogin") 立即进入
-
-
-                    
 </template>
 <script>
 const urls = require("../../utils/urls");
