@@ -54,7 +54,7 @@
                         view(class="bf-xq df ai-center jcsb" @tap="showMore(item)")
                             view(class="df ai-center")
                                 view(class="bar")
-                                view(class="fs28 cor ml15 fwb4") 商品
+                                view(class="fs28 cor ml15 fwb4") 拜访详情
                             image(v-if="item.showMore" class="arrow" src="../../static/image/arrow-up.png")
                             image(v-else class="arrow" src="../../static/image/arrow-down.png")
                         view(class="pl25 moreMain" v-if="item.showMore")

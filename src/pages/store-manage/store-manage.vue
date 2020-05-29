@@ -3,7 +3,7 @@
         view(class="search-wrap")
             view(class="df jcsb ai-center")
                 view(class="df jcsb input-wrap")
-                    view(class="df ai-center")
+                    view(class="df ai-center inp-left")
                         image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
                         input(class="search-inp" placeholder="请输入门店名称或手机号" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
                     image(v-if="keywords" @tap="clear" class="search-del" src="../../static/image/search/del.png")
@@ -17,7 +17,7 @@
                     text 筛选
                     view(v-if="storeType!=-1||storeStatus!=-1||audit!=-1||orderOrNot!=-1")
                         image(v-if="filterShow" class="arrow ml5" src="../../static/image/arrow-up-blue.png")
-                        image(v-else class="arrow ml5" src="../../static/image/arrow-down.png-blue")
+                        image(v-else class="arrow ml5" src="../../static/image/arrow-down-blue.png")
                     view(v-else)
                         image(v-if="filterShow" class="arrow ml5" src="../../static/image/arrow-up.png")
                         image(v-else class="arrow ml5" src="../../static/image/arrow-down.png")

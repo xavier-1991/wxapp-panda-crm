@@ -75,6 +75,13 @@ export default {
         if(this.type=="edit"){
             this.id=options.id;
             this.getCustomDetail();
+            uni.setNavigationBarTitle({
+                title: '编辑用户'
+            });
+        }else{
+            uni.setNavigationBarTitle({
+                title: '新增用户'
+            });
         }
     },
     onShow() {},

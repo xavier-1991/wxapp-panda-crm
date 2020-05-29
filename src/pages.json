@@ -88,7 +88,7 @@
         {
             "path": "pages/latent-custom-add/latent-custom-add",
             "style": {
-                "navigationBarTitleText": "新增客户"
+                "navigationBarTitleText": ""
             }
         }
     ],

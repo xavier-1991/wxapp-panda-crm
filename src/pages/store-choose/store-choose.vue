@@ -7,7 +7,7 @@
             view(class="search1")
                 view(class="df jcsb ai-center")
                     view(class="df jcsb input-wrap")
-                        view(class="df ai-center")
+                        view(class="df ai-center inp-left")
                             image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
                             input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
                         image(@tap="clear" v-if="keywords" class="search-del" src="../../static/image/search/del.png")
