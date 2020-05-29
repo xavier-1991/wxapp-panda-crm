@@ -88,7 +88,7 @@
                         view(class="all-money ml10") ￥{{item.totalPrice}}
             view(v-if="!list.length" class="no-list") 暂无此类订单
         //- 时间选择器
-        <mx-date-picker :show="showPicker" :type="type" :value="value" :show-tips="true" color="#1677FE" :showHoliday="false" begin-text="开始" end-text="结束"  @confirm="onSelected" @cancel="onSelected" />
+        <mx-date-picker :show="showPicker" :type="type" :value="value" :show-tips="true" color="#1677FE" :showHoliday="false" begin-text="开始" end-text="结束"  @confirm="onSelected" @cancel="onSelected" @reset="onReset" />
         //- tabbar 
         tabbar(currTabbar="order-list")
 
@@ -134,6 +134,11 @@ export default {
                 this.status=tabbarPramas.status*1
             }
             this.$globalData.tabbarPramas=null;
+            // this.status=-1;
+            this.startTime='';
+            this.endTime='';
+            this.keywords='';
+            this[this.type]=""; //清除上次时间选择在日历上的样式渲染
             this.loadPage();
         }else{
             if(!this.hasData){
@@ -171,6 +176,7 @@ export default {
             this.page=1
             this.loadPage()
         },
+        //时间选择
         onShowDatePicker(type){//显示
             this.type = type;
             this.showPicker = true;
@@ -184,6 +190,11 @@ export default {
                 this.endTime=e.value[1];
                 this.loadPage();
             }
+        },
+        onReset(){
+            this.startTime='';
+            this.endTime='';
+            this[this.type]="";
         },
         toSearch(){
             this.page=1;

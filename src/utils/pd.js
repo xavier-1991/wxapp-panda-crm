@@ -25,6 +25,19 @@ function getPosition() {
             // isHighAccuracy:true,
         }).then((resArr)=>{
             console.log('位置获取成功', resArr)
+            if (resArr[0]){
+                uni.hideLoading();
+                uni.showModal({
+                    content: "请允许微信访问位置信息",
+                    showCancel: false,
+                    confirmText: "确定",
+                    confirmColor: "#52a2d8",
+                    success(){
+                        uni.navigateBack();
+                    }
+                });
+                console.log('位置获取失败00', err);
+            }
             if (resArr[1]) {
                 resArr[1].latitude = formatNumber(resArr[1].latitude);
                 resArr[1].longitude = formatNumber(resArr[1].longitude);
@@ -32,6 +45,8 @@ function getPosition() {
             } else {
                 return Promise.reject('error');
             }
+        }).catch((err)=>{
+           
         })
     }).catch((err)=>{
         console.log('位置获取失败',err)

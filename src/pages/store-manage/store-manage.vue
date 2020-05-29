@@ -72,7 +72,7 @@
                     view(class="f-btn f-btn1" @tap.stop="toReset") 重置
                     view(class="f-btn f-btn2" @tap.stop="toSure") 确定
         //- 时间选择器
-        <mx-date-picker :show="showPicker" :type="type" :value="value" :show-tips="true" color="#1677FE" :showHoliday="false" begin-text="开始" end-text="结束"  @confirm="onSelected" @cancel="onSelected" />
+        <mx-date-picker :show="showPicker" :type="type" :value="value" :show-tips="true" color="#1677FE" :showHoliday="false" begin-text="开始" end-text="结束"  @confirm="onSelected" @cancel="onSelected" @reset="onReset" />
         //- tabbar 
         tabbar(currTabbar="store-manage")
 
@@ -271,6 +271,11 @@ export default {
                 this.endTime=e.value[1];
                 this.loadPage();
             }
+        },
+        onReset(){
+            this.startTime='';
+            this.endTime='';
+            this[this.type]="";
         },
         //搜索部分
         clear(){

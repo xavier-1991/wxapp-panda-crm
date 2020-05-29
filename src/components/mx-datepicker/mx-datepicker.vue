@@ -4,6 +4,7 @@
         <!-- 日期选择器 -->
         <view v-if="type!='time'"
               class="picker-modal">
+            <image src="../../static/image/other/del2.png" mode="" class="delImg" @click="onCancel" />
             <view class="picker-modal-header">
                 <view class="picker-icon picker-icon-zuozuo"
                       :hover-stay-time="100"
@@ -100,7 +101,7 @@
                     <view class="picker-btn"
                           :hover-stay-time="100"
                           hover-class="picker-btn-active"
-                          @click="onCancel">取消</view>
+                          @click="onReset">重置</view>
                     <view class="picker-btn"
                           :style="{color}"
                           :hover-stay-time="100"
@@ -715,6 +716,10 @@ export default {
                 }
             }
             this.$emit("confirm", result);
+        },
+        onReset(){
+            this.setValue('');
+            this.$emit("reset");
         }
     },
     computed: {
@@ -999,5 +1004,15 @@ $calendar-item-size: 90upx;
 
 .picker-icon-youyou:before {
     content: "\e642";
+}
+.delImg{
+    position: absolute;
+    right:0;
+    top:-58rpx;
+    // transform: translate(50%,-50%);
+    // background: skyblue;
+    width: 48rpx;
+    height: 48rpx;
+
 }
 </style>
