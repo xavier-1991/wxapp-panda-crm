@@ -139,6 +139,12 @@ export default {
         this.loadData();
         this.loadStoreList();
     },
+    onShareAppMessage: function (res) {
+        return {
+        title: '潘德妈妈crm小程序',
+        path: '/pages/index/index'
+        }
+    },
     methods: {
         scrolltolower() {
             if (this.showLoadMoreLoading) {
