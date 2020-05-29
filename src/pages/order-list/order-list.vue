@@ -195,6 +195,9 @@ export default {
             this.startTime='';
             this.endTime='';
             this[this.type]="";
+            setTimeout(() => {
+                this.showPicker = false;
+            }, 400);
         },
         toSearch(){
             this.page=1;
