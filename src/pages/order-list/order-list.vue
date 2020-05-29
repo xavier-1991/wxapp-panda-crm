@@ -197,6 +197,8 @@ export default {
             this[this.type]="";
             setTimeout(() => {
                 this.showPicker = false;
+                this.page=1;
+                this.loadPage();
             }, 400);
         },
         toSearch(){

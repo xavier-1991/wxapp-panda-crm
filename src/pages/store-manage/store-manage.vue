@@ -117,7 +117,10 @@ export default {
         MxDatePicker
     },
     onLoad(options){
-        this.loadPage();
+        let tabbarPramas=this.$globalData.tabbarPramas;
+        if(!tabbarPramas){
+            this.loadPage();
+        }
     },
     onShow(){
         // 首页带参数跳转过来
@@ -278,6 +281,8 @@ export default {
             this[this.type]="";
             setTimeout(() => {
                 this.showPicker = false;
+                this.page=1;
+                this.loadPage();
             }, 400);
         },
         //搜索部分
