@@ -95,6 +95,8 @@
                         view(class="fs28 cor") 问题记录问题记录问题记录问题记录问题记录问题记录问题记录
                     view(class="df mt30 jcsb mt30")
                         view(class="h-btn") 查看
+                        view(class="h-btn") 跟踪
+                        view(class="h-btn") 结果
 
 </template>
 <script>
