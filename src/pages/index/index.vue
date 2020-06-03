@@ -141,7 +141,7 @@ export default {
     },
     onShareAppMessage: function (res) {
         return {
-        title: '潘德妈妈crm小程序',
+        title: '欢迎进入潘德妈妈CRM小程序 ',
         path: '/pages/index/index'
         }
     },
