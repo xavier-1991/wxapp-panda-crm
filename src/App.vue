@@ -158,6 +158,6 @@ export default {
 };
 </script>
 
-<style>
-    @import "./App.css"
+<style lang="stylus">
+    @import "./App";
 </style>

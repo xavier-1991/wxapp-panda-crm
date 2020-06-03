@@ -78,11 +78,16 @@ function dateNowStr(){
     let d=now.getDate();
     return `${y}-${m}-${d}`;
 }
+function getRoleType(){
+    //0 业务员 1 省区经理 2 销售支持
+    return uni.getStorageSync('userinfo').roleType||0;
+}
 
 module.exports={
     getUserInfo,
     storeUserInfo,
     getPosition,
     isLogin,
-    dateNowStr
+    dateNowStr,
+    getRoleType
 }

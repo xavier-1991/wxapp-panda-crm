@@ -90,6 +90,24 @@
             "style": {
                 "navigationBarTitleText": ""
             }
+        },
+        {
+            "path": "pages/store-move/store-move",
+            "style": {
+                "navigationBarTitleText": "门店转移"
+            }
+        },
+        {
+            "path": "pages/store-move-people/store-move-people",
+            "style": {
+                "navigationBarTitleText": "转移门店"
+            }
+        },
+        {
+            "path": "pages/work-order/work-order",
+            "style": {
+                "navigationBarTitleText": "工单"
+            }
         }
     ],
     "globalStyle": {

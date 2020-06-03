@@ -19,13 +19,13 @@
                 //- view(@tap="reChooseTime" class="reChoose") 重新选择
             view(class="re")
                 view(class="df ai-center jcsb date-box")
-                    input(class="date-inp" v-model="startTime" placeholder='开始时间' :disabled='true' placeholder-class='data-pl')
+                    input(class="date-inp" v-model="startTime" placeholder='开始时间' :disabled='true' placeholder-class='date-pl')
                     image(src="../../static/image/other/date.png" class="date-img")
                 picker(class="date-picker" :value="startTime" :end="dateNow" mode="date" @change="chooseStart") 11
             view(class="date-line")
             view(class="re")
                 view(class="df ai-center jcsb date-box")
-                    input(class="date-inp" v-model="endTime" placeholder='结束时间' :disabled='true' placeholder-class='data-pl')
+                    input(class="date-inp" v-model="endTime" placeholder='结束时间' :disabled='true' placeholder-class='date-pl')
                     image(src="../../static/image/other/date.png" class="date-img")
                 picker(class="date-picker" :value="endTime" :end="dateNow" mode="date" @change="chooseEnd") 12
         view()

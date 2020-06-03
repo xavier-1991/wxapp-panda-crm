@@ -7,9 +7,10 @@
                 image(class="banner" src="../../static/image/index/banner.png")
                 view(class="re header-main")
                     image(class="bg0" src="../../static/image/index/bg0.png")
+                    image(class="month-img" src="../../static/image/index/month-data.png")
                     view(class="data") 
-                        view(class="data-title") 本月数据
-                        view(class="df mt20")
+                        //- view(class="data-title") 本月数据
+                        view(class="df mt80")
                             view(class="data-item")
                                 view(class="item-num") {{data.newAddedOrderStoreNum}}
                                 view(class="item-text") 新增下单门店
@@ -19,8 +20,8 @@
                             view(class="data-item")
                                 view(class="item-num") {{data.monthOrderStoreCount}}
                                 view(class="item-text") 累计下单门店
-            //- 待办事项
-            view(class="section mt20")
+            //- 待办事项 (业务员显示)
+            view(class="section mt20" v-if="roleType==0")
                 view(class="title") 待办事项
                 view(class="mt15 df jcsb")
                     view(class="re todo-item" @tap="toStore('audit','0')")
@@ -44,8 +45,8 @@
                                 view(class="fs24 cor") 已注册未下单
                                 image(class="arrow-right" src="../../static/image/arrow-right.png")
                             view(class="todo-num") {{data.noOrderPlaced}}
-            //- 数据分析
-            view(class="section")
+            //- 数据分析 (业务员显示)
+            view(class="section" v-if="roleType==0")
                 view(class="title") 数据分析
                 view(class="mt15 df jcsba analysis")
                     view(class="analysis-item" @tap="toStoreVisit")
@@ -60,7 +61,24 @@
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/icon3.png")
                         view(class="fs24 cor mt10") 数据分析
-                    
+            //- 省区经理功能栏
+            view(class="section2 df jcsb" v-if="roleType==1")
+                view(class="analysis-item" @tap="toStoreMove")
+                    view(class="df jcc")
+                        image(class="icon" src="../../static/image/index/icon0.png")
+                    view(class="fs24 cor mt10") 门店转移
+                view(class="analysis-item" @tap="toLatentCustom")
+                    view(class="df jcc")
+                        image(class="icon" src="../../static/image/index/icon2.png")
+                    view(class="fs24 cor mt10") 潜在客户
+                view(class="analysis-item" @tap="toDataAnalysis")
+                    view(class="df jcc")
+                        image(class="icon" src="../../static/image/index/icon3.png")
+                    view(class="fs24 cor mt10") 数据统计
+                view(class="analysis-item" @tap="toWorkOrder")
+                    view(class="df jcc")
+                        image(class="icon" src="../../static/image/index/icon4.png")
+                    view(class="fs24 cor mt10 tac") 工单
             //- 本月新增门店
             view(class="section")
                 view(class="title") 本月新增门店
@@ -109,13 +127,15 @@ export default {
             pageTotal:0,
             showLoadMoreLoading:false,
             actionShow:false,
-            wh:0
+            wh:0,
+            roleType:0
         };
     },
     components: {
         tabbar
     },
     onLoad() {
+        this.roleType=pd.getRoleType();
         let that=this;
         uni.getSystemInfo({
             success: function (res) {
@@ -200,6 +220,12 @@ export default {
         },
         toDataAnalysis() {
             util.linkto("data-analysis");
+        },
+        toStoreMove(){
+            util.linkto("store-move");
+        },
+        toWorkOrder(){
+            util.linkto("work-order");
         },
         toLogin(){
             util.reLaunch("login");
