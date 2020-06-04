@@ -108,6 +108,24 @@
             "style": {
                 "navigationBarTitleText": "工单"
             }
+        },
+        {
+            "path": "pages/work-order-track/work-order-track",
+            "style": {
+                "navigationBarTitleText": "工单跟踪"
+            }
+        },
+        {
+            "path": "pages/work-order-result/work-order-result",
+            "style": {
+                "navigationBarTitleText": "工单结果"
+            }
+        },
+        {
+            "path": "pages/work-order-check/work-order-check",
+            "style": {
+                "navigationBarTitleText": "工单查看"
+            }
         }
     ],
     "globalStyle": {

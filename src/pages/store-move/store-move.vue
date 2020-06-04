@@ -12,17 +12,13 @@
             view(class="c-f-item df ai-center")
                 view(class="c-f-item-l") 创建时间
                 view(class="df ai-center fs24")
-                    view(class="re")
-                        view(class="df ai-center jcsb c-date-box")
-                            input(class="c-date-inp" v-model="startTime" placeholder='开始时间' :disabled='true' placeholder-class='c-date-pl')
-                            image(src="../../static/image/other/date.png" class="c-date-img")
-                        picker(class="c-date-picker" :value="startTime" :end="dateNow" mode="date" @change="chooseStart") 11
+                    view(class="df ai-center jcsb c-date-box")
+                        picker(:class="['c-date-picker',!startTime?'c-date-picker-empty':'']" :value="startTime" :end="dateNow" mode="date" @change="chooseStart") {{startTime?startTime:'开始时间'}}
+                        image(src="../../static/image/other/date.png" class="c-date-img")
                     view(class="c-date-line")
-                    view(class="re")
-                        view(class="df ai-center jcsb c-date-box")
-                            input(class="c-date-inp" v-model="endTime" placeholder='结束时间' :disabled='true' placeholder-class='c-date-pl')
-                            image(src="../../static/image/other/date.png" class="c-date-img")
-                        picker(class="c-date-picker" :value="endTime" :end="dateNow" mode="date" @change="chooseEnd") 12
+                    view(class="df ai-center jcsb c-date-box")
+                        picker(:class="['c-date-picker',!startTime?'c-date-picker-empty':'']" :value="startTime" :end="dateNow" mode="date" @change="chooseStart") {{startTime?startTime:'结束时间'}}
+                        image(src="../../static/image/other/date.png" class="c-date-img")
             view(class="c-f-item df ai-center mt25")
                 view(class="c-f-item-l") 业务员
                 view(class="c-yewu-box df ai-center")

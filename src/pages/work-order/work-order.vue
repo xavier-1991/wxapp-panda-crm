@@ -51,17 +51,13 @@
             view(class="c-f-item df ai-center pl25")
                 view(class="c-f-item-l") 创建时间
                 view(class="df ai-center fs24")
-                    view(class="re")
-                        view(class="df ai-center jcsb c-date-box")
-                            input(class="c-date-inp" v-model="startTime" placeholder='开始时间' :disabled='true' placeholder-class='c-date-pl')
-                            image(src="../../static/image/other/date.png" class="c-date-img")
-                        picker(class="c-date-picker" :value="startTime" :end="dateNow" mode="date" @change="chooseStart") 11
+                    view(class="df ai-center jcsb c-date-box")
+                        picker(:class="['c-date-picker',!startTime?'c-date-picker-empty':'']" :value="startTime" :end="dateNow" mode="date" @change="chooseStart") {{startTime?startTime:'开始时间'}}
+                        image(src="../../static/image/other/date.png" class="c-date-img")
                     view(class="c-date-line")
-                    view(class="re")
-                        view(class="df ai-center jcsb c-date-box")
-                            input(class="c-date-inp" v-model="endTime" placeholder='结束时间' :disabled='true' placeholder-class='c-date-pl')
-                            image(src="../../static/image/other/date.png" class="c-date-img")
-                        picker(class="c-date-picker" :value="endTime" :end="dateNow" mode="date" @change="chooseEnd") 12
+                    view(class="df ai-center jcsb c-date-box")
+                        picker(:class="['c-date-picker',!startTime?'c-date-picker-empty':'']" :value="startTime" :end="dateNow" mode="date" @change="chooseStart") {{startTime?startTime:'结束时间'}}
+                        image(src="../../static/image/other/date.png" class="c-date-img")
             view(class="df jcsb p25lr")
                 view(class="c-f-item df ai-center mt25")
                     view(class="c-f-item-l") 标签
@@ -78,25 +74,25 @@
                 view(class="h-item bb1")
                     view(class="df")
                         view(class="h-l df ai-center")
-                            image(class="bk_gray h-l-img" src="")
+                            image(class="h-l-img" src="../../static/image/work-order/order.png")
                             view(class="h-l-text") 订单编号
                         view(class="df")
                             view(class="fs28 cor") 12345678900987
                             view(class="h-tag h-tag2") 处理中
                     view(class="df mt30")
                         view(class="h-l df ai-center")
-                            image(class="bk_gray h-l-img" src="")
+                            image(class="h-l-img" src="../../static/image/work-order/phone-num.png")
                             view(class="h-l-text") 手机号
                         view(class="fs28 cor") 18966552541
                     view(class="df mt30")
                         view(class="h-l df ai-center ai-start")
-                            image(class="bk_gray h-l-img" src="")
+                            image(class="h-l-img" src="../../static/image/work-order/record.png")
                             view(class="h-l-text") 问题记录
                         view(class="fs28 cor") 问题记录问题记录问题记录问题记录问题记录问题记录问题记录
-                    view(class="df mt30 jcsb mt30")
-                        view(class="h-btn") 查看
-                        view(class="h-btn") 跟踪
-                        view(class="h-btn") 结果
+                    view(class="df mt30 jcfe mt30")
+                        view(class="h-btn" @tap="toCheck") 查看
+                        view(class="h-btn ml20" @tap="toTrack") 跟踪
+                        view(class="h-btn ml20" @tap="toResult") 结果
 
 </template>
 <script>
@@ -126,6 +122,15 @@ export default {
             //     this.loadRecord();
             // }
         },
+        toTrack(){
+            util.linkto('work-order-track');
+        },
+        toResult(){
+            util.linkto('work-order-result');
+        },
+        toCheck(){
+            util.linkto('work-order-check');
+        }
     }
 };
 </script>
