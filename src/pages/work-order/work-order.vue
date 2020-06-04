@@ -52,11 +52,11 @@
                 view(class="c-f-item-l") 创建时间
                 view(class="df ai-center fs24")
                     view(class="df ai-center jcsb c-date-box")
-                        picker(:class="['c-date-picker',!startTime?'c-date-picker-empty':'']" :value="startTime" :end="dateNow" mode="date" @change="chooseStart") {{startTime?startTime:'开始时间'}}
+                        picker(:class="['c-date-picker',!startTime?'c-date-picker-empty':'']" :value="startTime" :end="endTime||dateNow" mode="date" @change="chooseStart") {{startTime?startTime:'开始时间'}}
                         image(src="../../static/image/other/date.png" class="c-date-img")
                     view(class="c-date-line")
                     view(class="df ai-center jcsb c-date-box")
-                        picker(:class="['c-date-picker',!startTime?'c-date-picker-empty':'']" :value="startTime" :end="dateNow" mode="date" @change="chooseStart") {{startTime?startTime:'结束时间'}}
+                        picker(:class="['c-date-picker',!endTime?'c-date-picker-empty':'']" :value="endTime" :end="dateNow" mode="date" @change="chooseEnd") {{endTime?endTime:'结束时间'}}
                         image(src="../../static/image/other/date.png" class="c-date-img")
             view(class="df jcsb p25lr")
                 view(class="c-f-item df ai-center mt25")
@@ -104,9 +104,13 @@ export default {
     data() {
         return {
             tab:2,
+            // 历史工单
             count: 3, //随着imageArr的length改变而改变,最多传3张图
             imageArr: ['1','2'], //本地
-            keywords:''
+            keywords:'',
+            startTime: "",
+            endTime: "",
+            dateNow:pd.dateNowStr(),
         };
     },
     onLoad() {
@@ -130,6 +134,18 @@ export default {
         },
         toCheck(){
             util.linkto('work-order-check');
+        },
+        chooseStart(e){
+            this.startTime=e.detail.value;
+            // if(this.startTime&&this.endTime){
+            //      this.loadData();
+            // }
+        },
+        chooseEnd(e){
+            this.endTime=e.detail.value;
+            // if(this.startTime&&this.endTime){
+            //      this.loadData();
+            // }
         }
     }
 };

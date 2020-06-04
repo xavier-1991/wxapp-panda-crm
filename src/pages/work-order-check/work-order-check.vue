@@ -15,9 +15,8 @@
                     textarea(v-model="params.notes" placeholder-class="pl2" placeholder="请填写问题描述~")
             view(class="add-item df jcsb ai-center")
                 view(class="aw-l") 上传图片
-                view(class="df p25lr")
-                    view(class="up-img-wrap" v-for="(item,index) in imageArr" :key="index")
-                        image(:src="item" class="storeImg bk_gray" lazy-load="true" mode="aspectFill")
+                view(class="df aw-r")
+                    image(v-for="(item,index) in imageArr" :key="index" :src="item" class="up-img-wrap bk_gray" lazy-load="true" mode="aspectFill")
                    
 
 </template>

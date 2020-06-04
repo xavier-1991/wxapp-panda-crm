@@ -16,7 +16,7 @@ const pd = require("../../utils/pd");
 export default {
     data() {
         return {
-           
+            
         };
     },
     onLoad() {
