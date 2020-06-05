@@ -199,8 +199,7 @@ export default {
                 })
                 .finally(() => {
                     this.showLoadMoreLoading = false;
-                    util.hideTopLoading();
-                    uni.stopPullDownRefresh();
+                    util.hideTopLoadingStopRefresh();
                 });
         },
         toCall(phone) {
@@ -267,6 +266,8 @@ export default {
             this.cityList = this.areaList[i].city;
             this.provinceName = this.areaList[i].provinceName;
             this.provinceId = this.areaList[i].provinceCode;
+            this.cityId = 0;
+            this.cityName = "";
             this.page = 1;
             this.loadPage();
         },

@@ -339,6 +339,8 @@ export default {
             this.cityList = this.areaList[i].city;
             this.provinceName = this.areaList[i].provinceName;
             this.provinceId = this.areaList[i].provinceCode;
+            this.cityId = 0;
+            this.cityName = "";
             this.page = 1;
             this.loadPage();
         },
@@ -346,8 +348,6 @@ export default {
             let i = e.detail.value * 1;
             this.cityName = this.cityList[i].cityName;
             this.cityId = this.cityList[i].cityCode;
-            this.cityId = 0;
-            this.cityName = "";
             this.page = 1;
             this.loadPage();
         },

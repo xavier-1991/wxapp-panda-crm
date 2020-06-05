@@ -12,24 +12,43 @@
             view(:class="['nav',state=='yesterday'?'curr-nav':'']" @tap="changType('yesterday')") 昨日
             view(:class="['nav',state=='month'?'curr-nav':'']" @tap="changType('month')") 本月
             view(:class="['nav',state=='lastMonth'?'curr-nav':'']" @tap="changType('lastMonth')") 上月
-            view(:class="['nav',state=='custom'?'curr-nav':'']" @tap="changType('custom')") 自定义
-        view(class="df ai-center fs24 pb10" v-show="state=='custom'")
-            //- view(class="df ai-center fs24 pb10" v-if="showTimeRange")
-                //- view(class="cor_9") {{startTime}} - {{endTime}}
-                //- view(@tap="reChooseTime" class="reChoose") 重新选择
-            view(class="re")
-                view(class="df ai-center jcsb date-box")
-                    input(class="date-inp" v-model="startTime" placeholder='开始时间' :disabled='true' placeholder-class='date-pl')
-                    image(src="../../static/image/other/date.png" class="date-img")
-                picker(class="date-picker" :value="startTime" :end="dateNow" mode="date" @change="chooseStart") 11
-            view(class="date-line")
-            view(class="re")
-                view(class="df ai-center jcsb date-box")
-                    input(class="date-inp" v-model="endTime" placeholder='结束时间' :disabled='true' placeholder-class='date-pl')
-                    image(src="../../static/image/other/date.png" class="date-img")
-                picker(class="date-picker" :value="endTime" :end="dateNow" mode="date" @change="chooseEnd") 12
+            view(:class="['nav',state=='custom'?'curr-nav':'']" @tap="changType('custom')") 选择时间
+        //- 其他过滤条件
+        //- 时间
+        view(v-if="state=='custom'" class="c-f-item df ai-center mt25")
+            view(class="c-f-item-l") 创建时间
+            view(class="df ai-center fs24")
+                view(class="df ai-center jcsb c-date-box")
+                    picker(:class="['c-date-picker',!startTime?'c-date-picker-empty':'']" :value="startTime" :end="endTime||dateNow" mode="date" @change="chooseStart") {{startTime?startTime:'开始时间'}}
+                    image(src="../../static/image/other/date.png" class="c-date-img")
+                view(class="c-date-line")
+                view(class="df ai-center jcsb c-date-box")
+                    picker(:class="['c-date-picker',!endTime?'c-date-picker-empty':'']" :value="endTime" :end="dateNow" mode="date" @change="chooseEnd") {{endTime?endTime:'结束时间'}}
+                    image(src="../../static/image/other/date.png" class="c-date-img")
+        //- 区域
+        view(v-if="roleType" class="c-f-item df ai-center mt25")
+            view(class="c-f-item-l") 区域
+            view(class="c-yewu-box df ai-center" style="width:256rpx;")
+                picker(mode='selector' class="c-area-picker pl20 df" :range='areaList' range-key="provinceName" @change="provinceChange") 
+                    view(class="df ai-center jcsb" style="width:236rpx")
+                        view(:class="['c-area-text',provinceId?'':'c-area-text-empty']") {{provinceName?provinceName:'选择省区'}}
+                        image(class="c-y-down" src="../../static/image/arrow-down.png")
+            view(class="c-yewu-box df ai-center ml25" style="width:256rpx;")
+                picker(mode='selector' class="c-area-picker pl20 df" :range='cityList' range-key="cityName" @change="cityChange") 
+                    view(class="df ai-center jcsb" style="width:236rpx")
+                        view(:class="['c-area-text',cityId?'':'c-area-text-empty']") {{cityName?cityName:'选择城市'}}
+                        image(class="c-y-down" src="../../static/image/arrow-down.png")
+        //- 业务员
+        view(v-if="roleType" class="c-f-item df ai-center mt25")
+            view(class="c-f-item-l") 业务员
+            view(class="c-yewu-box df ai-center")
+                input(class="c-y-inp" @input="getSalesman(salesman)" v-model="salesman" placeholder="全部" placeholder-class='c-y-inp-pl')
+                picker(mode='selector' class="c-yewu-picker" :range='salesmanList' range-key="realName" @change="salesmanChange")
+                    image(class="c-y-down" src="../../static/image/arrow-down.png")
+            view(class="ml10 fs28 cor_blue p20" @tap="resetAll") 重置
+        //- 数据统计
         view()
-            view(class="fwb5 cor fs28 mt10") 数据统计
+            view(class="fwb5 cor fs28 mt25") 数据统计
             view(class="data re mt30")
                 image(src="../../static/image/index/bg-data.png")
                 view(class="data-main")
@@ -68,9 +87,6 @@
                                     view(class="or-2") {{item.data}}笔
                                 view(class="or-3") ￥{{item.totalPrice}}
                 view(v-else class="no-list") 暂无相关数据
-                   
-        //- 时间选择器
-        <mx-date-picker :show="showPicker" :type="type" :value="value" :show-tips="true" color="#1677FE" :showHoliday="false" begin-text="开始" end-text="结束"  @confirm="onSelected" @cancel="onSelected" />
         
 
             
@@ -83,7 +99,6 @@ const util = require("../../utils/util");
 const http = require("../../utils/http");
 const pd = require("../../utils/pd");
 import uCharts from "../../components/u-charts/u-charts";
-// import MxDatePicker from "../../components/mx-datepicker/mx-datepicker.vue";
 var _self;
 var canvaPie = null;
 export default {
@@ -92,35 +107,44 @@ export default {
             hasData: false,
             data: null,
             showTimeRange: false,
+            roleType: pd.getRoleType(),
             //请求参数
             state: "today",
             startTime: "",
             endTime: "",
             dateNow:pd.dateNowStr(),
+            salesmanId: 0, //业务员id
+            provinceId: 0,
+            cityId: 0,
+            // 时间选择
+            showTime: false,
+            dateNow: pd.dateNowStr(),
+            //业务员
+            salesman: "", //业务员姓名
+            salesmanList: [], //展示的业务员列表
+            salesmanListAll: [], //全部业务员列表
+            //省市
+            provinceName: "",
+            cityName: "",
+            areaList: [], //区域数据总表
+            cityList: [],
             //图表数据
             cWidth: "",
             cHeight: "",
             pixelRatio: 1,
             chartData: {
                 series: []
-            },
-            // 时间选择器插件数据
-            // showPicker: false,
-            // type: "range",
-            // value: ""
+            }
         };
     },
-    // components: {
-    //     MxDatePicker
-    // },
     onLoad() {
         this.loadData();
+        if (pd.getRoleType()) {
+            this.getSalesman();
+            this.getArea();
+        }
     },
     onPullDownRefresh() {
-        // this.state = "today";
-        // this.startTime = "";
-        // this.endTime = "";
-        // this[this.type] = ""; //清除上次时间选择在日历上的样式渲染
         this.loadData();
     },
     onUnload(){
@@ -135,6 +159,12 @@ export default {
             if (this.state == "custom" && this.startTime && this.endTime) {
                 params.startTime = this.startTime;
                 params.endTime = this.endTime;
+            }
+            if (this.roleType) {
+                // 省区经理 销售支持所需数据
+                params.salesmanId = this.salesmanId;
+                params.provinceId = this.provinceId;
+                params.cityId = this.cityId;
             }
             http.request(urls.STATISTICS, "GET", params)
                 .then(data => {
@@ -256,35 +286,82 @@ export default {
                 series: series
             });
         },
-        // 时间选择器方法
-        // onShowDatePicker(type) {
-        //     //显示
-        //     this.type = type;
-        //     this.showPicker = true;
-        //     this.value = this[type];
-        // },
-        // onSelected(e) {
-        //     //选择
-        //     this.showPicker = false;
-        //     if (e) {
-        //         this[this.type] = e.value;
-        //         this.startTime = e.value[0];
-        //         this.endTime = e.value[1];
-        //         this.showTimeRange = true;
-        //         this.loadData();
-        //     }
-        // },
-        chooseStart(e){
-            this.startTime=e.detail.value;
-            if(this.startTime&&this.endTime){
-                 this.loadData();
+        // 时间选择
+        chooseStart(e) {
+            this.startTime = e.detail.value;
+            if (this.startTime && this.endTime) {
+                this.page = 1;
+                this.loadData();
             }
         },
-        chooseEnd(e){
-            this.endTime=e.detail.value;
-            if(this.startTime&&this.endTime){
-                 this.loadData();
+        chooseEnd(e) {
+            this.endTime = e.detail.value;
+            if (this.startTime && this.endTime) {
+                this.page = 1;
+                this.loadData();
             }
+        },
+        // 业务员筛选
+        getSalesman(salesman) {
+            if (!salesman && this.salesmanListAll.length) {
+                this.salesmanList = JSON.parse(
+                    JSON.stringify(this.salesmanListAll)
+                );
+                return;
+            }
+            let params = {};
+            if (salesman) {
+                params.keywords = salesman;
+            }
+            http.request(urls.SALESMAN_LIST, "GET", params).then(data => {
+                this.salesmanList = data.list;
+                if (!salesman) {
+                    this.salesmanListAll = data.list;
+                }
+            });
+        },
+        salesmanChange(e) {
+            let i = e.detail.value * 1;
+            this.salesman = this.salesmanList[i].realName;
+            this.salesmanId = this.salesmanList[i].id;
+            this.page = 1;
+            this.loadData();
+        },
+        // 区域筛选
+        getArea(salesman) {
+            http.request(urls.AREA_LIST, "GET").then(data => {
+                this.areaList = data.list;
+            });
+        },
+        provinceChange(e) {
+            let i = e.detail.value * 1;
+            this.cityList = this.areaList[i].city;
+            this.provinceName = this.areaList[i].provinceName;
+            this.provinceId = this.areaList[i].provinceCode;
+            this.cityId = 0;
+            this.cityName = "";
+            this.page = 1;
+            this.loadData();
+        },
+        cityChange(e) {
+            let i = e.detail.value * 1;
+            this.cityName = this.cityList[i].cityName;
+            this.cityId = this.cityList[i].cityCode;
+            this.page = 1;
+            this.loadData();
+        },
+        // 重置（全部条件）
+        resetAll() {
+            this.state="today";
+            this.startTime = "";
+            this.endTime = "";
+            this.salesmanId = 0;
+            this.provinceId = 0;
+            this.cityId = 0;
+            this.salesman = "";
+            this.provinceName = "";
+            this.cityName = "";
+            this.loadData();
         }
     }
 };

@@ -1,5 +1,5 @@
 <template lang="pug">
-    view
+    view(class="wrap")
         //- 已登录
         view(v-if="hasData" style="padding-bottom:200rpx")
             //- 头部信息
@@ -45,14 +45,14 @@
                                 view(class="fs24 cor") 已注册未下单
                                 image(class="arrow-right" src="../../static/image/arrow-right.png")
                             view(class="todo-num") {{data.noOrderPlaced}}
-            //- 数据分析 (业务员显示)
-            view(class="section" v-if="roleType==0")
-                view(class="title") 数据分析
+            //- 省区经理功能栏
+            view(class="section" v-if="roleType==1")
+                //- view(class="title") 数据分析
                 view(class="mt15 df jcsba analysis")
-                    view(class="analysis-item" @tap="toStoreVisit")
+                    view(class="analysis-item" @tap="toStoreMove")
                         view(class="df jcc")
-                            image(class="icon" src="../../static/image/index/icon1.png")
-                        view(class="fs24 cor mt10") 门店拜访
+                            image(class="icon" src="../../static/image/index/icon0.png")
+                        view(class="fs24 cor mt10") 门店转移
                     view(class="analysis-item" @tap="toLatentCustom")
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/icon2.png")
@@ -60,13 +60,13 @@
                     view(class="analysis-item" @tap="toDataAnalysis")
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/icon3.png")
-                        view(class="fs24 cor mt10") 数据分析
-            //- 省区经理功能栏
-            view(class="section2 df jcsb" v-if="roleType==1")
-                view(class="analysis-item" @tap="toStoreMove")
+                        view(class="fs24 cor mt10") 数据统计
+            //- 数据分析 (业务员显示)
+            view(class="section2 df jcsb" v-if="roleType==0")
+                view(class="analysis-item" @tap="toStoreVisit")
                     view(class="df jcc")
-                        image(class="icon" src="../../static/image/index/icon0.png")
-                    view(class="fs24 cor mt10") 门店转移
+                        image(class="icon" src="../../static/image/index/icon1.png")
+                    view(class="fs24 cor mt10") 门店拜访
                 view(class="analysis-item" @tap="toLatentCustom")
                     view(class="df jcc")
                         image(class="icon" src="../../static/image/index/icon2.png")
@@ -91,13 +91,13 @@
                                     view(:class="['btn-item',item.audit===1?'':'btn-item-gray']") {{item.auditStr}}
                                     view(v-if="item.audit===1" :class="['btn-item',item.orderOrNot===1?'':'btn-item-gray']") {{item.orderOrNotStr}}
                                 image(class="arrow-right" src="../../static/image/arrow-right.png")
+                        view(v-if="showLoadMoreLoading")
+                            bottom-bar(bottomType="loading")
+                        view(v-if="isReachBottom")
+                            bottom-bar(bottomType="noMore")
                         view(v-if="!list.length" class="no-list") 暂无数据
-               
-            
-            
             //- tabbar 
             tabbar(currTabbar="index")
-        
         //- 引导页
         view(v-if="actionShow" class="wrap re" :style="{'height':wh+'px'}")
             image(class="bg" mode="widthFix" src="../../static/image/login/login-bg.png")
@@ -116,6 +116,7 @@ const util = require("../../utils/util");
 const http = require("../../utils/http");
 const pd = require("../../utils/pd");
 import tabbar from "../../components/tabbar/tabbar.vue";
+import bottomBar from "../../components/template/bottom-bar/bottom-bar";
 export default {
     data() {
         return {
@@ -126,13 +127,15 @@ export default {
             count:0,
             pageTotal:0,
             showLoadMoreLoading:false,
+            isReachBottom: false,
             actionShow:false,
             wh:0,
             roleType:0
         };
     },
     components: {
-        tabbar
+        tabbar,
+        "bottom-bar": bottomBar
     },
     onLoad() {
         this.roleType=pd.getRoleType();
@@ -171,7 +174,7 @@ export default {
                 return;
             }
             if (this.page >= this.pageTotal) {
-                util.showToast('没有更多了');
+                this.isReachBottom = true;
                 return;
             }
             this.page += 1;
@@ -190,9 +193,13 @@ export default {
             })
         },
         loadStoreList(){
-            util.showTopLoading();
+            if (this.page == 1) {
+                this.isReachBottom = false;
+            } else {
+                this.showLoadMoreLoading = true;
+                util.showTopLoading();
+            }
             let params={
-                type:'month',
                 page:this.page
             }
             http.request(
@@ -209,6 +216,7 @@ export default {
                     this.list=[...this.list,...data.list];
                 }
             }).finally(()=>{
+                this.showLoadMoreLoading = false;
                 util.hideTopLoading();
             })
         },

@@ -29,6 +29,10 @@
                                 view(class="df jcc ai-center mr5" style="width:40rpx;height:40rpx")
                                     image(class="time-icon" src="../../static/image/other/addr.png")
                                 view() {{item.address}}
+                    view(v-if="showLoadMoreLoading")
+                        bottom-bar(bottomType="loading")
+                    view(v-if="isReachBottom")
+                        bottom-bar(bottomType="noMore")
                     view(v-if="!store.list.length" class="no-list") 暂无相关数据
                 //- 潜在客户
                 view(class="list" v-else)
@@ -51,6 +55,10 @@
                             view(class="df")
                                 image(@tap.stop="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")
                                 image(@tap.stop="toMap(item)" class="btn-img" src="../../static/image/other/latent-addr.png")
+                    view(v-if="showLoadMoreLoading")
+                        bottom-bar(bottomType="loading")
+                    view(v-if="isReachBottom")
+                        bottom-bar(bottomType="noMore")
                     view(v-if="!latent.list.length" class="no-list") 暂无相关数据
 </template>
 <script>
@@ -58,6 +66,7 @@ const urls = require("../../utils/urls");
 const util = require("../../utils/util");
 const http = require("../../utils/http");
 const pd = require("../../utils/pd");
+import bottomBar from "../../components/template/bottom-bar/bottom-bar";
 export default {
     data() {
         return {
@@ -77,12 +86,16 @@ export default {
                 hasGet:false 
             },
             showLoadMoreLoading: false,
+            isReachBottom: false,
             tab: 1,
             lat: "",
             lng: "",
             keywords: "",
             tabStr:"store"
         };
+    },
+    components: {
+        "bottom-bar": bottomBar
     },
     onLoad() {
         
@@ -111,7 +124,7 @@ export default {
             return;
         }
         if (this[this.tabStr].page >= this[this.tabStr].pageTotal) {
-            util.showToast('没有更多了');
+            this.isReachBottom = true;
             return;
         }
         this[this.tabStr].page += 1;
@@ -125,6 +138,7 @@ export default {
             this.keywords="";
             this.tabStr=tab==1?'store':'latent';
             this.tab = tab;
+            this.isReachBottom = false;
             if(!this[this.tabStr].hasGet){
                 this.loadList();
             }
@@ -132,10 +146,11 @@ export default {
         loadList() {
             if (this[this.tabStr].page == 1) {
                 util.showLoadingDialog("加载中");
+                this.isReachBottom = false;
             } else {
+                this.showLoadMoreLoading = true;
                 util.showTopLoading();
             }
-            this.showLoadMoreLoading = true;
             let reUrl, tabStr, params;
             params = {
                 lat: this.lat,

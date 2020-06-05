@@ -290,11 +290,15 @@ export default {
         changeState(state){
             // this.keywords='';
             this.filterShow=false;
-            if(this.state===state&&this.state!='custom'){
+            if(this.state===state){
                 return;
             }
             this.state=state;
             if(this.state=='custom'){
+                this.startTime='';
+                this.endTime='';
+                this.page=1;
+                this.list=[];
                 this.showTime=true;
             }else{
                 this.page=1
@@ -463,6 +467,8 @@ export default {
             this.cityList=this.areaList[i].city;
             this.provinceName=this.areaList[i].provinceName;
             this.provinceId=this.areaList[i].provinceCode;
+            this.cityId = 0;
+            this.cityName = "";
             this.page=1
             this.loadPage();
         },
