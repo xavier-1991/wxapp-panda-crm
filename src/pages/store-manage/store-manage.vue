@@ -25,6 +25,7 @@
                         image(v-if="filterShow" class="arrow ml5" src="../../static/image/arrow-up.png")
                         image(v-else class="arrow ml5" src="../../static/image/arrow-down.png")
             //- 其他过滤条件
+            //- 时间
             view(class="c-f-item df ai-center mt25" v-if="showTime")
                 view(class="c-f-item-l") 创建时间
                 view(class="df ai-center fs24")
@@ -35,21 +36,27 @@
                     view(class="df ai-center jcsb c-date-box")
                         picker(:class="['c-date-picker',!endTime?'c-date-picker-empty':'']" :value="endTime" :end="dateNow" mode="date" @change="chooseEnd") {{endTime?endTime:'结束时间'}}
                         image(src="../../static/image/other/date.png" class="c-date-img")
+            //- 区域
             view(v-if="roleType" class="c-f-item df ai-center mt25")
                 view(class="c-f-item-l") 区域
                 view(class="c-yewu-box df ai-center" style="width:256rpx;")
-                    picker(mode='selector' class="c-date-picker pl20" :range='range' range-key="name" @change="provinceChange") 选择省区
-                    image(class="c-y-down" src="../../static/image/arrow-down.png" @tap="qqq")
+                    picker(mode='selector' class="c-area-picker pl20 df" :range='areaList' range-key="provinceName" @change="provinceChange") 
+                        view(class="df ai-center jcsb" style="width:236rpx")
+                            view(:class="['c-area-text',provinceId?'':'c-area-text-empty']") {{provinceName?provinceName:'选择省区'}}
+                            image(class="c-y-down" src="../../static/image/arrow-down.png")
                 view(class="c-yewu-box df ai-center ml25" style="width:256rpx;")
-                    input(class="c-y-inp" placeholder="全部" placeholder-class='c-y-inp-pl')
-                    image(class="c-y-down" src="../../static/image/arrow-down.png")
+                    picker(mode='selector' class="c-area-picker pl20 df" :range='cityList' range-key="cityName" @change="cityChange") 
+                        view(class="df ai-center jcsb" style="width:236rpx")
+                            view(:class="['c-area-text',cityId?'':'c-area-text-empty']") {{cityName?cityName:'选择城市'}}
+                            image(class="c-y-down" src="../../static/image/arrow-down.png")
+            //- 业务员
             view(v-if="roleType" class="c-f-item df ai-center mt25")
                 view(class="c-f-item-l") 业务员
                 view(class="c-yewu-box df ai-center")
-                    image(class="c-y-search-img" src="../../static/image/search/search.png" @tap="getSalesman(salesman)")
-                    input(class="c-y-inp" v-model="salesman" placeholder="全部" placeholder-class='c-y-inp-pl')
-                    image(class="c-y-down" src="../../static/image/arrow-down.png" @tap="getSalesman")
-                view(class="ml10 fs28 cor_blue p20") 重置
+                    input(class="c-y-inp" @input="getSalesman(salesman)" v-model="salesman" placeholder="全部" placeholder-class='c-y-inp-pl')
+                    picker(mode='selector' class="c-yewu-picker" :range='salesmanList' range-key="realName" @change="salesmanChange")
+                        image(class="c-y-down" src="../../static/image/arrow-down.png")
+                view(class="ml10 fs28 cor_blue p20" @tap="resetAll") 重置
         //- 门店列表
         view(class="list")
             view(class="item df" v-for="(item,index) in list" :key="index")
@@ -69,9 +76,16 @@
                         view(class="df")
                             image(@tap="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")
                             image(@tap="toMap(item)" class="btn-img" src="../../static/image/other/latent-addr.png")
-                    view(class="df jcsb mt30")
-                        view(class="btn0" @tap="toEdit(item.storeId)") 编辑
-                        view(class="btn0 btn1" @tap="toVisit(item)") 拜访
+                    view(class="df jcfe mt30")
+                        view(v-if="!roleType" class="btn0" @tap="toEdit(item.storeId)") 编辑
+                        view(v-if="!roleType" class="btn0 btn1 ml25" @tap="toVisit(item)") 拜访
+                        view(v-if="roleType&&item.audit" class="btn0" @tap="toCheck(item.storeId)") 查看
+                        view(v-if="roleType&&!item.audit" class="btn0 btn2" @tap="toStoreAudit(item.storeId)") 审核
+
+            view(v-if="showLoadMoreLoading")
+                bottom-bar(bottomType="loading")
+            view(v-if="isReachBottom")
+                bottom-bar(bottomType="noMore")
         view(v-if="!list.length" class="no-list") 暂无此类门店
         //- 筛选框
         view(class="mask" v-if="filterShow" @tap.stop="toHideFilter" @touchmove.stop='preventTouchMove')
@@ -110,6 +124,7 @@ const urls = require('../../utils/urls');
 const util = require('../../utils/util');
 const http = require('../../utils/http');
 const pd = require('../../utils/pd');
+import bottomBar from "../../components/template/bottom-bar/bottom-bar"
 import tabbar from "../../components/tabbar/tabbar.vue";
 export default {
     data(){
@@ -120,6 +135,7 @@ export default {
             count:0,
             pageTotal:0,
             showLoadMoreLoading:false,
+            isReachBottom:false,
             filterShow:false,
             //请求参数
             page:1,
@@ -143,24 +159,26 @@ export default {
             salesmanList:[], //展示的业务员列表
             salesmanListAll:[], //全部业务员列表
             //省市
-            range:[{
-                name:'安徽',
-                id:'111'
-            },
-            {
-                name:'江苏',
-                id:'222'
-            }]
+            provinceName:'',
+            cityName:'',
+            areaList:[],  //区域数据总表
+            cityList:[]
         }
     },
     components:{
-        tabbar
+        tabbar,
+        'bottom-bar': bottomBar
     },
     onLoad(options){
         let tabbarPramas=this.$globalData.tabbarPramas;
         if(!tabbarPramas){
             this.loadPage();
         }
+        if(pd.getRoleType()){
+            this.getSalesman();
+            this.getArea();
+        }
+        
     },
     onShow(){
         // 首页带参数跳转过来
@@ -193,11 +211,10 @@ export default {
             return;
         }
         if (this.page >= this.pageTotal) {
-            util.showToast('没有更多了');
+            this.isReachBottom=true;
             return;
         }
         this.page += 1;
-        util.showTopLoading();
         this.loadPage();
     },
     methods: {
@@ -208,9 +225,7 @@ export default {
             //参数配置
             let params={
                 page:this.page,
-                type:this.state,
-                // lat:this.lat+'',
-                // lng:this.lng+''
+                type:this.state
             }
             if(this.keywords){
                 params.keywords=this.keywords;
@@ -233,12 +248,20 @@ export default {
             if(this.orderOrNot!=-1){
                 params.orderOrNot=this.orderOrNot;
             }
+            if(this.roleType){
+                // 省区经理 销售支持所需数据
+                params.salesmanId=this.salesmanId;
+                params.provinceId=this.provinceId;
+                params.cityId=this.cityId;
+            }
             //其他配置
-            this.showLoadMoreLoading=true;
+            // this.showLoadMoreLoading=true;
             if(this.page==1){
                 util.showLoadingDialog('加载中')
+                this.isReachBottom=0;
             }else{
-                util.showTopLoading()
+                util.showTopLoading();
+                this.showLoadMoreLoading=true;
             }
             //发送请求
             http.request(
@@ -309,12 +332,14 @@ export default {
         chooseStart(e){
             this.startTime=e.detail.value;
             if(this.startTime&&this.endTime){
+                this.page=1;
                 this.loadPage();
             }
         },
         chooseEnd(e){
             this.endTime=e.detail.value;
             if(this.startTime&&this.endTime){
+                this.page=1;
                 this.loadPage();
             }
         },
@@ -344,6 +369,14 @@ export default {
         toVisit(item){
             util.linkto('store-visit',`id=${item.storeId}`);
         },
+        //查看门店
+        toCheck(id){
+            util.linkto('store-check',`type=check&id=${id}`);
+        },
+        //审核门店
+        toStoreAudit(id){
+            util.linkto('store-check',`type=audit&id=${id}`);
+        },
         // 打电话，打开地图
         toCall(phone){
             wx.makePhoneCall({
@@ -368,7 +401,13 @@ export default {
             this.storeStatus=-1;
             this.audit=-1;
             this.orderOrNot=-1;
-            this[this.type]=""; //清除上次时间选择在日历上的样式渲染
+
+            this.salesmanId=0;
+            this.provinceId=0;
+            this.cityId=0;
+            this.salesman='';
+            this.provinceName='';
+            this.cityName='';
         },
         paramsReset2(){
             this.page=1;
@@ -386,19 +425,58 @@ export default {
             if(salesman){
                 params.keywords=salesman
             }
-            util.showLoadingDialog('加载中');
             http.request(
                 urls.SALESMAN_LIST,
                 "GET",
                 params
             ).then(data => {
-                
-                this.salesmanListAll=data.list;
-                util.hideLoadingDialog();
+                this.salesmanList=data.list;
+                if(!salesman){
+                    this.salesmanListAll=data.list;
+                }
+            })
+        },
+        salesmanChange(e){
+            let i=e.detail.value*1;
+            this.salesman=this.salesmanList[i].realName;
+            this.salesmanId=this.salesmanList[i].id;
+            this.page=1
+            this.loadPage();
+
+        },
+        // salesmanCancel(){
+        //     this.salesman='';
+        //     this.salesmanId=0;
+        //     this.loadPage();
+        // },
+        // 区域筛选
+        getArea(salesman){
+            http.request(
+                urls.AREA_LIST,
+                "GET"
+            ).then(data => {
+                this.areaList=data.list;
             })
         },
         provinceChange(e){
-            console.log(e)
+            let i=e.detail.value*1;
+            this.cityList=this.areaList[i].city;
+            this.provinceName=this.areaList[i].provinceName;
+            this.provinceId=this.areaList[i].provinceCode;
+            this.page=1
+            this.loadPage();
+        },
+        cityChange(e){
+            let i=e.detail.value*1;
+            this.cityName=this.cityList[i].cityName;
+            this.cityId=this.cityList[i].cityCode;
+            this.page=1
+            this.loadPage();
+        },
+        // 重置（全部条件）
+        resetAll(){
+            this.paramsReset();
+            this.loadPage();
         }
     }
 }

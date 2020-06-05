@@ -40,6 +40,12 @@
             }
         },
         {
+            "path": "pages/store-check/store-check",
+            "style": {
+                "navigationBarTitleText": ""
+            }
+        },
+        {
             "path": "pages/order-list/order-list",
             "style": {
                 "navigationBarTitleText": "订单",

@@ -23,7 +23,9 @@ var urls = {
     STORE_DETAIL: 'api/store/{0}',
     VISITED: 'api/visited/',
     SELECT_STORE: 'api/visited/select-store',
-    SALESMAN_LIST: 'api/common/salesman-list'
+    SALESMAN_LIST: 'api/common/salesman-list',
+    AREA_LIST: 'api/common/area-list',
+    COMMON_REVIEW: 'api/common/review',
 };
 
 
