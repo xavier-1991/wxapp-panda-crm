@@ -137,7 +137,6 @@ export default {
                     setTimeout(() => {
                         util.linkto('store-manage')
                     }, 1500);
-                    
                 })
             })
             

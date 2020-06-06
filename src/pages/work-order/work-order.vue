@@ -8,26 +8,26 @@
             view(class="add-w")
                 view(class="add-item df jcsb ai-center")
                     view(class="aw-l") 订单编号
-                    input(class="aw-r aw-inp" placeholder="选填，请输入订单编号" placeholder-class="aw-inp-pl")
-                view(class="add-item df jcsb ai-center")
+                    input(v-model="orderSn" class="aw-r aw-inp" placeholder="选填，请输入订单编号" placeholder-class="aw-inp-pl")
+                view(class="add-item df jcsb ai-center" type="number")
                     view(class="aw-l") 手机号
-                    input(class="aw-r aw-inp" type="number" maxlength="11" placeholder="选填，请输入手机号" placeholder-class="aw-inp-pl")
+                    input(v-model="mobile" class="aw-r aw-inp" type="number" maxlength="11" placeholder="选填，请输入手机号" placeholder-class="aw-inp-pl")
                 view(class="add-item df jcsb ai-center")
                     view(class="aw-l") 问题标签
                     view(class="aw-r df jcsb")
-                        view(class="aw-tag") 破损/发错货
-                        view(class="aw-tag") 无理由退货
-                        view(class="aw-tag curr-aw-tag") 其他问题
+                        view(@tap="chooseLabel(item)" :class="['aw-tag',labelId==item.key?'curr-aw-tag':'']" v-for="(item,index) in labelList" :key="index") {{item.value}}
+                        //- view(class="aw-tag") 无理由退货
+                        //- view(class="aw-tag curr-aw-tag") 其他问题
                 view(class="add-item df jcsb ai-center")
                     view(class="aw-l") 
                         text(class="fs28" style="color:#FF662E;") *
                         text 问题记录
                     view(class="df area-wrap aw-r")
-                        image(v-if="!params.notes" class="edit fls0" src="../../static/image/other/edit.png")
-                        textarea(v-model="params.notes" placeholder-class="pl2" placeholder="请填写问题描述~")
+                        image(v-if="!issues" class="edit fls0" src="../../static/image/other/edit.png")
+                        textarea(v-model="issues" placeholder-class="pl2" placeholder="请填写问题描述~")
                 view(class="add-item df jcsb ai-center")
                     view(class="aw-l") 上传图片
-                    view(class="df p25lr")
+                    view(class="df p25lr" style="width:514rpx;")
                         view(class="up-img-wrap re" v-for="(item,index) in imageArr" :key="index")
                             image(:src="item" class="storeImg" lazy-load="true" mode="aspectFill" class="up-img bk_")
                             image(@tap="delImage"
@@ -37,7 +37,7 @@
                             image(class="camera" src="../../static/image/store/camera.png")
                             view(class="mt5 fs20 cor") 上传图片
             view(class="add-btn-wrap bt1 df jcsb")
-                view(class="add-btn") 保存
+                view(class="add-btn" @tap="toSend") 保存
                 view(class="add-btn add-btn2") 保存并发放
         //- 历史工单
         view(v-else class="his-w")
@@ -103,10 +103,17 @@ const pd = require("../../utils/pd");
 export default {
     data() {
         return {
-            tab:2,
-            // 历史工单
+            tab:1,
+            //新增工单
+            orderSn:'',
+            mobile:'',
+            issues:'',
+            labelId:-1,
+            labelList:[],
             count: 3, //随着imageArr的length改变而改变,最多传3张图
-            imageArr: ['1','2'], //本地
+            imageArr: [], //本地
+            photos:[],//线上
+            // 历史工单
             keywords:'',
             startTime: "",
             endTime: "",
@@ -114,10 +121,11 @@ export default {
         };
     },
     onLoad() {
-       
+        this.getLabel();
     },
     methods: {
-       changeNav(type) {
+        //切换选项卡
+        changeNav(type) {
             if (this.tab == type) {
                 return;
             }
@@ -126,6 +134,103 @@ export default {
             //     this.loadRecord();
             // }
         },
+        /****************   新增工单   *******************/
+        // 获取标签
+        getLabel(salesman) {
+            http.request(urls.LABEL_LIST, "GET").then(data => {
+                this.labelList = data.list;
+            });
+        },
+        // 切换标签
+        chooseLabel(item){
+            console.log(item)
+            this.labelId=item.key;
+        },
+        
+        // 图片上传相关
+        chooseImage() {
+            uni.chooseImage({
+                count: this.count,
+                sizeType: ["compressed"],
+                success: res => {
+                    this.imageArr = [...this.imageArr, ...res.tempFilePaths];
+                    this.count = 3 - this.imageArr.length;
+                }
+            });
+        },
+        delImage(index) {
+            this.imageArr.splice(index, 1);
+            this.count = 3 - this.imageArr.length;
+        },
+        toSend() {
+            if (this.labelId===-1) {
+                util.showToast("请选择问题标签");
+                return;
+            }
+            if (!this.issues.trim()) {
+                util.showToast("请填写问题记录");
+                return;
+            }
+            if (!this.imageArr.length) {
+                util.showToast("请上选择图片");
+                return;
+            }
+            let params={
+                labelId:this.labelId,
+                issues:this.issues
+            };
+            if(this.orderSn.trim()){
+                params.orderSn=this.orderSn.trim();
+            }
+            if (this.mobile && !util.checkPhone(this.mobile)) {
+                util.showToast("请输入正确格式的手机号或者不填写手机号");
+                return;
+            }
+            if(this.mobile && util.checkPhone(this.mobile)){
+                params.mobile=this.mobile;
+            }
+            let onlineArr=[]; //线上图片数组
+            let underlineArr=[]; //线下图片数组
+            this.imageArr.forEach((item,i)=>{
+                if(item.indexOf('wxfile')<0){
+                    onlineArr.push(item);
+                }else{
+                    underlineArr.push(item);
+                }
+            })
+            util.showLoadingDialog("提交中");
+            console.log('underlineArr',underlineArr)
+            if(underlineArr.length>0){
+                http.uploadFiles(underlineArr,{type:'visit'}, res => {
+                    let resArr = res.map(ele => {
+                        return ele.imgUrl;
+                    });
+                    this.photos=[...onlineArr,...resArr];
+                    this.imageArr=JSON.parse(JSON.stringify(this.photos));
+                    params.photos=this.photos;
+                    sendData();
+                });
+            }else{
+                util.showLoadingDialog("提交中");
+                params.photos=this.imageArr;
+                sendData();
+            }
+            let that=this;
+            function sendData(){
+                http.request(urls.WORK_SHEET, "POST", params).then(data => {
+                    util.showToast("新增成功");
+                    that.orderSn='';
+                    that.mobile='';
+                    that.issues='';
+                    that.labelId=-1;
+                    that.count=3;
+                    that.labelList=[];
+                    that.imageArr=[];
+                    that.photos=[];
+                });
+            }
+        },
+        /****************   历史工单   *******************/
         toTrack(){
             util.linkto('work-order-track');
         },
