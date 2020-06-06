@@ -132,6 +132,12 @@
             "style": {
                 "navigationBarTitleText": "工单查看"
             }
+        },
+        {
+            "path": "pages/store-check-audit/store-check-audit",
+            "style": {
+                "navigationBarTitleText": "选择归属业务员"
+            }
         }
     ],
     "globalStyle": {

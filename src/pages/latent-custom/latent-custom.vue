@@ -114,7 +114,6 @@ export default {
         };
     },
     components: {
-        search,
         "bottom-bar": bottomBar
     },
     onLoad() {

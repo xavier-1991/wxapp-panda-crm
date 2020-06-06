@@ -26,6 +26,7 @@ var urls = {
     SALESMAN_LIST: 'api/common/salesman-list',
     AREA_LIST: 'api/common/area-list',
     COMMON_REVIEW: 'api/common/review',
+    SELECT_SALESMAN: 'api/common/select-salesman',
 };
 
 

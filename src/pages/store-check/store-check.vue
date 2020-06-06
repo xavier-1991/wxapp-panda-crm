@@ -55,8 +55,8 @@
                     image(:src="params.userIdPic" class="bk_gray c-item-top")
                     view(class="fs28 cor mt15 tac") 手持身份证照
         view(v-if="pageType=='audit'" class="add-btn-wrap bt1 df jcsb")
-            view(class="add-btn") 审核不通过
-            view(class="add-btn add-btn2") 审核通过
+            view(class="add-btn" @tap='toAudit(false)') 审核不通过
+            view(class="add-btn add-btn2" @tap='toAudit(true)') 审核通过
 </template>
 <script>
 const urls = require("../../utils/urls");
@@ -116,19 +116,27 @@ export default {
             })
         },
         toAudit(status){
+            if(!this.params.hasSalesman){
+                //门店没有业务员，去选择业务员
+                util.linkto('store-check-audit',`id=${this.params.id}`);
+                return
+            }
             let tipStr=status?"您确定审核通过吗":"您确定不通过审核吗"
-            util.showConfirm('','确定','是否退出当前账号',()=>{
+            util.showConfirm('','确定',tipStr,()=>{
                 util.showLoadingDialog('请稍候');
                 http.request(
                     urls.COMMON_REVIEW,
-                    "GET",
-                    {isPass:status}
+                    "POST",
+                    {isPass:status,storeId:this.params.id}
                 ).then(data => {
                     if(status){
-                        util.showToast('已审核通过')
+                        util.showToast('审核成功')
                     }else{
                         util.showToast('审核已退回')
                     }
+                    setTimeout(() => {
+                        util.linkto('store-manage')
+                    }, 1500);
                     
                 })
             })
