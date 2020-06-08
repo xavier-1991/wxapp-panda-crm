@@ -7,6 +7,7 @@ export default {
         this.$globalData.windowHeight = uni.getSystemInfoSync().windowHeight; //低于该基础库提示更新微信 支持 录音，npm等
         this.$globalData.tabbarPramas = null; // 首页跳转其他tabbar页面
         this.$globalData.visitStore = null; // 门店拜访页面 门店详情数据
+        this.$globalData.moveParams = null; // 门店转移参数
         this.build();
         this.isIpx();
         this.checkVersion();

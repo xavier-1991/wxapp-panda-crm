@@ -78,7 +78,6 @@ const urls = require("../../utils/urls");
 const util = require("../../utils/util");
 const http = require("../../utils/http");
 const pd = require("../../utils/pd");
-import search from "../../components/search/search";
 import bottomBar from "../../components/template/bottom-bar/bottom-bar";
 export default {
     data() {

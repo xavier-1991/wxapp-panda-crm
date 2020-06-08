@@ -218,9 +218,6 @@ export default {
         this.loadPage();
     },
     methods: {
-        qqq(){
-
-        },
         loadPage(){
             //参数配置
             let params={
