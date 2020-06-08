@@ -20,35 +20,9 @@
                             view(class="data-item")
                                 view(class="item-num") {{data.monthOrderStoreCount}}
                                 view(class="item-text") 累计下单门店
-            //- 待办事项 (业务员显示)
-            view(class="section mt20" v-if="roleType==0")
-                view(class="title") 待办事项
-                view(class="mt15 df jcsb")
-                    view(class="re todo-item" @tap="toStore('audit','0')")
-                        image(class="toDoImg" src="../../static/image/index/bg1.png")
-                        view(class="todo-item-main")
-                            view(class="df ai-center jcsb")
-                                view(class="fs24 cor") 待审核门店
-                                image(class="arrow-right" src="../../static/image/arrow-right.png")
-                            view(class="todo-num") {{data.toBeReviewed}}
-                    view(class="re todo-item" @tap="toOrder('status',20)")
-                        image(class="toDoImg" src="../../static/image/index/bg2.png")
-                        view(class="todo-item-main")
-                            view(class="df ai-center jcsb")
-                                view(class="fs24 cor") 待发货订单
-                                image(class="arrow-right" src="../../static/image/arrow-right.png")
-                            view(class="todo-num") {{data.toBeDelivered}}
-                    view(class="re todo-item" @tap="toStore('orderOrNot','0')")
-                        image(class="toDoImg" src="../../static/image/index/bg3.png")
-                        view(class="todo-item-main")
-                            view(class="df ai-center jcsb")
-                                view(class="fs24 cor") 已注册未下单
-                                image(class="arrow-right" src="../../static/image/arrow-right.png")
-                            view(class="todo-num") {{data.noOrderPlaced}}
             //- 省区经理功能栏
-            view(class="section" v-if="roleType==1")
-                //- view(class="title") 数据分析
-                view(class="mt15 df jcsba analysis")
+            view(class="section1" v-if="roleType==1")
+                view(class="mt15 df jcsb")
                     view(class="analysis-item" @tap="toStoreMove")
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/icon0.png")
@@ -61,26 +35,53 @@
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/icon3.png")
                         view(class="fs24 cor mt10") 数据统计
+            //- 待办事项 (业务员显示)
+            view(class="section3 mt30" v-if="roleType==0")
+                view(class="title") 待办事项
+                view(class="mt15 df jcsb")
+                    view(class="re todo-item" @tap="toStore('audit','0')")
+                        image(class="toDoImg" src="../../static/image/index/bg1.png")
+                        view(class="todo-item-main")
+                            view(class="df ai-center jcsb")
+                                view(class="fs24 cor") 待审核门店
+                                image(class="arrow-right" src="../../static/image/arrow-right.png")
+                            view(class="todo-num") {{data.toBeReviewedStoreCount}}
+                    view(class="re todo-item" @tap="toOrder('status',20)")
+                        image(class="toDoImg" src="../../static/image/index/bg2.png")
+                        view(class="todo-item-main")
+                            view(class="df ai-center jcsb")
+                                view(class="fs24 cor") 待发货订单
+                                image(class="arrow-right" src="../../static/image/arrow-right.png")
+                            view(class="todo-num") {{data.toBeDeliveredCount}}
+                    view(class="re todo-item" @tap="toStore('orderOrNot','0')")
+                        image(class="toDoImg" src="../../static/image/index/bg3.png")
+                        view(class="todo-item-main")
+                            view(class="df ai-center jcsb")
+                                view(class="fs24 cor") 已注册未下单
+                                image(class="arrow-right" src="../../static/image/arrow-right.png")
+                            view(class="todo-num") {{data.noOrderPlacedCount}}
             //- 数据分析 (业务员显示)
-            view(class="section2 df jcsb" v-if="roleType==0")
-                view(class="analysis-item" @tap="toStoreVisit")
-                    view(class="df jcc")
-                        image(class="icon" src="../../static/image/index/icon1.png")
-                    view(class="fs24 cor mt10") 门店拜访
-                view(class="analysis-item" @tap="toLatentCustom")
-                    view(class="df jcc")
-                        image(class="icon" src="../../static/image/index/icon2.png")
-                    view(class="fs24 cor mt10") 潜在客户
-                view(class="analysis-item" @tap="toDataAnalysis")
-                    view(class="df jcc")
-                        image(class="icon" src="../../static/image/index/icon3.png")
-                    view(class="fs24 cor mt10") 数据统计
-                view(class="analysis-item" @tap="toWorkOrder")
-                    view(class="df jcc")
-                        image(class="icon" src="../../static/image/index/icon4.png")
-                    view(class="fs24 cor mt10 tac") 工单
+            view(class="section3 mt30 mb30" v-if="roleType==0")
+                view(class="title") 数据分析
+                view(class="section2 df jcsba bk_f mt15")
+                    view(class="analysis-item" @tap="toStoreVisit")
+                        view(class="df jcc")
+                            image(class="icon" src="../../static/image/index/icon1.png")
+                        view(class="fs24 cor mt10") 门店拜访
+                    view(class="analysis-item" @tap="toLatentCustom")
+                        view(class="df jcc")
+                            image(class="icon" src="../../static/image/index/icon2.png")
+                        view(class="fs24 cor mt10") 潜在客户
+                    view(class="analysis-item" @tap="toDataAnalysis")
+                        view(class="df jcc")
+                            image(class="icon" src="../../static/image/index/icon3.png")
+                        view(class="fs24 cor mt10") 数据统计
+                    view(class="analysis-item" @tap="toWorkOrder")
+                        view(class="df jcc")
+                            image(class="icon" src="../../static/image/index/icon4.png")
+                        view(class="fs24 cor mt10 tac") 工单
             //- 本月新增门店
-            view(class="section")
+            view(class="section3")
                 view(class="title") 本月新增门店
                 scroll-view(:scroll-y="true" class="scroll-view mt15" @scrolltolower="scrolltolower")
                     view(class="newly-added")

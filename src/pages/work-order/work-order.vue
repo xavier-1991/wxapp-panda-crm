@@ -7,13 +7,17 @@
         view(v-if="tab==1")
             view(class="add-w")
                 view(class="add-item df jcsb ai-center")
-                    view(class="aw-l") 订单编号
-                    input(v-model="orderSn" class="aw-r aw-inp" placeholder="选填，请输入订单编号" placeholder-class="aw-inp-pl")
+                    view(class="aw-l") 
+                        text(class="fs28" style="color:#FF662E;") *
+                        text 订单编号
+                    input(v-model="orderSn" class="aw-r aw-inp" placeholder="必填，请输入订单编号" placeholder-class="aw-inp-pl")
                 view(class="add-item df jcsb ai-center" type="number")
                     view(class="aw-l") 手机号
                     input(v-model="mobile" class="aw-r aw-inp" type="number" maxlength="11" placeholder="选填，请输入手机号" placeholder-class="aw-inp-pl")
                 view(class="add-item df jcsb ai-center")
-                    view(class="aw-l") 问题标签
+                    view(class="aw-l") 
+                        text(class="fs28" style="color:#FF662E;") *
+                        text 问题标签
                     view(class="aw-r df jcsb")
                         view(@tap="chooseLabel(item)" :class="['aw-tag',labelId==item.key?'curr-aw-tag':'']" v-for="(item,index) in labelList" :key="index") {{item.value}}
                         //- view(class="aw-tag") 无理由退货
@@ -26,7 +30,9 @@
                         image(v-if="!issues" class="edit fls0" src="../../static/image/other/edit.png")
                         textarea(v-model="issues" placeholder-class="pl2" placeholder="请填写问题描述~")
                 view(class="add-item df jcsb ai-center")
-                    view(class="aw-l") 上传图片
+                    view(class="aw-l") 
+                        text(class="fs28" style="color:#FF662E;") *
+                        text 上传图片
                     view(class="df p25lr" style="width:514rpx;")
                         view(class="up-img-wrap re" v-for="(item,index) in imageArr" :key="index")
                             image(:src="item" class="storeImg" lazy-load="true" mode="aspectFill" class="up-img bk_")
@@ -163,6 +169,10 @@ export default {
             this.count = 3 - this.imageArr.length;
         },
         toSend() {
+            if (!this.orderSn.trim()) {
+                util.showToast("请填写订单编号");
+                return;
+            }
             if (this.labelId===-1) {
                 util.showToast("请选择问题标签");
                 return;
@@ -177,7 +187,8 @@ export default {
             }
             let params={
                 labelId:this.labelId,
-                issues:this.issues
+                issues:this.issues,
+                orderSn:this.orderSn
             };
             if(this.orderSn.trim()){
                 params.orderSn=this.orderSn.trim();
@@ -192,14 +203,15 @@ export default {
             let onlineArr=[]; //线上图片数组
             let underlineArr=[]; //线下图片数组
             this.imageArr.forEach((item,i)=>{
-                if(item.indexOf('wxfile')<0){
+                // if(item.indexOf('wxfile')<0){
+                if(item.indexOf('tmp/wx')<0){
                     onlineArr.push(item);
                 }else{
                     underlineArr.push(item);
                 }
             })
             util.showLoadingDialog("提交中");
-            console.log('underlineArr',underlineArr)
+            // console.log('underlineArr',underlineArr)
             if(underlineArr.length>0){
                 http.uploadFiles(underlineArr,{type:'visit'}, res => {
                     let resArr = res.map(ele => {

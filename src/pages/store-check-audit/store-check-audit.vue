@@ -24,17 +24,18 @@
                 view(class="ml10 fs28 cor_blue p20 fls0" @tap="resetAll") 重置  
         view(class="gray_bar" style="height:20rpx")
         view(class="df bb1 ai-center")
-            view(class="t-header") 姓名
-            view(class="t-header") 所属区域
-            view(class="t-header" style="text-align:left;text-indent:8rpx;") 已开分店
-        view(class="df bb1 t-body-wrap ai-center" v-for="(item,index) in list" :key="index" @tap="chooseSalesMan(item)")
-            view(class="t-body1") {{item.realName}}
-            view(class="t-body2")
-                view(v-for="(subItem,subIndex) in area" :key="subIndex") {{item.provinceName}}{{item.cityName}}
-            view(class="t-body3 df jcsb ai-center")
-                view() {{item.dividedStoreCount}}
-                image(v-if="item.isSelect" class="sel-img" src="../../static/image/store/selected.png")
-                image(v-else="item.isSelect" class="sel-img" src="../../static/image/store/selected-no.png")
+            view(class="t-header" style="margin-left:38rpx;") 姓名
+            view(class="t-header" style="margin-left:164rpx;") 所属区域
+            view(class="t-header" style="margin-left:136rpx;") 已开分店
+        view(class="pl25" v-for="(item,index) in list" :key="index" @tap="chooseSalesMan(item)")
+            view(class="df bb1 t-body-wrap ai-center")
+                view(class="t-body1") {{item.realName}}
+                view(class="t-body2")
+                    view(v-for="(subItem,subIndex) in item.area" :key="subIndex") {{subItem.provinceName}}、{{subItem.cityName}}
+                view(class="t-body3 df jcsb ai-center")
+                    view() {{item.dividedStoreCount}}
+                    image(v-if="item.isSelect" class="sel-img" src="../../static/image/store/selected.png")
+                    image(v-else="item.isSelect" class="sel-img" src="../../static/image/store/selected-no.png")
         view(v-if="showLoadMoreLoading")
             bottom-bar(bottomType="loading")
         view(v-if="isReachBottom")
@@ -114,7 +115,8 @@ export default {
         // 获取业务员列表
         getSalesmanList(){
             let params = {
-                page: this.page
+                page: this.page,
+                type:'audit'
             };
             if (this.keywords) {
                 params.keywords = this.keywords;
