@@ -61,7 +61,7 @@
                             view(class="df ai-center")
                                 view(class="df jcc ai-center mr5" style="width:40rpx;height:40rpx")
                                     image(class="time-icon" src="../../static/image/other/addr.png")
-                                view() {{item.address}}
+                                view(class="textFlow address") {{item.address}}
                         view(class="df")
                             image(@tap.stop="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")
                             image(@tap.stop="toMap(item)" class="btn-img" src="../../static/image/other/latent-addr.png")

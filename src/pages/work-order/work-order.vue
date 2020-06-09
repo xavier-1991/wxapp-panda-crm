@@ -42,9 +42,11 @@
                         view(class="df jcc ai-center fldc up-img-wrap bk_gray" v-if="count>0" @tap="chooseImage")
                             image(class="camera" src="../../static/image/store/camera.png")
                             view(class="mt5 fs20 cor") 上传图片
-            view(class="add-btn-wrap bt1 df jcsb")
-                view(class="add-btn" @tap="toSend") 保存
-                view(class="add-btn add-btn2") 保存并发放
+            view(class="btn_wrap bt1")
+                view(class="btn-default" @tap="toSend") 确定转移
+            //- view(class="add-btn-wrap bt1 df jcsb")
+            //-     view(class="add-btn" @tap="toSend") 保存
+            //-     view(class="add-btn add-btn2") 保存并发放
         //- 历史工单
         view(v-else class="his-w")
             view(class="df jcsb ai-center search-box")
@@ -64,41 +66,56 @@
                     view(class="df ai-center jcsb c-date-box")
                         picker(:class="['c-date-picker',!endTime?'c-date-picker-empty':'']" :value="endTime" :end="dateNow" mode="date" @change="chooseEnd") {{endTime?endTime:'结束时间'}}
                         image(src="../../static/image/other/date.png" class="c-date-img")
-            view(class="df jcsb p25lr")
-                view(class="c-f-item df ai-center mt25")
-                    view(class="c-f-item-l") 标签
-                    view(class="c-yewu-box df ai-center" style="width:156rpx;")
-                        input(class="c-y-inp" placeholder="全部" placeholder-class='c-y-inp-pl')
-                        image(class="c-y-down" src="../../static/image/arrow-down.png")
-                view(class="c-f-item df ai-center mt25")
-                    view(class="c-f-item-l" style="width:76rpx;") 状态
-                    view(class="c-yewu-box df ai-center" style="width:256rpx;")
-                        input(class="c-y-inp" placeholder="全部" placeholder-class='c-y-inp-pl')
-                        image(class="c-y-down" src="../../static/image/arrow-down.png")
-            view(class="gray-bar")
+            view(class="df p25lr ai-center mt25")
+                view(class="c-f-item df ai-center")
+                    view(class="c-f-item-l" style="width:90rpx") 标签
+                    view(class="c-yewu-box df ai-center" style="width:200rpx;")
+                        picker(mode='selector' class="c-area-picker pl20 df" :range='labelList' range-key="value" @change="hisTagChange") 
+                            view(class="df ai-center jcsb" style="width:186rpx")
+                                view(:class="['c-area-text',hisLabelId!=-1?'':'c-area-text-empty']") {{hisLabelName?hisLabelName:'选择标签'}}
+                                image(class="c-y-down" src="../../static/image/arrow-down.png")
+                view(class="c-f-item df ai-center")
+                    view(class="c-f-item-l" style="width:86rpx;margin-left:35rpx;") 状态
+                    view(class="c-yewu-box df ai-center" style="width:200rpx;")
+                        picker(mode='selector' class="c-area-picker pl20 df" :range='statusList' range-key="value" @change="statusChange") 
+                            view(class="df ai-center jcsb" style="width:186rpx")
+                                view(:class="['c-area-text',status!=-1?'':'c-area-text-empty']") {{statusName?statusName:'选择状态'}}
+                                image(class="c-y-down" src="../../static/image/arrow-down.png")
+                view(class="ml10 fs28 cor_blue p10" @tap="resetAll") 重置
+            view(class="gray_bar mt25" style="height:25rpx;")
             view(class="his-list")
-                view(class="h-item bb1")
-                    view(class="df")
+                view(class="h-item bb1" v-for="(item,index) in list" :key="index")
+                    view(class="df ai-center")
+                        view(class="fs24 cor" style="font-weight:500") 工单号：{{item.id}}
+                        view(class="fs20 cor_blue p20lr" @tap="setClipboard(item.id)") 复制
+                    view(class="df mt20")
                         view(class="h-l df ai-center")
                             image(class="h-l-img" src="../../static/image/work-order/order.png")
                             view(class="h-l-text") 订单编号
                         view(class="df")
-                            view(class="fs28 cor") 12345678900987
-                            view(class="h-tag h-tag2") 处理中
+                            view(class="fs28 cor") {{item.orderSn}}
+                            view(v-if="item.status==0" class="h-tag") {{item.statusStr}}
+                            view(v-if="item.status==1" class="h-tag h-tag1") {{item.statusStr}}
+                            view(v-if="item.status==2" class="h-tag h-tag2") {{item.statusStr}}
                     view(class="df mt30")
                         view(class="h-l df ai-center")
                             image(class="h-l-img" src="../../static/image/work-order/phone-num.png")
                             view(class="h-l-text") 手机号
-                        view(class="fs28 cor") 18966552541
+                        view(class="fs28 cor") {{item.mobile}}
                     view(class="df mt30")
                         view(class="h-l df ai-center ai-start")
                             image(class="h-l-img" src="../../static/image/work-order/record.png")
                             view(class="h-l-text") 问题记录
-                        view(class="fs28 cor") 问题记录问题记录问题记录问题记录问题记录问题记录问题记录
+                        view(class="fs28 cor") {{item.issues}}
                     view(class="df mt30 jcfe mt30")
-                        view(class="h-btn" @tap="toCheck") 查看
-                        view(class="h-btn ml20" @tap="toTrack") 跟踪
-                        view(class="h-btn ml20" @tap="toResult") 结果
+                        view(class="h-btn" @tap="toTrack('look',item.id)") 查看
+                        view(v-if="roleType" class="h-btn ml20" @tap="toTrack('track',item.id)") 跟踪
+                        view(v-if="roleType" class="h-btn ml20" @tap="toResult") 结果
+                view(v-if="showLoadMoreLoading")
+                    bottom-bar(bottomType="loading")
+                view(v-if="isReachBottom")
+                    bottom-bar(bottomType="noMore")
+                view(v-if="!list.length" class="no-list") 暂无数据
 
 </template>
 <script>
@@ -106,6 +123,7 @@ const urls = require("../../utils/urls");
 const util = require("../../utils/util");
 const http = require("../../utils/http");
 const pd = require("../../utils/pd");
+import bottomBar from "../../components/template/bottom-bar/bottom-bar";
 export default {
     data() {
         return {
@@ -120,14 +138,46 @@ export default {
             imageArr: [], //本地
             photos:[],//线上
             // 历史工单
+            page:1,
             keywords:'',
             startTime: "",
             endTime: "",
             dateNow:pd.dateNowStr(),
+            status:-1,
+            statusName:'',
+            hisLabelId:-1,
+            hisLabelName:'',
+
+            statusList:[],
+            list: [],
+            count: 0,
+            pageTotal: 0,
+            showLoadMoreLoading: false,
+            isReachBottom: false,
+            roleType: pd.getRoleType(),
         };
+    },
+    components: {
+        "bottom-bar": bottomBar
     },
     onLoad() {
         this.getLabel();
+    },
+    onPullDownRefresh() {
+        this.page = 1;
+        this.keywords = "";
+        this.loadPage();
+    },
+    onReachBottom() {
+        if (this.showLoadMoreLoading) {
+            return;
+        }
+        if (this.page >= this.pageTotal) {
+            this.isReachBottom = true;
+            return;
+        }
+        this.page += 1;
+        this.loadPage();
     },
     methods: {
         //切换选项卡
@@ -136,9 +186,9 @@ export default {
                 return;
             }
             this.tab = type;
-            // if (this.tab == 2 && !this.list.length) {
-            //     this.loadRecord();
-            // }
+            if(this.tab==2&&!this.list.length){
+                this.loadPage();
+            }
         },
         /****************   新增工单   *******************/
         // 获取标签
@@ -151,8 +201,7 @@ export default {
         chooseLabel(item){
             console.log(item)
             this.labelId=item.key;
-        },
-        
+        }, 
         // 图片上传相关
         chooseImage() {
             uni.chooseImage({
@@ -243,8 +292,8 @@ export default {
             }
         },
         /****************   历史工单   *******************/
-        toTrack(){
-            util.linkto('work-order-track');
+        toTrack(type,id){
+            util.linkto('work-order-track',`type=${type}&id=${id}`);
         },
         toResult(){
             util.linkto('work-order-result');
@@ -252,17 +301,102 @@ export default {
         toCheck(){
             util.linkto('work-order-check');
         },
-        chooseStart(e){
-            this.startTime=e.detail.value;
-            // if(this.startTime&&this.endTime){
-            //      this.loadData();
-            // }
+        setClipboard(id){
+            wx.setClipboardData({data: `${id}`});
         },
-        chooseEnd(e){
-            this.endTime=e.detail.value;
-            // if(this.startTime&&this.endTime){
-            //      this.loadData();
-            // }
+        toSearch() {
+            this.page = 1;
+            this.loadPage();
+        },
+        clear() {
+            this.keywords = "";
+        },
+         // 时间选择
+        chooseStart(e) {
+            this.startTime = e.detail.value;
+            if (this.startTime && this.endTime) {
+                this.page = 1;
+                this.loadPage();
+            }
+        },
+        chooseEnd(e) {
+            this.endTime = e.detail.value;
+            if (this.startTime && this.endTime) {
+                this.page = 1;
+                this.loadPage();
+            }
+        },
+        loadPage() {
+            let params = {
+                page: this.page
+            };
+            if (this.keywords) {
+                params.keywords = this.keywords;
+            }
+            if (this.startTime) {
+                params.startTime = this.startTime;
+            }
+            if (this.endTime) {
+                params.endTime = this.endTime;
+            }
+            if (this.hisLabelId!=-1) {
+                params.labelId = this.hisLabelId;
+            }
+            if (this.status!=-1) {
+                params.status = this.status;
+            }
+            if (this.page == 1) {
+                util.showLoadingDialog("加载中");
+                this.isReachBottom = false;
+            } else {
+                this.showLoadMoreLoading = true;
+                util.showTopLoading();
+            }
+            http.request(urls.WORK_SHEET, "GET", params)
+            .then(data => {
+                if (this.page == 1) {
+                    this.count = data.count;
+                    this.pageTotal = data.pageTotal;
+                    this.list = data.list;
+                    this.hasData = true;
+                    this.statusList = data.statusMap;
+                    util.hideLoadingDialog();
+                } else {
+                    this.list = [...this.list, ...data.list];
+                }
+            })
+            .finally(() => {
+                this.showLoadMoreLoading = false;
+                util.hideTopLoadingStopRefresh();
+            });
+        },
+        // 标签选择 
+        hisTagChange(e) {
+            let i = e.detail.value * 1;
+            this.hisLabelName = this.labelList[i].value;
+            this.hisLabelId = this.labelList[i].key;
+            this.page = 1;
+            this.loadPage();
+        },
+        // 状态选择
+        statusChange(e) {
+            let i = e.detail.value * 1;
+            this.statusName = this.statusList[i].value;
+            this.status = this.statusList[i].key;
+            this.page = 1;
+            this.loadPage();
+        },
+        // 重置（全部条件）
+        resetAll() {
+            this.page = 1;
+            this.startTime = "";
+            this.endTime = "";
+            this.keywords = "";
+            this.hisLabelName = "";
+            this.hisLabelId = -1;
+            this.statusName = "";
+            this.status = -1;
+            this.loadPage();
         }
     }
 };

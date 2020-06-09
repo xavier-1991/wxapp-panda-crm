@@ -100,13 +100,15 @@
         {
             "path": "pages/store-move/store-move",
             "style": {
-                "navigationBarTitleText": "门店转移"
+                "navigationBarTitleText": "门店转移",
+                "enablePullDownRefresh": true
             }
         },
         {
             "path": "pages/store-move-people/store-move-people",
             "style": {
-                "navigationBarTitleText": "转移门店"
+                "navigationBarTitleText": "转移门店",
+                "enablePullDownRefresh": true
             }
         },
         {
@@ -118,19 +120,13 @@
         {
             "path": "pages/work-order-track/work-order-track",
             "style": {
-                "navigationBarTitleText": "工单跟踪"
+                "navigationBarTitleText": ""
             }
         },
         {
             "path": "pages/work-order-result/work-order-result",
             "style": {
                 "navigationBarTitleText": "工单结果"
-            }
-        },
-        {
-            "path": "pages/work-order-check/work-order-check",
-            "style": {
-                "navigationBarTitleText": "工单查看"
             }
         },
         {

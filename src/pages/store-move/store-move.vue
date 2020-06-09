@@ -113,6 +113,9 @@ export default {
             this.getSalesman();
             this.getArea();
         }
+    },
+    onShow(){
+        this.page = 1;
         this.loadPage();
     },
     onPullDownRefresh() {
@@ -197,7 +200,8 @@ export default {
                     return;
                 }
                 this.$globalData.moveParams={
-                    storeId:storeIdArr
+                    storeId:storeIdArr,
+                    salesmanId:this.salesmanId
                 };
             }
             util.linkto('store-move-people');

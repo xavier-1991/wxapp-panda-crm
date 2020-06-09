@@ -20,7 +20,7 @@
         view(v-if="!list.length" class="no-list") 暂无数据
 
         view(class="btn_wrap bt1")
-            view(class="btn-default" @tap="toSend") 确定转移
+            view(class="btn-default" @tap="toMove") 确定转移
 
 </template>
 <script>
@@ -39,6 +39,7 @@ export default {
             pageTotal: 0,
             showLoadMoreLoading: false,
             isReachBottom: false,
+            newSalesmanId:0,
             params:{
 
             }
@@ -65,6 +66,7 @@ export default {
     },
     onLoad() {
        this.params=JSON.parse(JSON.stringify(this.$globalData.moveParams));
+       this.$globalData.moveParams=null;
        this.getSalesmanList();
     },
     methods: {
@@ -72,13 +74,32 @@ export default {
             this.page = 1;
             this.getSalesmanList();
         },
+        toMove(){
+            if(!this.newSalesmanId){
+                util.showToast('请选择业务员');
+                return;
+            }
+            let params=this.params;
+            params.newSalesmanId=this.newSalesmanId;
+            http.request(
+                    urls.STORE_TRANSFER,
+                    "POST",
+                    params
+                ).then(data => {
+                    util.showToast('转移成功');
+                    setTimeout(() => {
+                        uni.navigateBack();
+                    }, 1500);
+                })
+
+        },
         // 选择业务员
         chooseSalesMan(item){
             this.list.forEach((ele,i)=>{
                 ele.isSelect=false;
             })
             item.isSelect=true;
-            this.salesmanId=item.salesmanId;
+            this.newSalesmanId=item.salesmanId;
         },
         // 获取业务员列表
         getSalesmanList(){

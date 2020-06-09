@@ -1,35 +1,35 @@
 <template lang="pug">
-    view(class="")
+    view(v-if="hasData")
         view(class="add-w")
             view(class="df jcsb ai-center")
                 view(class="aw-l") 
                     text 订单编号
-                view(class="aw-r bb1") 123fddsfdsfsdf
-            view(class="df jcsb ai-center")
+                view(class="aw-r bb1") {{data.orderSn}}
+            view(class="df jcsb ai-center" v-if="data.mobile")
                 view(class="aw-l") 
                     text 手机号
-                view(class="aw-r bb1") 1856696321
+                view(class="aw-r bb1") {{data.mobile}}
             view(class="df jcsb")
                 view(class="aw-l") 
                     text 问题记录
-                view(class="aw-r bb1" style="padding-right:24rpx;box-sizing:border-box;") 文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案文案
+                view(class="aw-r bb1" style="padding-right:24rpx;box-sizing:border-box;") {{data.issues}}
             view(class="df jcsb")
                 view(class="aw-l") 图片
                 view(class="df aw-r")
-                    image(class="up-img bk_gray" v-for="(item,index) in imageArr" :key="index" :src="item" lazy-load="true" mode="aspectFill")
+                    image(class="up-img bk_gray" v-for="(item,index) in data.photos" :key="index" :src="item" lazy-load="true" mode="aspectFill")
         view(class="gray_bar" style="height:25rpx;")
         view(class="record")
             view(class="r-title") 工单跟踪记录
-            view(class="fs24 cor r-list bb1")
+            view(class="fs24 cor r-list bb1" v-for="(item,index) in data.traceLogs" :key="index")
                 view(class="df jcsb")
                     view()
                         text(class="cor_9") 处理人：
-                        text() 啊啊啊
+                        text() {{item.name}}
                     view(class="df ai-center")
                         image(class="time-img" src="../../static/image/other/time.png")
-                        view() 2019-05-15 09:02
-                view(class="mt15") 已通知供货商补发文案文案文案文案文案文案
-        view
+                        view() {{item.createTime}}
+                view(class="mt15") {{item.traceRecord}}
+        view(v-if="data.status==2")
             view(class="gray_bar" style="height:25rpx;")
             view(class="record record2")
                 view(class="r-title") 工单已完结
@@ -37,11 +37,11 @@
                     view(class="df jcsb")
                         view()
                             text(class="cor_9") 处理人：
-                            text() 啊啊啊
+                            text() {{data.result.name}}
                         view(class="df ai-center")
                             image(class="time-img" src="../../static/image/other/time.png")
-                            view() 2019-05-15 09:02
-                    view(class="mt15") 已通知供货商补发文案文案文案文案文案文案
+                            view() {{data.result.createTime}}
+                    view(class="mt15") {{data.result.traceRecord}}
             //- view(class="add-item df jcsb ai-center")
             //-     view(class="aw-l") 
             //-         text(class="fs28" style="color:#FF662E;") *
@@ -62,15 +62,35 @@ const pd = require("../../utils/pd");
 export default {
     data() {
         return {
-            count: 3, //随着imageArr的length改变而改变,最多传3张图
-            imageArr: ['1','2'], //本地
+            type:'',
+            hasData:false,
+            data:null
         };
     },
-    onLoad() {
-       
+    onLoad(options) {
+       if(options.type=='look'){
+           uni.setNavigationBarTitle({
+               title: '工单信息'
+           });
+       }else{
+           uni.setNavigationBarTitle({
+               title: '工单跟踪'
+           });
+       };
+       this.loadData(options.id);
     },
     methods: {
-        
+        loadData(id){
+            util.showLoadingDialog('加载中');
+            http.request(
+                urls.WORK_SHEET_DETAIL.format(id),
+                "GET"
+            ).then(data => {
+                this.data=data;
+                this.hasData=true;
+                util.hideLoadingDialog();
+            })
+        }
     }
 };
 </script>

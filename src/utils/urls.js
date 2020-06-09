@@ -29,6 +29,9 @@ var urls = {
     SELECT_SALESMAN: 'api/salesman/select-salesman',
     LABEL_LIST: 'api/worksheet/label-list',
     WORK_SHEET: 'api/worksheet',
+    STORE_TRANSFER: 'api/store/transfer',
+    WORK_SHEET: 'api/worksheet',
+    WORK_SHEET_DETAIL: 'api/worksheet/{0}',
 };
 
 
