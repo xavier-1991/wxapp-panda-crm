@@ -21,7 +21,7 @@
                             textarea(v-model="params.notes" placeholder-class="pl2" placeholder="请输入此拜访沟通的内容及结果~")
                 view(class="df mt15 p25lr")
                     view(class="up-img-wrap re" v-for="(item,index) in imageArr" :key="index")
-                        image(:src="item" class="storeImg" lazy-load="true" mode="aspectFill" class="up-img bk_f")
+                        image(:src="item" class="storeImg" lazy-load="true" mode="aspectFill" class="up-img bk_f" @tap="previewImg(item,imageArr)")
                         image(@tap="delImage"
                                class="delimg"
                                src="../../static/image/other/del_img.png")
@@ -101,7 +101,6 @@ export default {
             tab: 1,
             list: [],
             page: 1,
-            count: 0,
             pageTotal: 0,
             showLoadMoreLoading: false,
             isReachBottom: false,
@@ -279,6 +278,12 @@ export default {
         delImage(index) {
             this.imageArr.splice(index, 1);
             this.count = 3 - this.imageArr.length;
+        },
+        previewImg(currImg, imgList) {
+            uni.previewImage({
+                current: currImg,
+                urls: imgList
+            });
         },
         toSend() {
             if (this.params.storeId === "") {

@@ -26,8 +26,7 @@
                 view( class="inp") {{params.locationAddr}}
         view(class="item df ai-center jcsb re")
             view(class="item-left") 详细地址
-            view(class="item-right re")
-                view( class="inp") {{params.address}}
+            view(class="fs28 cor item-right" style="padding:24rpx 0;height:auto;") {{params.address}}
         view(class="item df ai-center jcsb")
             view(class="item-left") 门店类型
             view(class="item-right df ai-center")
@@ -43,16 +42,16 @@
             view(class="fs28 cor" style="margin:30rpx 0 0 24rpx") 资质信息
             view(class="camara-list df jcsb fw")
                 view(class="camara-item")
-                    image(:src="params.storeFacedPic" class="bk_gray c-item-top")
+                    image(:src="params.storeFacedPic" mode="aspectFill" class="bk_gray c-item-top" @tap="previewImg(params.storeFacedPic,[params.storeFacedPic])")
                     view(class="fs28 cor mt15 tac") 门脸照
                 view(class="camara-item" )
-                    image(:src="params.storeEnvironPic" class="bk_gray c-item-top")
+                    image(:src="params.storeEnvironPic" mode="aspectFill" class="bk_gray c-item-top" @tap="previewImg(params.storeEnvironPic,[params.storeEnvironPic])")
                     view(class="fs28 cor mt15 tac") 店内环境照
                 view(class="camara-item")
-                    image(:src="params.licensePic" class="bk_gray c-item-top")
+                    image(:src="params.licensePic" mode="aspectFill" class="bk_gray c-item-top" @tap="previewImg(params.licensePic,[params.licensePic])")
                     view(class="fs28 cor mt15 tac") 营业执照
                 view(class="camara-item")
-                    image(:src="params.userIdPic" class="bk_gray c-item-top")
+                    image(:src="params.userIdPic" mode="aspectFill" class="bk_gray c-item-top" @tap="previewImg(params.userIdPic,[params.userIdPic])")
                     view(class="fs28 cor mt15 tac") 手持身份证照
         view(v-if="pageType=='audit'" class="add-btn-wrap bt1 df jcsb")
             view(class="add-btn" @tap='toAudit(false)') 审核不通过
@@ -135,11 +134,16 @@ export default {
                         util.showToast('审核已退回')
                     }
                     setTimeout(() => {
-                        util.linkto('store-manage')
+                        util.reLaunch('store-manage')
                     }, 1500);
                 })
             })
-            
+        },
+        previewImg: function(currImg, imgList) {
+            uni.previewImage({
+                current: currImg,
+                urls: imgList
+            });
         }
        
     }

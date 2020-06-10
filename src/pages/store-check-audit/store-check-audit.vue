@@ -41,7 +41,7 @@
         view(v-if="isReachBottom")
             bottom-bar(bottomType="noMore")
         view(v-if="!list.length" class="no-list") 暂无数据
-        view(class="btn_wrap")
+        view(class="btn_wrap bt1")
             view(class="btn-default" @tap="toAudit") 确定审核
 </template>
 <script>
@@ -163,11 +163,11 @@ export default {
                 http.request(
                     urls.COMMON_REVIEW,
                     "POST",
-                    {isPass:true,storeId:this.id}
+                    {isPass:true,storeId:this.id,salesmanId:this.salesmanId}
                 ).then(data => {
-                    util.showToast('审核已退回')
+                    util.showToast('审核成功')
                     setTimeout(() => {
-                        util.linkto('store-manage')
+                        util.reLaunch('store-manage');
                     }, 1500);
                     
                 })

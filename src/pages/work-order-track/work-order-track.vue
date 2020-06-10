@@ -16,7 +16,7 @@
             view(class="df jcsb")
                 view(class="aw-l") 图片
                 view(class="df aw-r")
-                    image(class="up-img bk_gray" v-for="(item,index) in data.photos" :key="index" :src="item" lazy-load="true" mode="aspectFill")
+                    image(class="up-img bk_gray" v-for="(item,index) in data.photos" :key="index" :src="item" lazy-load="true" mode="aspectFill" @tap="previewImg(item, data.photos)")
         view(class="gray_bar" style="height:25rpx;")
         view(class="record")
             view(class="r-title") 工单跟踪记录
@@ -90,6 +90,12 @@ export default {
                 this.hasData=true;
                 util.hideLoadingDialog();
             })
+        },
+        previewImg: function(currImg, imgList) {
+            uni.previewImage({
+                current: currImg,
+                urls: imgList
+            });
         }
     }
 };

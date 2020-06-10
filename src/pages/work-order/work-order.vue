@@ -35,7 +35,7 @@
                         text 上传图片
                     view(class="df p25lr" style="width:514rpx;")
                         view(class="up-img-wrap re" v-for="(item,index) in imageArr" :key="index")
-                            image(:src="item" class="storeImg" lazy-load="true" mode="aspectFill" class="up-img bk_")
+                            image(:src="item" class="storeImg" lazy-load="true" mode="aspectFill" class="up-img bk_" @tap="previewImg(item,imageArr)")
                             image(@tap="delImage"
                                 class="delimg"
                                 src="../../static/image/other/del_img.png")
@@ -150,7 +150,7 @@ export default {
 
             statusList:[],
             list: [],
-            count: 0,
+            count: 3, //随着imageArr的length改变而改变,最多传3张图
             pageTotal: 0,
             showLoadMoreLoading: false,
             isReachBottom: false,
@@ -217,6 +217,13 @@ export default {
             this.imageArr.splice(index, 1);
             this.count = 3 - this.imageArr.length;
         },
+        previewImg: function(currImg, imgList) {
+            uni.previewImage({
+                current: currImg,
+                urls: imgList
+            });
+        },
+        // 提交工单
         toSend() {
             if (!this.orderSn.trim()) {
                 util.showToast("请填写订单编号");
