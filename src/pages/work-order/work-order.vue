@@ -43,7 +43,7 @@
                             image(class="camera" src="../../static/image/store/camera.png")
                             view(class="mt5 fs20 cor") 上传图片
             view(class="btn_wrap bt1")
-                view(class="btn-default" @tap="toSend") 确定转移
+                view(class="btn-default" @tap="toSend") 保存
             //- view(class="add-btn-wrap bt1 df jcsb")
             //-     view(class="add-btn" @tap="toSend") 保存
             //-     view(class="add-btn add-btn2") 保存并发放
@@ -150,7 +150,6 @@ export default {
 
             statusList:[],
             list: [],
-            count: 3, //随着imageArr的length改变而改变,最多传3张图
             pageTotal: 0,
             showLoadMoreLoading: false,
             isReachBottom: false,
@@ -165,7 +164,6 @@ export default {
     },
     onPullDownRefresh() {
         this.page = 1;
-        this.keywords = "";
         this.loadPage();
     },
     onReachBottom() {
@@ -361,7 +359,6 @@ export default {
             http.request(urls.WORK_SHEET, "GET", params)
             .then(data => {
                 if (this.page == 1) {
-                    this.count = data.count;
                     this.pageTotal = data.pageTotal;
                     this.list = data.list;
                     this.hasData = true;

@@ -110,7 +110,7 @@ export default {
             storeName: "",
             count: 3, //随着imageArr的length改变而改变,最多传3张图
             imageArr: [], //本地
-            hasMap:false,
+            markers:[],
             // 签到参数
             params: {
                 storeId: "",
@@ -249,7 +249,6 @@ export default {
             http.request(urls.VISITED, "GET", params)
                 .then(data => {
                     if (this.page == 1) {
-                        this.count = data.count;
                         this.pageTotal = data.pageTotal;
                         this.list = data.list;
                         this.hasData = true;

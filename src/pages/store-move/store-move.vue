@@ -5,7 +5,7 @@
                 view(class="df jcsb input-wrap")
                     view(class="df ai-center inp-left")
                         image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
-                        input(class="search-inp" placeholder="请输入门店名称/订单号" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
+                        input(class="search-inp" placeholder="请输入门店名称/手机号" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
                     image(@tap="clear" v-if="keywords" class="search-del" src="../../static/image/search/del.png")
                 view(class="se" @tap="toSearch") 搜索
             //- 其他过滤条件
@@ -120,7 +120,6 @@ export default {
     },
     onPullDownRefresh() {
         this.page = 1;
-        this.keywords = "";
         this.loadPage();
     },
     onReachBottom() {
@@ -338,6 +337,7 @@ export default {
             this.salesman = "";
             this.provinceName = "";
             this.cityName = "";
+            this.salesmanList=JSON.parse(JSON.stringify(this.salesmanListAll))
             this.loadPage();
         }
     }

@@ -414,6 +414,7 @@ export default {
             this.salesman='';
             this.provinceName='';
             this.cityName='';
+            this.salesmanList=JSON.parse(JSON.stringify(this.salesmanListAll));
         },
         paramsReset2(){
             this.page=1;

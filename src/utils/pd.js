@@ -20,9 +20,7 @@ function getPosition() {
         }
     }).then(()=>{
         return uni.getLocation({
-            type: "wgs84",
-            // highAccuracyExpireTime:4000,
-            // isHighAccuracy:true,
+            type: "gcj02 "
         }).then((resArr)=>{
             console.log('位置获取成功', resArr)
             if (resArr[0]){
@@ -38,6 +36,7 @@ function getPosition() {
                 });
                 console.log('位置获取失败00', err);
             }
+            console.log('resArr[1]',resArr[1])
             if (resArr[1]) {
                 resArr[1].latitude = formatNumber(resArr[1].latitude);
                 resArr[1].longitude = formatNumber(resArr[1].longitude);

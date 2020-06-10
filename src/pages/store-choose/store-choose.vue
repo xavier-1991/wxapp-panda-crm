@@ -116,7 +116,6 @@ export default {
     },
     onPullDownRefresh() {
         this[this.tabStr].page=1;
-        this.keywords="";
         this.loadList();
     },
     onReachBottom() {

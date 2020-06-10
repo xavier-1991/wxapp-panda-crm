@@ -27,17 +27,12 @@
         view(class="item df ai-center jcsb re")
             view(class="item-left") 详细地址
             view(class="fs28 cor item-right" style="padding:24rpx 0;height:auto;") {{params.address}}
-        view(class="item df ai-center jcsb")
+        view(class="item df ai-center jcsb re")
             view(class="item-left") 门店类型
-            view(class="item-right df ai-center")
-                view(class="df ai-center select" )
-                    image(v-if="params.storeType==0" src="../../static/image/store/selected.png")
-                    image(v-else src="../../static/image/store/selected-no.png")
-                    view 单体门店
-                view(class="df ai-center select")
-                    image(v-if="params.storeType==1" src="../../static/image/store/selected.png")
-                    image(v-else src="../../static/image/store/selected-no.png")
-                    view 连锁门店
+            view(class="fs28 cor item-right" style="padding:24rpx 0;height:auto;") {{params.storeType==0?'单体门店':'连锁门店'}}
+        view(class="item df ai-center jcsb re" v-if="params.hasSalesman")
+            view(class="item-left") 业务员
+            view(class="fs28 cor item-right" style="padding:24rpx 0;height:auto;") {{params.salesmanName}}
         view
             view(class="fs28 cor" style="margin:30rpx 0 0 24rpx") 资质信息
             view(class="camara-list df jcsb fw")

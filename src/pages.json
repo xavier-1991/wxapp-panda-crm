@@ -114,7 +114,8 @@
         {
             "path": "pages/work-order/work-order",
             "style": {
-                "navigationBarTitleText": "工单"
+                "navigationBarTitleText": "工单",
+                "enablePullDownRefresh": true
             }
         },
         {

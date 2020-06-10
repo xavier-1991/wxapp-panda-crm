@@ -130,7 +130,6 @@ export default {
     },
     onPullDownRefresh() {
         this.page = 1;
-        this.keywords = "";
         this.loadPage();
     },
     onReachBottom() {
