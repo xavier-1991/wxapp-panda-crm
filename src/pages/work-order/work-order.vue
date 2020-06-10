@@ -237,10 +237,10 @@ export default {
                 util.showToast("请填写问题记录");
                 return;
             }
-            if (!this.imageArr.length) {
-                util.showToast("请上选择图片");
-                return;
-            }
+            // if (!this.imageArr.length) {
+            //     util.showToast("请上选择图片");
+            //     return;
+            // }
             let params={
                 labelId:this.labelId,
                 issues:this.issues,
@@ -279,7 +279,6 @@ export default {
                     sendData();
                 });
             }else{
-                util.showLoadingDialog("提交中");
                 params.photos=this.imageArr;
                 sendData();
             }

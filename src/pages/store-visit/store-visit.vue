@@ -110,6 +110,7 @@ export default {
             storeName: "",
             count: 3, //随着imageArr的length改变而改变,最多传3张图
             imageArr: [], //本地
+            hasMap:false,
             // 签到参数
             params: {
                 storeId: "",
@@ -162,6 +163,7 @@ export default {
         if (!this.params.lat) {
             util.showLoadingDialog("加载中...");
             pd.getPosition().then(res => {
+                console.log('经纬度',res)
                 this.params.lat = res.latitude + "";
                 this.params.lng = res.longitude + "";
                 this.markers = [
@@ -173,6 +175,7 @@ export default {
                         height: "40rpx"
                     }
                 ];
+                this.hasMap=true;
                 if (this.params.storeId) {
                     // 从门店管理进入
                     http.request(

@@ -21,8 +21,8 @@
                                 view(class="item-num") {{data.monthOrderStoreCount}}
                                 view(class="item-text") 累计下单门店
             //- 省区经理功能栏
-            view(class="section1" v-if="roleType==1")
-                view(class="mt15 df jcsb")
+            view(class="section3 mt30 mb30" v-if="roleType==1")
+                view(class="section2 df jcsba bk_f mt15")
                     view(class="analysis-item" @tap="toStoreMove")
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/icon0.png")

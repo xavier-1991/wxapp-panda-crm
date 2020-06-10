@@ -20,8 +20,8 @@ function getPosition() {
         }
     }).then(()=>{
         return uni.getLocation({
-            type: "wgs84"
-            // highAccuracyExpireTime:3500,
+            type: "wgs84",
+            // highAccuracyExpireTime:4000,
             // isHighAccuracy:true,
         }).then((resArr)=>{
             console.log('位置获取成功', resArr)

@@ -134,7 +134,8 @@ export default {
                         util.showToast('审核已退回')
                     }
                     setTimeout(() => {
-                        util.reLaunch('store-manage')
+                        this.$globalData.fromStoreAudit = true;
+                        uni.navigateBack();
                     }, 1500);
                 })
             })

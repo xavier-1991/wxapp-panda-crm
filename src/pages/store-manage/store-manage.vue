@@ -79,8 +79,8 @@
                     view(class="df jcfe mt30")
                         view(v-if="!roleType" class="btn0" @tap="toEdit(item.storeId)") 编辑
                         view(v-if="!roleType" class="btn0 btn1 ml25" @tap="toVisit(item)") 拜访
-                        view(v-if="roleType&&item.audit" class="btn0" @tap="toCheck(item.storeId)") 查看
-                        view(v-if="roleType&&!item.audit" class="btn0 btn2" @tap="toStoreAudit(item.storeId)") 审核
+                        view(v-if="roleType&&item.audit" class="btn3" @tap="toCheck(item.storeId)") 查看
+                        view(v-if="roleType&&!item.audit" class="btn3 btn4" @tap="toStoreAudit(item.storeId)") 审核
 
             view(v-if="showLoadMoreLoading")
                 bottom-bar(bottomType="loading")
@@ -200,6 +200,11 @@ export default {
             // if(this.lat){
                 this.loadPage();
             // }
+        };
+        //审核门店后返回刷新
+        if(this.$globalData.fromStoreAudit){
+            this.$globalData.fromStoreAudit=false;
+            this.loadPage();
         }
     },
     onPullDownRefresh() {

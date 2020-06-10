@@ -165,9 +165,12 @@ export default {
                     "POST",
                     {isPass:true,storeId:this.id,salesmanId:this.salesmanId}
                 ).then(data => {
-                    util.showToast('审核成功')
+                    util.showToast('审核成功');
                     setTimeout(() => {
-                        util.reLaunch('store-manage');
+                        this.$globalData.fromStoreAudit = true;
+                        uni.navigateBack({
+                             delta: 2
+                        });
                     }, 1500);
                     
                 })

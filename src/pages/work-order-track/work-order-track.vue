@@ -13,7 +13,7 @@
                 view(class="aw-l") 
                     text 问题记录
                 view(class="aw-r bb1" style="padding-right:24rpx;box-sizing:border-box;") {{data.issues}}
-            view(class="df jcsb")
+            view(class="df jcsb" v-if="data.photos.length")
                 view(class="aw-l") 图片
                 view(class="df aw-r")
                     image(class="up-img bk_gray" v-for="(item,index) in data.photos" :key="index" :src="item" lazy-load="true" mode="aspectFill" @tap="previewImg(item, data.photos)")
@@ -29,6 +29,7 @@
                         image(class="time-img" src="../../static/image/other/time.png")
                         view() {{item.createTime}}
                 view(class="mt15") {{item.traceRecord}}
+            view(v-if="!data.traceLogs.length" class="no-list") 暂无跟踪记录　　　　
         view(v-if="data.status==2")
             view(class="gray_bar" style="height:25rpx;")
             view(class="record record2")

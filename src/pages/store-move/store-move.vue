@@ -218,9 +218,11 @@ export default {
                 params.keywords=this.keywords;
             }
             if(this.startTime){
+                params.type="custom";
                 params.startTime=this.startTime;
             }
             if(this.endTime){
+                params.type="custom";
                 params.endTime=this.endTime;
             }
             if(this.roleType){
