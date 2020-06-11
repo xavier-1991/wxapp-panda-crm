@@ -12,7 +12,7 @@
                 view(class="top-right df jcsb" style="width:560rpx") 
                     text {{data.logistics||'暂无物流单号'}}
                     text(v-if="data.logistics" class="copy" @tap="toCopy(data.logistics)") 复制
-        view(class="bk_f p25 mt25" )
+        view(v-if="data.logisticsInfo.length" class="bk_f p25 mt25" )
             //- 收货地址
             view(class="item df")
                 view(class="item-l re")
@@ -37,6 +37,7 @@
                         view(class="fs28") {{item.status}}
                         view(class="fs24 mt5") {{item.context}}
                         view(class="fs24 mt5") {{item.time}}
+        view(v-if="!data.logisticsInfo.length" class="no-list p25 mt30" style="line-height:40rpx;text-align:left;") 没有此物流信息，请复制运单号到对应物流网站上查询物流详情哦
 
 
                 

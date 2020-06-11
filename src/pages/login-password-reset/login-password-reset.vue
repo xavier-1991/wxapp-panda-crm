@@ -36,13 +36,17 @@ export default {
         },
         toSubmit(){
             if (!util.checkPassword(this.params.oldPassword)) {
-                util.showToast("请输入正确格式的当前密码");
+                util.showToast("原密码输入错误");
                 return false;
             }
-            if (!util.checkPassword(this.params.password)) {
-                util.showToast("请输入正确格式的新密码");
+            if (!this.params.password) {
+                util.showToast("新密码不能为空");
                 return false;
             }
+            // if (!util.checkPassword(this.params.password)) {
+            //     util.showToast("请输入正确格式的新密码");
+            //     return false;
+            // }
             if (this.params.password != this.params.confirmPassword) {
                 util.showToast("两次输入密码不一致");
                 return false;

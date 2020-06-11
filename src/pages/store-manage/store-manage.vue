@@ -484,7 +484,22 @@ export default {
         },
         // 重置（全部条件）
         resetAll(){
-            this.paramsReset();
+            this.page=1;
+            this.startTime='';
+            this.endTime='';
+            this.keywords='';
+            this.storeType=-1;
+            this.storeStatus=-1;
+            this.audit=-1;
+            this.orderOrNot=-1;
+
+            this.salesmanId=0;
+            this.provinceId=0;
+            this.cityId=0;
+            this.salesman='';
+            this.provinceName='';
+            this.cityName='';
+            this.salesmanList=JSON.parse(JSON.stringify(this.salesmanListAll));
             this.loadPage();
         }
     }
