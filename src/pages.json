@@ -133,7 +133,34 @@
         {
             "path": "pages/store-check-audit/store-check-audit",
             "style": {
-                "navigationBarTitleText": "选择归属业务员"
+                "navigationBarTitleText": "选择归属业务员",
+                "enablePullDownRefresh": true
+            }
+        },
+        {
+            "path": "pages/goods-list/goods-list",
+            "style": {
+                "navigationBarTitleText": "商品列表",
+                "enablePullDownRefresh": true
+            }
+        },
+        {
+            "path": "pages/goods-audit/goods-audit",
+            "style": {
+                "navigationBarTitleText": "商品审核"
+            }
+        },
+        {
+            "path": "pages/sales-list/sales-list",
+            "style": {
+                "navigationBarTitleText": "业务员列表",
+                "enablePullDownRefresh": true
+            }
+        },
+        {
+            "path": "pages/sales-add/sales-add",
+            "style": {
+                "navigationBarTitleText": ""
             }
         }
     ],

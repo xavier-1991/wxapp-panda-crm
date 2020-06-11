@@ -7,10 +7,22 @@
                 image(class="banner" src="../../static/image/index/banner.png")
                 view(class="re header-main")
                     image(class="bg0" src="../../static/image/index/bg0.png")
-                    image(class="month-img" src="../../static/image/index/month-data.png")
+                    image(v-if="roleType==2" class="month-img" src="../../static/image/index/sales-support/title.png")
+                    image(v-else class="month-img" src="../../static/image/index/month-data.png")
                     view(class="data") 
-                        //- view(class="data-title") 本月数据
-                        view(class="df mt80")
+                        //- 重要信息（销售支持）
+                        view(class="df mt80" v-if="roleType==2")
+                            view(class="data-item")
+                                view(class="item-num") 12
+                                view(class="item-text") 待审核门店
+                            view(class="data-item")
+                                view(class="item-num") 23453453
+                                view(class="item-text") 待审核商品
+                            view(class="data-item")
+                                view(class="item-num") 23523423
+                                view(class="item-text") 待发货订单
+                        //- 本月数据（业务员，省区经理）
+                        view(class="df mt80" v-else)
                             view(class="data-item")
                                 view(class="item-num") {{data.newAddedOrderStoreNum}}
                                 view(class="item-text") 新增下单门店
@@ -80,6 +92,33 @@
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/icon4.png")
                         view(class="fs24 cor mt10 tac") 工单
+            //- 销售支持功能栏
+            view(class="section3 mt30 mb30" v-if="roleType==2")
+                view(class="section2 df jcsba bk_f mt15")
+                    view(class="analysis-item" @tap="")
+                        view(class="df jcc")
+                            image(class="icon" src="../../static/image/index/sales-support/icon-01.png")
+                        view(class="fs24 cor mt10") 发红包
+                    view(class="analysis-item" @tap="toWorkOrder")
+                        view(class="df jcc")
+                            image(class="icon" src="../../static/image/index/sales-support/icon-02.png")
+                        view(class="fs24 cor mt10") 工单
+                    view(class="analysis-item" @tap="toSalesList")
+                        view(class="df jcc")
+                            image(class="icon" src="../../static/image/index/sales-support/icon-03.png")
+                        view(class="fs24 cor mt10") 业务员管理
+            //- 管理中心 (销售支持)
+            view(class="section3 mt30 mb30" v-if="roleType==2")
+                view(class="title") 管理中心
+                view(class="df jcsb mt15")
+                    view(class="df jcc ai-center sup-wrap" @tap="toStore('audit','0')")
+                        image(src="../../static/image/index/sales-support/icon-05.png" class="sup-icon")
+                        view(class="sup-text") 门店审核
+                        image(class="arrow-right" src="../../static/image/arrow-right.png")
+                    view(class="df jcc ai-center sup-wrap sup-wrap2" @tap="toGoodsList")
+                        image(src="../../static/image/index/sales-support/icon-06.png" class="sup-icon")
+                        view(class="sup-text") 商品审核
+                        image(class="arrow-right" src="../../static/image/arrow-right.png")
             //- 本月新增门店
             view(class="section3")
                 view(class="title") 本月新增门店
@@ -139,7 +178,7 @@ export default {
         "bottom-bar": bottomBar
     },
     onLoad() {
-        this.roleType=pd.getRoleType();
+        this.roleType=2||pd.getRoleType();
         let that=this;
         uni.getSystemInfo({
             success: function (res) {
@@ -236,11 +275,19 @@ export default {
         toWorkOrder(){
             util.linkto("work-order");
         },
+        toGoodsList(){
+            util.linkto("goods-list");
+        },
+        toSalesList(){
+            util.linkto('sales-list');
+        },
         toLogin(){
             util.reLaunch("login");
         },
         toStore(params,data){
-            this.$globalData.tabbarPramas={[params]:data};
+            if(params){
+                this.$globalData.tabbarPramas={[params]:data};
+            }
             util.linkto('store-manage');
         },
         toOrder(params,data){
