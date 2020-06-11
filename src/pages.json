@@ -162,6 +162,13 @@
             "style": {
                 "navigationBarTitleText": ""
             }
+        },
+        {
+            "path": "pages/red-packets/red-packets",
+            "style": {
+                "navigationBarTitleText": "潘德红包",
+                "enablePullDownRefresh": true
+            }
         }
     ],
     "globalStyle": {

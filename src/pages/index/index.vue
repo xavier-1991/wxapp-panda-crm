@@ -95,7 +95,7 @@
             //- 销售支持功能栏
             view(class="section3 mt30 mb30" v-if="roleType==2")
                 view(class="section2 df jcsba bk_f mt15")
-                    view(class="analysis-item" @tap="")
+                    view(class="analysis-item" @tap="toRedPackets")
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/sales-support/icon-01.png")
                         view(class="fs24 cor mt10") 发红包
@@ -280,6 +280,9 @@ export default {
         },
         toSalesList(){
             util.linkto('sales-list');
+        },
+        toRedPackets(){
+            util.linkto('red-packets');
         },
         toLogin(){
             util.reLaunch("login");
