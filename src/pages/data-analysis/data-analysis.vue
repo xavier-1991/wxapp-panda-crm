@@ -48,7 +48,7 @@
             view(class="ml10 fs28 cor_blue p20" @tap="resetAll") 重置
         //- 数据统计
         view()
-            view(class="fwb5 cor fs28 mt25") 数据统计
+            view(class="fwb5 cor fs28 mt25 title") 数据统计
             view(class="data re mt30")
                 image(src="../../static/image/index/bg-data.png")
                 view(class="data-main")
@@ -67,7 +67,7 @@
                             view(class="fs40 cor fwb5") {{data.newerCustomer}}
                             view(class="fs24 cor fwb4 mt10") 新增潜在客户
         view()
-            view(class="fwb5 cor fs28 mt30") 订单分析
+            view(class="fwb5 cor fs28 mt30 title") 订单分析
             view(class="order mt30")
                 view(class="df jcfe")
                     view(class="order-top") 

@@ -15,7 +15,7 @@
                     view(v-else class="add" @tap="toAdd('add')") 新增
         view(class="main")
             view(class="p25lr" style="margin-top:114rpx;")
-                view(class="fs28 cor fwb5") 门店列表
+                view(class="fs28 cor fwb5 title") 门店列表
                 //- 门店列表
                 view(class="list" v-if="tab==1")
                     view(class="item" v-for="(item,index) in store.list" :key="index" @tap="chooseStore(item)")

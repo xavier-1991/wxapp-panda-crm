@@ -29,7 +29,7 @@
                         view(class="df ai-center jcsb" style="width:236rpx")
                             view(:class="['c-area-text',provinceId?'':'c-area-text-empty']") {{provinceName?provinceName:'选择省区'}}
                             image(class="c-y-down" src="../../static/image/arrow-down.png")
-                view(class="c-yewu-box df ai-center ml25" style="width:256rpx;")
+                view(class="c-yewu-box df ai-center ml-picker" style="width:256rpx;")
                     picker(mode='selector' class="c-area-picker pl20 df" :range='cityList' range-key="cityName" @change="cityChange") 
                         view(class="df ai-center jcsb" style="width:236rpx")
                             view(:class="['c-area-text',cityId?'':'c-area-text-empty']") {{cityName?cityName:'选择城市'}}
@@ -44,7 +44,7 @@
                 view(class="ml10 fs28 cor_blue p20" @tap="resetAll") 重置
         //- 门店列表
         view(class="p25lr")
-            view(class="fs28 cor fwb5") 门店列表
+            view(class="fs28 cor fwb5 title") 门店列表
             view(class="list")
                 view(class="item" v-for="(item,index) in list" :key="index" @tap="toAdd('edit',item.storeId)")
                     view(class="df jcsb")
@@ -62,7 +62,7 @@
                                 view(class="df jcc ai-center mr5" style="width:40rpx;height:40rpx")
                                     image(class="time-icon" src="../../static/image/other/addr.png")
                                 view(class="textFlow address") {{item.address}}
-                        view(class="df")
+                        view(class="df" style="padding-bottom:5rpx;")
                             image(@tap.stop="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")
                             image(@tap.stop="toMap(item)" class="btn-img" src="../../static/image/other/latent-addr.png")
                 view(v-if="showLoadMoreLoading")

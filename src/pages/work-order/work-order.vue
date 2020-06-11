@@ -97,12 +97,12 @@
                             view(v-if="item.status==0" class="h-tag") {{item.statusStr}}
                             view(v-if="item.status==1" class="h-tag h-tag1") {{item.statusStr}}
                             view(v-if="item.status==2" class="h-tag h-tag2") {{item.statusStr}}
-                    view(class="df mt30")
+                    view(class="df mt20")
                         view(class="h-l df ai-center")
                             image(class="h-l-img" src="../../static/image/work-order/phone-num.png")
                             view(class="h-l-text") 手机号
                         view(class="fs28 cor") {{item.mobile}}
-                    view(class="df mt30")
+                    view(class="df mt20")
                         view(class="h-l df ai-center ai-start")
                             image(class="h-l-img" src="../../static/image/work-order/record.png")
                             view(class="h-l-text") 问题记录

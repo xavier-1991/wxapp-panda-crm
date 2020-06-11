@@ -10,7 +10,7 @@
                     image(class="month-img" src="../../static/image/index/month-data.png")
                     view(class="data") 
                         //- view(class="data-title") 本月数据
-                        view(class="df mt80")
+                        view(class="df" style="margin-top:72rpx")
                             view(class="data-item")
                                 view(class="item-num") {{data.newAddedOrderStoreNum}}
                                 view(class="item-text") 新增下单门店
