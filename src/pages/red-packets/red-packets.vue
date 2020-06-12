@@ -29,15 +29,33 @@
                             view(class="df ai-center jcsb c-date-box ml20")
                                 picker(:class="['c-date-picker',!endTime?'c-date-picker-empty':'']" :value="endTime" :end="dateNow" mode="date" @change="chooseEnd") {{endTime?endTime:'结束时间'}}
                                 image(src="../../static/image/other/date.png" class="c-date-img")
-                view()
-                    view(class="df")
+                view(class="pl25 bb1")
+                    view(class="df ai-center  fs28 cor mt30" v-for="(item,index) in 2" :key="index")
                         view() 满
+                        input(placeholder="输入金额" placeholder-class='pl' class="ml15 i-item-inp w150")
+                        view(class="ml15 mr15") 减
                         input(placeholder="输入金额" placeholder-class='pl' class="i-item-inp w150")
-                        view() 减
-                        input(placeholder="输入金额" placeholder-class='pl' class="i-item-inp w150")
-                        view() 每人
+                        view(class="ml30 mr15") 每人
                         input(placeholder="数量" placeholder-class='pl' class="i-item-inp w96")
-                        view() 张
+                        view(class="ml15") 张
+                        image(src="" class="del-img bk_gray")
+                    view(class="add-btn-wrap-top")
+                        view(class="df ai-center add-btn-top jcc")
+                            image(src="" class="bk_gray")
+                            view(class="ml15") 添加一级满减
+                view(class="mt30 ml25")
+                    view(class="fs28 cor df ai-center")
+                        view() 可用活动
+                        view(class="df ai-center" style='margin-left:60rpx')
+                            image(class="sel-img" src="../../static/image/store/selected.png")
+                            view(class="ml15 ") 秒杀活动
+                    view(class="mt15 df ai-center")
+                        image(src="" class="bk_gray" style="width:24rpx;height:24rpx;")
+                        view(class="ml15 fs24 cor_9") 勾选表示此张优惠券可与改活动同时使用
+                view(class="add-btn-wrap bt1 df jcsb")
+                    view(class="add-btn" @tap="toSend") 保存
+                    view(class="add-btn add-btn2") 保存并发放
+
                         
                         
 
