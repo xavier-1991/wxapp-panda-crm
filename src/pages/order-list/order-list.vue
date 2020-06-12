@@ -73,6 +73,10 @@
                                 text {{item.contacts}}
                                 text(class="ml15") {{item.mobile}}
                             image(class="phone" src="../../static/image/order/phone.png" @tap="toCall(item.mobile)")
+                    view(class="df mt-x" v-if="item.message")
+                        view(class="df")
+                            view(class="ic-left fls0") 订单备注
+                            view(class="cor fs24 textFlow2") {{item.message}}
                     view(class="df jcsb mt-x")
                         view(class="ic-left") {{item.hasSelfExtract?'自提点':'地址'}}
                         view(class="ic-addr df jcsb ai-center bb1")
