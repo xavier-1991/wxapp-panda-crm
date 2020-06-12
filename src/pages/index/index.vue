@@ -11,7 +11,7 @@
                     image(v-else class="month-img" src="../../static/image/index/month-data.png")
                     view(class="data") 
                         //- 重要信息（销售支持）
-                        view(class="df mt80" v-if="roleType==2")
+                        view(class="df" style="margin-top:72rpx" v-if="roleType==2")
                             view(class="data-item")
                                 view(class="item-num") 12
                                 view(class="item-text") 待审核门店
@@ -22,7 +22,7 @@
                                 view(class="item-num") 23523423
                                 view(class="item-text") 待发货订单
                         //- 本月数据（业务员，省区经理）
-                        view(class="df mt80" v-else)
+                        view(v-else class="df" style="margin-top:72rpx")
                             view(class="data-item")
                                 view(class="item-num") {{data.newAddedOrderStoreNum}}
                                 view(class="item-text") 新增下单门店

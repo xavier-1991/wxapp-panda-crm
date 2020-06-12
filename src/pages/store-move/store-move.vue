@@ -28,7 +28,7 @@
                         view(class="df ai-center jcsb" style="width:236rpx")
                             view(:class="['c-area-text',provinceId?'':'c-area-text-empty']") {{provinceName?provinceName:'选择省区'}}
                             image(class="c-y-down" src="../../static/image/arrow-down.png")
-                view(class="c-yewu-box df ai-center ml25" style="width:256rpx;")
+                view(class="c-yewu-box df ai-center ml-picker" style="width:256rpx;")
                     picker(mode='selector' class="c-area-picker pl20 df" :range='cityList' range-key="cityName" @change="cityChange") 
                         view(class="df ai-center jcsb" style="width:236rpx")
                             view(:class="['c-area-text',cityId?'':'c-area-text-empty']") {{cityName?cityName:'选择城市'}}
