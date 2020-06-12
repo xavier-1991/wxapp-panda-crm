@@ -90,7 +90,7 @@
                             viwe(class="df ai-center")
                                 view(class="btn_wrap df")
                                     view(:class="['btn-item',item.audit===1?'':'btn-item-gray']") {{item.auditStr}}
-                                    view(v-if="item.audit===1" :class="['btn-item',item.orderOrNot===1?'':'btn-item-gray']") {{item.orderOrNotStr}}
+                                    view(v-if="item.audit===1" :class="['btn-item',item.orderOrNot?'':'btn-item-gray']") {{item.orderOrNotStr}}
                                 image(class="arrow-right" src="../../static/image/arrow-right.png")
                         view(v-if="showLoadMoreLoading")
                             bottom-bar(bottomType="loading")
