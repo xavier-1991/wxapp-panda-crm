@@ -7,7 +7,7 @@
                         image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
                         input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
                     image(v-if="keywords" @tap="clear" class="search-del" src="../../static/image/search/del.png")
-                view(v-if="!roleType" class="add" @tap="toAdd") 新增
+                view(v-if="!roleType" class="add" @tap="toAdd('add')") 新增
                 view(v-else class="search-btn" @tap="toSearch") 搜索
             //- 其他过滤条件
             //- 时间
@@ -148,7 +148,12 @@ export default {
             this.keywords = "";
         },
         toAdd(type, id = "") {
-            util.linkto("latent-custom-add", `type=${type}&id=${id}`);
+            if(this.roleType==1){
+                util.linkto("latent-custom-check",`id=${id}`);
+            }else{
+                util.linkto("latent-custom-add", `type=${type}&id=${id}`);
+            }
+
         },
         toSearch() {
             this.page = 1;

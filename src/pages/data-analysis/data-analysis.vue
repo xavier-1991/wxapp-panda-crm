@@ -352,7 +352,7 @@ export default {
         },
         // 重置（全部条件）
         resetAll() {
-            this.state="today";
+            // this.state="today";
             this.startTime = "";
             this.endTime = "";
             this.salesmanId = 0;

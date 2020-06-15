@@ -9,7 +9,7 @@
         //-     view(class="item-right re df ai-center")
         //-         image(src="" class="bk_gray" class="logo_img")
         //-         image(src="../../static/image/arrow-right.png" class="arrow-right")
-        view(class="item df ai-center jcsb" v-if="pageType=='edit'&&!params.organizationCode?false:true")
+        view(class="item df ai-center jcsb" v-if="pageType=='add'||(pageType=='edit'&&!params.organizationCode)")
             view(class="item-left") 证件信息
             view(class="item-right")
                 input(v-model="params.organizationCode" class="inp" placeholder="必填，统一社会信用代码 (组织机构代码)" placeholder-class='pl')
