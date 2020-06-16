@@ -27,6 +27,12 @@
             }
         },
         {
+            "path": "pages/latent-custom-check/latent-custom-check",
+            "style": {
+                "navigationBarTitleText": "潜在客户"
+            }
+        },
+        {
             "path": "pages/store-manage/store-manage",
             "style": {
                 "navigationBarTitleText": "门店管理",

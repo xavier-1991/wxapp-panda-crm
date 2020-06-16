@@ -54,12 +54,18 @@
                 view(class="data-main")
                     view(class="data-main-sec df")
                         view(class="data-item tac")
+                            view(class="fs40 cor fwb5") {{data.placeOrderCount}}
+                            view(class="fs24 cor fwb4 mt10") 下单数量
+                        view(class="data-item tac")
+                            view(class="fs40 cor fwb5") {{data.salesAmount}}
+                            view(class="fs24 cor fwb4 mt10") 下单金额
+                        view(class="data-item tac")
                             view(class="fs40 cor fwb5") {{data.newerStoreCount}}
                             view(class="fs24 cor fwb4 mt10") 新增门店
-                        view(class="data-item tac")
+                    view(class="data-main-sec df")
+                        view(class="data-item data-item2 tac")
                             view(class="fs40 cor fwb5") {{data.newerVisited}}
                             view(class="fs24 cor fwb4 mt10") 新增拜访
-                    view(class="data-main-sec df")
                         view(class="data-item data-item2 tac")
                             view(class="fs40 cor fwb5") {{data.newerStoreCountByOrder}}
                             view(class="fs24 cor fwb4 mt10") 新增下单门店
@@ -352,7 +358,7 @@ export default {
         },
         // 重置（全部条件）
         resetAll() {
-            this.state="today";
+            // this.state="today";
             this.startTime = "";
             this.endTime = "";
             this.salesmanId = 0;

@@ -20,7 +20,9 @@ function getPosition() {
         }
     }).then(()=>{
         return uni.getLocation({
-            type: "gcj02 "
+            type: "gcj02 ",
+            isHighAccuracy:true,
+            highAccuracyExpireTime:3000
         }).then((resArr)=>{
             console.log('位置获取成功', resArr)
             if (resArr[0]){

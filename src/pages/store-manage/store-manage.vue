@@ -79,8 +79,8 @@
                     view(class="df jcfe mt30")
                         view(v-if="!roleType" class="btn0" @tap="toEdit(item.storeId)") 编辑
                         view(v-if="!roleType" class="btn0 btn1 ml25" @tap="toVisit(item)") 拜访
-                        view(v-if="roleType&&item.audit" class="btn3" @tap="toCheck(item.storeId)") 查看
-                        view(v-if="roleType&&!item.audit" class="btn3 btn4" @tap="toStoreAudit(item.storeId)") 审核
+                        view(v-if="roleType&&item.audit==1" class="btn3" @tap="toCheck(item.storeId)") 查看
+                        view(v-if="roleType&&item.audit!=1" class="btn3 btn4" @tap="toStoreAudit(item.storeId)") 审核
 
             view(v-if="showLoadMoreLoading")
                 bottom-bar(bottomType="loading")
@@ -150,6 +150,8 @@ export default {
             salesmanId:0, //业务员id
             provinceId:0, 
             cityId:0,
+
+            preState:'',
 
             // 时间选择
             showTime: false,
@@ -229,6 +231,13 @@ export default {
                 page:this.page,
                 type:this.state
             }
+            if(this.state=='custom'&&this.preState&&!this.startTime&&!this.endTime){
+                params.type=this.preState
+            }else{
+                if(this.state=='custom'){
+                    params.type='custom';
+                }
+            }
             if(this.keywords){
                 params.keywords=this.keywords;
             }
@@ -295,12 +304,11 @@ export default {
             if(this.state===state){
                 return;
             }
+            this.preState=this.state;
             this.state=state;
             if(this.state=='custom'){
                 this.startTime='';
                 this.endTime='';
-                this.page=1;
-                this.list=[];
                 this.showTime=true;
             }else{
                 this.page=1
@@ -337,17 +345,13 @@ export default {
         // 时间选择
         chooseStart(e){
             this.startTime=e.detail.value;
-            if(this.startTime&&this.endTime){
-                this.page=1;
-                this.loadPage();
-            }
+            this.page=1;
+            this.loadPage();
         },
         chooseEnd(e){
             this.endTime=e.detail.value;
-            if(this.startTime&&this.endTime){
-                this.page=1;
-                this.loadPage();
-            }
+            this.page=1;
+            this.loadPage();
         },
         //搜索部分
         clear(){
@@ -393,6 +397,7 @@ export default {
              wx.openLocation({
                 latitude:item.lat*1,
                 longitude:item.lng*1,
+                address:item.address,
                 scale: 18
             })
         },
@@ -493,6 +498,7 @@ export default {
             this.audit=-1;
             this.orderOrNot=-1;
 
+            this.preState='';
             this.salesmanId=0;
             this.provinceId=0;
             this.cityId=0;
