@@ -59,7 +59,7 @@
                 view(class="ml10 fs28 cor_blue p20" @tap="resetAll") 重置
         //- 门店列表
         view(class="list")
-            view(class="item df" v-for="(item,index) in list" :key="index")
+            view(class="item df" v-for="(item,index) in list" :key="index" @tap.stop="toCheck(item.storeId)")
                 view(class="store-img-wrap re")
                     image(:src="item.storeFacedPic" class="store-img" mode="aspectFill" :lazy-load="true")
                     view(:class="['status',item.audit===1?'status2':'']") {{item.auditStr}}
@@ -74,13 +74,13 @@
                             view(class="mt-x") {{item.trueName}} {{item.mobile}}
                             view(class="mt-x textFlow" style="width:380rpx;") {{item.address}}
                         view(class="df")
-                            image(@tap="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")
-                            image(@tap="toMap(item)" class="btn-img" src="../../static/image/other/latent-addr.png")
+                            image(@tap.stop="toCall(item.mobile)" class="btn-img phone-img" src="../../static/image/other/latent-phone.png")
+                            image(@tap.stop="toMap(item)" class="btn-img" src="../../static/image/other/latent-addr.png")
                     view(class="df jcfe mt30")
-                        view(v-if="!roleType" class="btn0" @tap="toEdit(item.storeId)") 编辑
-                        view(v-if="!roleType" class="btn0 btn1 ml25" @tap="toVisit(item)") 拜访
-                        view(v-if="roleType&&item.audit==1" class="btn3" @tap="toCheck(item.storeId)") 查看
-                        view(v-if="roleType&&item.audit!=1" class="btn3 btn4" @tap="toStoreAudit(item.storeId)") 审核
+                        view(v-if="!roleType" class="btn0" @tap.stop="toEdit(item.storeId)") 编辑
+                        view(v-if="!roleType" class="btn0 btn1 ml25" @tap.stop="toVisit(item)") 拜访
+                        view(v-if="roleType&&item.audit==1" class="btn3" @tap.stop="toCheck(item.storeId)") 查看
+                        view(v-if="roleType&&item.audit!=1" class="btn3 btn4" @tap.stop="toStoreAudit(item.storeId)") 审核
 
             view(v-if="showLoadMoreLoading")
                 bottom-bar(bottomType="loading")
