@@ -9,7 +9,7 @@
         //-     view(class="item-right re df ai-center")
         //-         image(src="" class="bk_gray" class="logo_img")
         //-         image(src="../../static/image/arrow-right.png" class="arrow-right")
-        view(class="item df ai-center jcsb" v-if="pageType=='add'||(pageType=='edit'&&!params.organizationCode)")
+        view(class="item df ai-center jcsb" v-if="pageType=='add'||(pageType=='edit'&&!organizationCode)")
             view(class="item-left") 证件信息
             view(class="item-right")
                 input(v-model="params.organizationCode" class="inp" placeholder="必填，统一社会信用代码 (组织机构代码)" placeholder-class='pl')
@@ -97,6 +97,7 @@ export default {
                 // userIdPic: "", //手持身份证照片
                 storeType: 0 //门店类型 0单体门店 1 连锁门店
             },
+            organizationCode:'',
             // 存放本地临时路径
             localSrc: {
                 storeFacedPic: "", //门脸照
@@ -132,6 +133,7 @@ export default {
             ).then(data => {
                 this.params=data.detail;
                 this.params.locationAddr=data.detail.storeAddress;
+                this.organizationCode=data.detail.organizationCode;
                 if(!data.detail.lat){
                     delete this.params['lat'];
                     delete this.params['lng'];
