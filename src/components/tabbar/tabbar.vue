@@ -55,7 +55,6 @@ export default {
     watch: {},
     methods: {
         toTabbar(page){
-            console.log(page)
             util.linkto(page);
         }
        

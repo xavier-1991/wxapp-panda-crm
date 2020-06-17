@@ -33,6 +33,9 @@
         view(class="item df ai-center jcsb re" v-if="params.hasSalesman")
             view(class="item-left") 业务员
             view(class="fs28 cor item-right" style="padding:24rpx 0;height:auto;") {{params.salesmanName}}
+        view(class="item df ai-center jcsb re" v-if="params.createTime")
+            view(class="item-left") 注册时间
+            view(class="fs28 cor item-right" style="padding:24rpx 0;height:auto;") {{params.createTime}}
         view
             view(class="fs28 cor" style="margin:30rpx 0 0 24rpx") 资质信息
             view(class="camara-list df jcsb fw")
