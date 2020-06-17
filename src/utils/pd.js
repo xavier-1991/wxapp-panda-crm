@@ -20,7 +20,7 @@ function getPosition() {
         }
     }).then(()=>{
         return uni.getLocation({
-            type: "gcj02 ",
+            type: "gcj02",
             isHighAccuracy:true,
             highAccuracyExpireTime:3000
         }).then((resArr)=>{
