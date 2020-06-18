@@ -109,7 +109,7 @@ function realRequest(apiUrl, methodName, params, header) {
  */
 function getCommonHeader(methodName) {
     let header = {};
-    if (methodName === "POST") {
+    if (methodName === "POST" || methodName === "PUT") {
         header['content-type'] = 'application/json';
 
         return header;

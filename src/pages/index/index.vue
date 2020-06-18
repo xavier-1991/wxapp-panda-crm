@@ -178,7 +178,7 @@ export default {
         "bottom-bar": bottomBar
     },
     onLoad() {
-        this.roleType=2||pd.getRoleType();
+        this.roleType=pd.getRoleType();
         let that=this;
         uni.getSystemInfo({
             success: function (res) {

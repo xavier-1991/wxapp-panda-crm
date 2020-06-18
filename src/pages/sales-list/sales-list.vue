@@ -7,7 +7,7 @@
                         image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
                         input(class="search-inp" placeholder="请输入门店名称" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
                     image(v-if="keywords" @tap="clear" class="search-del" src="../../static/image/search/del.png")
-                view(class="add" @tap="toAdd") 新增
+                view(class="add" @tap="toAdd('add')") 新增
             //- 其他过滤条件
             //- 时间
             view(class="c-f-item df ai-center mt25")

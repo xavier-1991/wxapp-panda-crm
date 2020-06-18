@@ -43,16 +43,16 @@
                             image(class="time-img" src="../../static/image/other/time.png")
                             view() {{data.result.createTime}}
                     view(class="mt15") {{data.result.traceRecord}}
-            //- view(class="add-item df jcsb ai-center")
-            //-     view(class="aw-l") 
-            //-         text(class="fs28" style="color:#FF662E;") *
-            //-         text 跟踪记录
-            //-     view(class="df area-wrap aw-r")
-            //-         image(v-if="!params.notes" class="edit fls0" src="../../static/image/other/edit.png")
-            //-         textarea(v-model="params.notes" placeholder-class="pl2" placeholder="请填写问题描述~")
-        //- view(class="add-btn-wrap bt1 df jcsb")
-        //-     view(class="add-btn") 取消
-        //-     view(class="add-btn add-btn2") 确定
+        view(v-if="roleType&&type=='track'" class="add-item df jcsb ai-center p25")
+            view(class="aw-l" style="width:200rpx;") 
+                text(class="fs28" style="color:#FF662E;") *
+                text 填写跟踪记录
+            view(class="df area-wrap aw-r")
+                image(v-if="!traceRecord" class="edit fls0" src="../../static/image/other/edit.png")
+                textarea(v-model="traceRecord" maxlength='255' placeholder-class="pl2" placeholder="请填写问题描述~")
+        view(v-if="roleType&&type=='track'" class="add-btn-wrap bt1 df jcsb")
+            view(class="add-btn" @tap="toBack") 取消
+            view(class="add-btn add-btn2" @tap="toSend") 确定
 
 </template>
 <script>
@@ -63,9 +63,12 @@ const pd = require("../../utils/pd");
 export default {
     data() {
         return {
-            type:'',
+            type:'look',
             hasData:false,
-            data:null
+            data:null,
+            roleType: pd.getRoleType(),
+            traceRecord:'',
+            id:0
         };
     },
     onLoad(options) {
@@ -77,14 +80,16 @@ export default {
            uni.setNavigationBarTitle({
                title: '工单跟踪'
            });
+           this.type="track"
        };
-       this.loadData(options.id);
+       this.id=options.id * 1;
+       this.loadData();
     },
     methods: {
-        loadData(id){
+        loadData(){
             util.showLoadingDialog('加载中');
             http.request(
-                urls.WORK_SHEET_DETAIL.format(id),
+                urls.WORK_SHEET_DETAIL.format(this.id),
                 "GET"
             ).then(data => {
                 this.data=data;
@@ -97,6 +102,34 @@ export default {
                 current: currImg,
                 urls: imgList
             });
+        },
+        toBack(){
+            uni.navigateBack();
+        },
+        toSend(){
+            if(!this.traceRecord.trim()){
+                util.showToast('请填写跟踪记录')
+                return;
+            }
+            if(this.traceRecord.trim().length<2){
+                util.showToast('跟踪记录最少两个字')
+                return;
+            }
+            let params={
+                type:'trace',
+                traceRecord:this.traceRecord
+            }
+            util.showLoadingDialog('加载中');
+            http.request(
+                urls.WORK_SHEET_TRACING.format(this.id),
+                "PUT",
+                params
+            ).then(data => {
+                util.showToast('保存成功');
+                setTimeout(() => {
+                    uni.navigateBack();
+                }, 1500);
+            })
         }
     }
 };

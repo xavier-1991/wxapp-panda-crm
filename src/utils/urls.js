@@ -33,6 +33,7 @@ var urls = {
     STORE_TRANSFER: 'api/store/transfer',
     WORK_SHEET: 'api/worksheet',
     WORK_SHEET_DETAIL: 'api/worksheet/{0}',
+    WORK_SHEET_TRACING: 'api/worksheet/tracing/{0}',
 };
 
 

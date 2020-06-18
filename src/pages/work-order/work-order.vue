@@ -72,14 +72,14 @@
                     view(class="c-yewu-box df ai-center" style="width:200rpx;")
                         picker(mode='selector' class="c-area-picker pl20 df" :range='labelList' range-key="value" @change="hisTagChange") 
                             view(class="df ai-center jcsb" style="width:186rpx")
-                                view(:class="['c-area-text',hisLabelId!=-1?'':'c-area-text-empty']") {{hisLabelName?hisLabelName:'选择标签'}}
+                                view(:class="['c-area-text',hisLabelId!=-1?'':'c-area-text-empty']") {{hisLabelName?hisLabelName:'全部'}}
                                 image(class="c-y-down" src="../../static/image/arrow-down.png")
                 view(class="c-f-item df ai-center")
                     view(class="c-f-item-l" style="width:86rpx;margin-left:35rpx;") 状态
                     view(class="c-yewu-box df ai-center" style="width:200rpx;")
                         picker(mode='selector' class="c-area-picker pl20 df" :range='statusList' range-key="value" @change="statusChange") 
                             view(class="df ai-center jcsb" style="width:186rpx")
-                                view(:class="['c-area-text',status!=-1?'':'c-area-text-empty']") {{statusName?statusName:'选择状态'}}
+                                view(:class="['c-area-text',status!=-1?'':'c-area-text-empty']") {{statusName?statusName:'全部'}}
                                 image(class="c-y-down" src="../../static/image/arrow-down.png")
                 view(class="ml10 fs28 cor_blue p10" @tap="resetAll") 重置
             view(class="gray_bar mt25" style="height:25rpx;")
@@ -94,6 +94,7 @@
                             view(class="h-l-text") 订单编号
                         view(class="df")
                             view(class="fs28 cor") {{item.orderSn}}
+                            //- status 0 待处理 1 处理中 2 已完结
                             view(v-if="item.status==0" class="h-tag") {{item.statusStr}}
                             view(v-if="item.status==1" class="h-tag h-tag1") {{item.statusStr}}
                             view(v-if="item.status==2" class="h-tag h-tag2") {{item.statusStr}}
@@ -109,8 +110,8 @@
                         view(class="fs28 cor") {{item.issues}}
                     view(class="df mt30 jcfe mt30")
                         view(class="h-btn" @tap="toTrack('look',item.id)") 查看
-                        view(v-if="roleType" class="h-btn ml20" @tap="toTrack('track',item.id)") 跟踪
-                        view(v-if="roleType" class="h-btn ml20" @tap="toResult") 结果
+                        view(v-if="roleType&&item.status!=2" class="h-btn ml20" @tap="toTrack('track',item.id)") 跟踪
+                        view(v-if="roleType&&item.status!=2" class="h-btn ml20" @tap="toResult(item.id)") 结果
                 view(v-if="showLoadMoreLoading")
                     bottom-bar(bottomType="loading")
                 view(v-if="isReachBottom")
@@ -154,6 +155,7 @@ export default {
             showLoadMoreLoading: false,
             isReachBottom: false,
             roleType: pd.getRoleType(),
+            toPageName:'' //前往的页面名称 用于该返回时刷新
         };
     },
     components: {
@@ -161,6 +163,14 @@ export default {
     },
     onLoad() {
         this.getLabel();
+    },
+    onShow(){
+        if(this.tab==2&&this.toPageName=='work-order-result'){
+            //完结工单后返回
+            this.page = 1;
+            this.toPageName='';
+            this.loadPage();
+        }
     },
     onPullDownRefresh() {
         this.page = 1;
@@ -299,8 +309,9 @@ export default {
         toTrack(type,id){
             util.linkto('work-order-track',`type=${type}&id=${id}`);
         },
-        toResult(){
-            util.linkto('work-order-result');
+        toResult(id){
+            this.toPageName='work-order-result';
+            util.linkto('work-order-result',`id=${id}`);
         },
         toCheck(){
             util.linkto('work-order-check');
