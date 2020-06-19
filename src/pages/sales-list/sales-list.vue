@@ -52,7 +52,7 @@
                             text(v-for="(subItem,subIndex) in item.area" :key="subIndex") {{subItem.cityName}}{{item.area.length==subIndex+1?'':'、'}}
                 view(class="item-btn df")
                     view(@tap="toAdd('edit',item.id)") 编辑
-                    view(class="ml25") 删除
+                    view(class="ml25" @tap="toDelete(item.id)") 删除
             view(v-if="showLoadMoreLoading")
                 bottom-bar(bottomType="loading")
             view(v-if="isReachBottom")
@@ -126,6 +126,9 @@ export default {
                 params=`type=${type}&id=${id}`;
             }
             util.linkto('sales-add',params);
+        },
+        toDelete(){
+
         },
         clear() {
             this.keywords = "";
