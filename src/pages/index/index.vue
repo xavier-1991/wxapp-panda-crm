@@ -95,6 +95,10 @@
             //- 销售支持功能栏
             view(class="section3 mt30 mb30" v-if="roleType==2")
                 view(class="section2 df jcsba bk_f mt15")
+                    view(class="analysis-item" @tap="toStore('audit','0')")
+                        view(class="df jcc")
+                            image(class="icon" src="../../static/image/index/sales-support/icon-05.png")
+                        view(class="fs24 cor mt10") 门店审核
                     view(class="analysis-item" @tap="toRedPackets")
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/sales-support/icon-01.png")
@@ -107,18 +111,19 @@
                         view(class="df jcc")
                             image(class="icon" src="../../static/image/index/sales-support/icon-03.png")
                         view(class="fs24 cor mt10") 业务员管理
+            //- 暂时隐藏
             //- 管理中心 (销售支持)
-            view(class="section3 mt30 mb30" v-if="roleType==2")
-                view(class="title") 管理中心
-                view(class="df jcsb mt15")
-                    view(class="df jcc ai-center sup-wrap" @tap="toStore('audit','0')")
-                        image(src="../../static/image/index/sales-support/icon-05.png" class="sup-icon")
-                        view(class="sup-text") 门店审核
-                        image(class="arrow-right" src="../../static/image/arrow-right.png")
-                    view(class="df jcc ai-center sup-wrap sup-wrap2" @tap="toGoodsList")
-                        image(src="../../static/image/index/sales-support/icon-06.png" class="sup-icon")
-                        view(class="sup-text") 商品审核
-                        image(class="arrow-right" src="../../static/image/arrow-right.png")
+            //- view(class="section3 mt30 mb30" v-if="roleType==2")
+            //-     view(class="title") 管理中心
+            //-     view(class="df jcsb mt15")
+            //-         view(class="df jcc ai-center sup-wrap" @tap="toStore('audit','0')")
+            //-             image(src="../../static/image/index/sales-support/icon-05.png" class="sup-icon")
+            //-             view(class="sup-text") 门店审核
+            //-             image(class="arrow-right" src="../../static/image/arrow-right.png")
+            //-         view(class="df jcc ai-center sup-wrap sup-wrap2" @tap="toGoodsList")
+            //-             image(src="../../static/image/index/sales-support/icon-06.png" class="sup-icon")
+            //-             view(class="sup-text") 商品审核
+            //-             image(class="arrow-right" src="../../static/image/arrow-right.png")
             //- 本月新增门店
             view(class="section3")
                 view(class="title") 本月新增门店

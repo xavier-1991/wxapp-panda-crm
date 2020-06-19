@@ -70,7 +70,7 @@ export default {
             uni.setNavigationBarTitle({
                 title: "编辑业务员"
             });
-            this.id=options.id||8;
+            this.id=options.id;
             this.getSalesmanDetail();
         }
         this.getArea()
@@ -170,10 +170,8 @@ export default {
             }
             let provinceIds=[],cityIds=[];
             this.serviceAreaList.forEach((item,i)=>{
-                console.log('wwwwwww',item)
                 provinceIds.push(item.provinceId+'');
                 cityIds.push(item.cityId+'');
-                console.log(provinceIds,cityIds)
             });
             let params={
                 name:this.name,
@@ -181,7 +179,6 @@ export default {
                 provinceIds,
                 cityIds
             }
-            console.log(params)
             util.showLoadingDialog('请稍候');
             let reUrl,method;
             if(this.pageType=='add'){

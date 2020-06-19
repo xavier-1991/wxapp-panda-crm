@@ -316,6 +316,7 @@ export default {
                 return;
             }
             let params = {};
+                params.type = 'select';
             if (salesman) {
                 params.keywords = salesman;
             }
