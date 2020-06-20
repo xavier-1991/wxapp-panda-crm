@@ -52,7 +52,7 @@
                             text(v-for="(subItem,subIndex) in item.area" :key="subIndex") {{subItem.cityName}}{{item.area.length==subIndex+1?'':'、'}}
                 view(class="item-btn df")
                     view(@tap="toAdd('edit',item.id)") 编辑
-                    view(class="ml25" @tap="toDelete(item.id)") 删除
+                    view(class="ml25" @tap="toDelete(item.id,index)") 删除
             view(v-if="showLoadMoreLoading")
                 bottom-bar(bottomType="loading")
             view(v-if="isReachBottom")
@@ -127,8 +127,16 @@ export default {
             }
             util.linkto('sales-add',params);
         },
-        toDelete(){
-
+        toDelete(id,index){
+            util.showConfirm('','确定','确定删除业务员吗？',()=>{
+                util.showLoadingDialog('请稍候');
+                http.request(`${urls.SALESMAN_LIST}/${id}`, "DELETE",{type:'delete'}).then(result => {
+                    util.showToast('删除成功');
+                    setTimeout(() => {
+                        this.list.splice(index,1);
+                    }, 1000);
+                });
+            })
         },
         clear() {
             this.keywords = "";

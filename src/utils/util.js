@@ -112,9 +112,9 @@ function showApiError(msg, callback) {
 }
 function showConfirm(title, confirmText,msg, succ, fail) {
     uni.showModal({
-        title: title || '提示',
+        title: title||'',
         content: msg,
-        confirmColor: '#FF5500',
+        confirmColor: '#2196F3',
         confirmText: confirmText,
         success: function (res) {
             if (res.confirm) {
