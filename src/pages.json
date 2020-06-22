@@ -175,6 +175,18 @@
                 "navigationBarTitleText": "潘德红包",
                 "enablePullDownRefresh": true
             }
+        },
+        {
+            "path": "pages/red-packets-edit/red-packets-edit",
+            "style": {
+                "navigationBarTitleText": "编辑红包"
+            }
+        },
+        {
+            "path": "pages/red-packets-check/red-packets-check",
+            "style": {
+                "navigationBarTitleText": "红包详情"
+            }
         }
     ],
     "globalStyle": {

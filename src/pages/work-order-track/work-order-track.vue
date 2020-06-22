@@ -49,7 +49,7 @@
                 text 填写跟踪记录
             view(class="df area-wrap aw-r")
                 image(v-if="!traceRecord" class="edit fls0" src="../../static/image/other/edit.png")
-                textarea(v-model="traceRecord" maxlength='255' placeholder-class="pl2" placeholder="请填写问题描述~")
+                textarea(v-model="traceRecord" maxlength='255' placeholder-class="pl2" placeholder="请填写跟踪记录~")
         view(v-if="roleType&&type=='track'" class="add-btn-wrap bt1 df jcsb")
             view(class="add-btn" @tap="toBack") 取消
             view(class="add-btn add-btn2" @tap="toSend") 确定

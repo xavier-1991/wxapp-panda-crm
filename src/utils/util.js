@@ -178,6 +178,15 @@ function checkPrice(str) {
     let reg = /^(([1-9][0-9]*)|(([0]\.\d{1,2}|[1-9][0-9]*\.\d{1,2})))$/; //最多两位小数的正实数
     return reg.test(str)
 }
+//验证正整数
+function checkInteger(value){
+    var reg = /^([1-9][0-9]*)$/
+    if (reg.test(value)) {
+        return true;
+    } else {
+        return false;
+    }
+};
 module.exports = {
     formatTime,
     linkto,
@@ -197,7 +206,6 @@ module.exports = {
     checkWithdrawPassword,
     checkPrice,
     showLoadingDialog,
-    hideLoadingDialog
-
-
+    hideLoadingDialog,
+    checkInteger
 }

@@ -37,7 +37,7 @@
         view(class="gray_bar" style="height:25rpx;")
         view()
             view(class="bb1 title") 业务员列表
-            view(class="item fs24 cor re" v-for="(item,index) in list" :key="index")
+            view(class="item fs24 cor re" v-for="(item,index) in list" :key="index" @tap.stop="toAdd('edit',item.id)")
                 view(class="bb1" style="padding:24rpx 0;")
                     view(class="df fs28")
                         view() {{item.realName}}
@@ -51,8 +51,8 @@
                             text {{item.area[0].provinceName}} {{' : '}} 
                             text(v-for="(subItem,subIndex) in item.area" :key="subIndex") {{subItem.cityName}}{{item.area.length==subIndex+1?'':'、'}}
                 view(class="item-btn df")
-                    view(@tap="toAdd('edit',item.id)") 编辑
-                    view(class="ml25" @tap="toDelete(item.id,index)") 删除
+                    view(@tap.stop="toOperation(item)") {{item.isDisable?'启用':'禁用'}}
+                    view(class="ml25" @tap.stop="toDelete(item.id,index)") 删除
             view(v-if="showLoadMoreLoading")
                 bottom-bar(bottomType="loading")
             view(v-if="isReachBottom")
@@ -127,9 +127,21 @@ export default {
             }
             util.linkto('sales-add',params);
         },
+        toOperation(item){
+            let str=item.isDisable?'启用':'禁用'
+            util.showConfirm('',str,`确定${str}业务员吗？`,()=>{
+                util.showLoadingDialog(`${str}中`);
+                http.request(`${urls.SALESMAN_LIST}/${item.id}`, "DELETE",{type:'disable'}).then(result => {
+                    util.showToast(`${str}成功`);
+                    setTimeout(() => {
+                        item.isDisable=!item.isDisable;
+                    }, 800);
+                });
+            })
+        },
         toDelete(id,index){
             util.showConfirm('','确定','确定删除业务员吗？',()=>{
-                util.showLoadingDialog('请稍候');
+                util.showLoadingDialog('删除中');
                 http.request(`${urls.SALESMAN_LIST}/${id}`, "DELETE",{type:'delete'}).then(result => {
                     util.showToast('删除成功');
                     setTimeout(() => {

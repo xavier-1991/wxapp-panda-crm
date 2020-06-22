@@ -34,6 +34,9 @@ var urls = {
     WORK_SHEET: 'api/worksheet',
     WORK_SHEET_DETAIL: 'api/worksheet/{0}',
     WORK_SHEET_TRACING: 'api/worksheet/tracing/{0}',
+    RED_PACKET_ACTIVITIES: 'api/red-packet/available-activities',
+    RED_PACKET: 'api/red-packet',
+    RED_PACKET_SEND: 'api/red-packet/send/{0}',
 };
 
 
