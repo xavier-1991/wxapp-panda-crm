@@ -155,6 +155,7 @@ export default {
             pageTotal: 0,
             showLoadMoreLoading: false,
             isReachBottom: false,
+            fromPage:'',
         };
     },
     components:{
@@ -162,11 +163,16 @@ export default {
         "bottom-bar": bottomBar
     },
     onLoad() {
-        this.getActivity();
+        if(this.$globalData.availableActivity.length){
+            this.addParams.availableActivityAll=this.$globalData.availableActivity;
+        }else{
+            this.getActivity();
+        }
     },
     onShow(){
-        if(this.tab==2){
+        if(this.tab==2&&this.fromPage!="red-packets-check"){
             this.page = 1;
+            this.fromPage="";
             this.loadPage();
         }
     },
@@ -203,6 +209,7 @@ export default {
             util.showLoadingDialog("正在加载");
             http.request(urls.RED_PACKET_ACTIVITIES, "GET").then(data => {
                 this.addParams.availableActivityAll=data.list;
+                this.$globalData.availableActivity=data.list;
                 util.hideLoadingDialog();
             });
             
@@ -438,6 +445,7 @@ export default {
             util.linkto('red-packets-edit',`id=${id}`);
         },
         toCheck(id){
+            this.fromPage="red-packets-check";
             util.linkto('red-packets-check',`id=${id}`);
         },
         // 状态选择

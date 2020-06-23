@@ -86,7 +86,11 @@ export default {
     },
     onLoad(options) {
         this.id=options.id;
-        this.getActivity();
+        if(this.$globalData.availableActivity.length){
+            this.addParams.availableActivityAll=this.$globalData.availableActivity;
+        }else{
+            this.getActivity();
+        }
         this.getDetail();
     },
     methods: {

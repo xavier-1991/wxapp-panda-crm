@@ -135,7 +135,7 @@ export default {
                     util.showToast(`${str}成功`);
                     setTimeout(() => {
                         item.isDisable=!item.isDisable;
-                    }, 800);
+                    }, 1000);
                 });
             })
         },

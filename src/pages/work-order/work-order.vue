@@ -162,7 +162,11 @@ export default {
         "bottom-bar": bottomBar
     },
     onLoad() {
-        this.getLabel();
+        if(this.$globalData.labelList.length){
+            this.labelList=this.$globalData.labelList;
+        }else{
+            this.getLabel();
+        }
     },
     onShow(){
         if(this.tab==2&&this.toPageName=='work-order-result'){
@@ -202,6 +206,7 @@ export default {
         // 获取标签
         getLabel(salesman) {
             http.request(urls.LABEL_LIST, "GET").then(data => {
+                this.$globalData.labelList=data.list;
                 this.labelList = data.list;
             });
         },

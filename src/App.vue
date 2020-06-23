@@ -9,6 +9,8 @@ export default {
         this.$globalData.visitStore = null; // 门店拜访页面 门店详情数据
         this.$globalData.moveParams = null; // 门店转移参数
         this.$globalData.fromStoreAudit = false; // 是否审核后跳转
+        this.$globalData.availableActivity = []; // 红包可用活动列表
+        this.$globalData.labelList = []; // 工单问题标签列表
         this.build();
         this.isIpx();
         this.checkVersion();

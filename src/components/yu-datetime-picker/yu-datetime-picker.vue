@@ -64,7 +64,7 @@
 			color: { //颜色
 				type: String,
 				default () {
-					return '#3279e4'
+					return '#07c160'
 				}
 			},
 			startYear: { //开始年份

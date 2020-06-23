@@ -13,13 +13,13 @@
                         //- 重要信息（销售支持）
                         view(class="df" style="margin-top:72rpx" v-if="roleType==2")
                             view(class="data-item")
-                                view(class="item-num") 12
+                                view(class="item-num") {{data.toBeReviewedStoreCount}}
                                 view(class="item-text") 待审核门店
                             view(class="data-item")
-                                view(class="item-num") 23453453
-                                view(class="item-text") 待审核商品
+                                view(class="item-num") {{data.toBeHandledWorkSheetCount}}
+                                view(class="item-text") 待处理工单
                             view(class="data-item")
-                                view(class="item-num") 23523423
+                                view(class="item-num") {{data.noOrderPlacedCount}}
                                 view(class="item-text") 待发货订单
                         //- 本月数据（业务员，省区经理）
                         view(v-else class="df" style="margin-top:72rpx")
