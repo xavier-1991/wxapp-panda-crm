@@ -26,7 +26,7 @@
                 view( class="inp") {{data.statusStr}}
         view(class="df ai-center  fs28 cor mt30 pl25" v-for="(item,index) in coupon" :key="index")
             view() 满
-            view(class="ml15 i-item-inp w150") 1000
+            view(class="ml15 i-item-inp w150") {{item.fullMoney}}
             view(class="ml15 mr15") 减
             view(class="ml15 i-item-inp w150") {{item.cutMoney}}
             view(class="ml30 mr15") 发
@@ -36,10 +36,11 @@
             view(class="fs28 cor df ")
                 view(class="fls0") 可用活动
                 view(style='margin-left:60rpx' class="df fw")
-                    view(class="df ai-center mb20 mr20"  v-for="(item,index) in data.availableActivity" :key="index")
-                        image(v-if="item.isSelected" class="sel-img" src="../../static/image/store/selected.png")
-                        image(v-else class="sel-img" src="../../static/image/store/selected-no.png")
-                        view(class="ml15 ") {{item.value}}
+                    view(v-for="(item,index) in data.availableActivity" :key="index")
+                        view(class="df ai-center mb20 mr20" v-if="item.isSelected")
+                            image(v-if="item.isSelected" class="sel-img" src="../../static/image/store/selected.png")
+                            image(v-else class="sel-img" src="../../static/image/store/selected-no.png")
+                            view(class="ml15 ") {{item.value}}
             view(class="mt15 df ai-center")
                 image(src="../../static/image/red-packets/tip.png" style="width:24rpx;height:24rpx;")
                 view(class="fs24 cor_9") 勾选表示此张优惠券可与该活动同时使用

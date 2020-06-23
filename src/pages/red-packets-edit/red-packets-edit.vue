@@ -34,7 +34,7 @@
                 view(class="ml30 mr15") 发
                 input(placeholder="数量" placeholder-class='pl' class="i-item-inp w96" v-model="item.num" type="number" maxlength='2')
                 view(class="ml15") 张
-                image(v-if="index>0" @tap="toDeleteCoupon(index)" src="../../static/image/red-packets/del.png" class="del-img")
+                image(v-if="addParams.coupon.length>1" @tap="toDeleteCoupon(index)" src="../../static/image/red-packets/del.png" class="del-img")
             view(class="add-btn-wrap-top")
                 view(class="df ai-center add-btn-top jcc" @tap="toAddCoupon")
                     image(src="../../static/image/red-packets/add.png")
@@ -86,11 +86,11 @@ export default {
     },
     onLoad(options) {
         this.id=options.id;
-        if(this.$globalData.availableActivity.length){
-            this.addParams.availableActivityAll=this.$globalData.availableActivity;
-        }else{
-            this.getActivity();
-        }
+        // if(this.$globalData.availableActivity.length){
+        //     this.addParams.availableActivityAll=this.$globalData.availableActivity;
+        // }else{
+        //     this.getActivity();
+        // }
         this.getDetail();
     },
     methods: {
@@ -105,6 +105,8 @@ export default {
                 this.addParams.startTimeNum=data.startTime.replace(/[^0-9]/ig,"")*1;
                 this.addParams.endTimeNum=data.endTime.replace(/[^0-9]/ig,"")*1;
 
+                this.addParams.availableActivityAll=data.availableActivity;
+
                 data.fullMoney.forEach((item,i)=>{
                     let obj={
                         fullMoney:item,
@@ -116,13 +118,13 @@ export default {
                 util.hideLoadingDialog();
             });
         },
-        //可用活动
-        getActivity(){
-            http.request(urls.RED_PACKET_ACTIVITIES, "GET").then(data => {
-                this.addParams.availableActivityAll=data.list;
-            });
+        // //可用活动
+        // getActivity(){
+        //     http.request(urls.RED_PACKET_ACTIVITIES, "GET").then(data => {
+        //         this.addParams.availableActivityAll=data.list;
+        //     });
             
-        },
+        // },
         toChooseActivity(item){
             item.isSelected=!item.isSelected;
         },

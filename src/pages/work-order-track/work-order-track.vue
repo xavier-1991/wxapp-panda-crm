@@ -9,6 +9,10 @@
                 view(class="aw-l") 
                     text 手机号
                 view(class="aw-r bb1") {{data.mobile}}
+            view(class="df jcsb ai-center")
+                view(class="aw-l") 
+                    text 标签
+                view(class="aw-r bb1") {{data.label}}
             view(class="df jcsb")
                 view(class="aw-l") 
                     text 问题记录

@@ -40,7 +40,7 @@
                         view(class="ml30 mr15") 发
                         input(placeholder="数量" placeholder-class='pl' class="i-item-inp w96" v-model="item.num" type="number" maxlength='2')
                         view(class="ml15") 张
-                        image(v-if="index>0" @tap="toDeleteCoupon(index)" src="../../static/image/red-packets/del.png" class="del-img")
+                        image(v-if="addParams.coupon.length>1" @tap="toDeleteCoupon(index)" src="../../static/image/red-packets/del.png" class="del-img")
                     view(class="add-btn-wrap-top")
                         view(class="df ai-center add-btn-top jcc" @tap="toAddCoupon")
                             image(src="../../static/image/red-packets/add.png")
@@ -49,7 +49,7 @@
                     view(class="fs28 cor df ")
                         view(class="fls0") 可用活动
                         view(style='margin-left:60rpx' class="df fw")
-                            view(class="df ai-center mb20 mr20"  v-for="(item,index) in addParams.availableActivityAll" :key="index")
+                            view(class="df ai-center mb20 mr20"  v-for="(item,index) in addParams.availableActivityAll" :key="index" @tap="toChooseActivity(item)")
                                 image(v-if="item.isSelected" class="sel-img" src="../../static/image/store/selected.png")
                                 image(v-else class="sel-img" src="../../static/image/store/selected-no.png")
                                 view(class="ml15 ") {{item.value}}
@@ -68,7 +68,7 @@
                             image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
                             input(class="search-inp" placeholder="请输入红包名称" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
                         image(@tap="clear" v-if="keywords" class="search-del" src="../../static/image/search/del.png")
-                    //- view(class="se" @tap="toSearch") 搜索
+                    view(class="se" @tap="toSearch") 搜索
                 view(class="c-f-item df ai-center pl25")
                     view(class="c-f-item-l") 创建时间
                     view(class="df ai-center fs24")
@@ -199,7 +199,7 @@ export default {
                 return;
             }
             this.tab = type;
-            if (this.tab == 2 && !this.list.length) {
+            if (this.tab == 2) {
                 this.loadPage();
             }
         },

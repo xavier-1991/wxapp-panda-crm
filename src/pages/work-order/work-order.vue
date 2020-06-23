@@ -31,7 +31,6 @@
                         textarea(v-model="issues" placeholder-class="pl2" placeholder="请填写问题描述~")
                 view(class="add-item df jcsb ai-center")
                     view(class="aw-l") 
-                        text(class="fs28" style="color:#FF662E;") *
                         text 上传图片
                     view(class="df p25lr" style="width:514rpx;")
                         view(class="up-img-wrap re" v-for="(item,index) in imageArr" :key="index")
@@ -44,9 +43,6 @@
                             view(class="mt5 fs20 cor") 上传图片
             view(class="btn_wrap bt1")
                 view(class="btn-default" @tap="toSend") 保存
-            //- view(class="add-btn-wrap bt1 df jcsb")
-            //-     view(class="add-btn" @tap="toSend") 保存
-            //-     view(class="add-btn add-btn2") 保存并发放
         //- 历史工单
         view(v-else class="his-w")
             view(class="df jcsb ai-center search-box")
@@ -55,7 +51,7 @@
                         image(@tap="toSearch" class="search-img" src="../../static/image/search/search.png")
                         input(class="search-inp" placeholder="请输入工单单号、订单编号或者手机号" placeholder-class="pl" v-model="keywords" confirm-type="search" @confirm="toSearch")
                     image(@tap="clear" v-if="keywords" class="search-del" src="../../static/image/search/del.png")
-                //- view(class="se" @tap="toSearch") 搜索
+                view(class="se" @tap="toSearch") 搜索
             view(class="c-f-item df ai-center pl25")
                 view(class="c-f-item-l") 创建时间
                 view(class="df ai-center fs24")
@@ -68,20 +64,28 @@
                         image(src="../../static/image/other/date.png" class="c-date-img")
             view(class="df p25lr ai-center mt25")
                 view(class="c-f-item df ai-center")
-                    view(class="c-f-item-l" style="width:90rpx") 标签
-                    view(class="c-yewu-box df ai-center" style="width:200rpx;")
+                    view(class="c-f-item-l") 标签
+                    view(class="c-yewu-box df ai-center" style="width:206rpx;")
                         picker(mode='selector' class="c-area-picker pl20 df" :range='labelList' range-key="value" @change="hisTagChange") 
                             view(class="df ai-center jcsb" style="width:186rpx")
                                 view(:class="['c-area-text',hisLabelId!=-1?'':'c-area-text-empty']") {{hisLabelName?hisLabelName:'全部'}}
                                 image(class="c-y-down" src="../../static/image/arrow-down.png")
                 view(class="c-f-item df ai-center")
-                    view(class="c-f-item-l" style="width:86rpx;margin-left:35rpx;") 状态
-                    view(class="c-yewu-box df ai-center" style="width:200rpx;")
+                    view(class="c-f-item-l" style="width:80rpx;margin-left:26rpx;") 状态
+                    view(class="c-yewu-box df ai-center" style="width:256rpx;")
                         picker(mode='selector' class="c-area-picker pl20 df" :range='statusList' range-key="value" @change="statusChange") 
-                            view(class="df ai-center jcsb" style="width:186rpx")
+                            view(class="df ai-center jcsb" style="width:236rpx")
                                 view(:class="['c-area-text',status!=-1?'':'c-area-text-empty']") {{statusName?statusName:'全部'}}
                                 image(class="c-y-down" src="../../static/image/arrow-down.png")
-                view(class="ml10 fs28 cor_blue p10" @tap="resetAll") 重置
+            view(v-if="roleType==2" class="p25lr mt25")
+                view(class="c-f-item df ai-center")
+                    view(class="c-f-item-l") 发起人
+                    view(class="c-yewu-box df ai-center")
+                        input(class="c-y-inp" @input="getSalesman(salesman)" v-model="salesman" placeholder="全部" placeholder-class='c-y-inp-pl')
+                        picker(mode='selector' class="c-yewu-picker" :range='salesmanList' range-key="realName" @change="salesmanChange")
+                            image(class="c-y-down" src="../../static/image/arrow-down.png")
+                    view(class="ml10 fs28 cor_blue p20" @tap="resetAll") 重置
+                    //- view(class="ml10 fs28 cor_blue p10" @tap="resetAll") 重置
             view(class="gray_bar mt25" style="height:25rpx;")
             view(class="his-list")
                 view(class="h-item bb1" v-for="(item,index) in list" :key="index")
@@ -98,16 +102,21 @@
                             view(v-if="item.status==0" class="h-tag") {{item.statusStr}}
                             view(v-if="item.status==1" class="h-tag h-tag1") {{item.statusStr}}
                             view(v-if="item.status==2" class="h-tag h-tag2") {{item.statusStr}}
+                    view(class="df mt20" v-if="roleType==2")
+                        view(class="h-l df ai-center")
+                            image(class="h-l-img" src="../../static/image/other/person.png")
+                            view(class="h-l-text") 发起人
+                        view(class="fs28 cor") {{item.user||'无'}}
                     view(class="df mt20")
                         view(class="h-l df ai-center")
                             image(class="h-l-img" src="../../static/image/work-order/phone-num.png")
                             view(class="h-l-text") 手机号
-                        view(class="fs28 cor") {{item.mobile}}
+                        view(class="fs28 cor") {{item.mobile||'无'}}
                     view(class="df mt20")
                         view(class="h-l df ai-center ai-start")
                             image(class="h-l-img" src="../../static/image/work-order/record.png")
                             view(class="h-l-text") 问题记录
-                        view(class="fs28 cor") {{item.issues}}
+                        view(class="fs28 cor") {{item.issues||'无'}}
                     view(class="df mt30 jcfe mt30")
                         view(class="h-btn" @tap="toTrack('look',item.id)") 查看
                         view(v-if="roleType&&item.status!=2" class="h-btn ml20" @tap="toTrack('track',item.id)") 跟踪
@@ -155,7 +164,14 @@ export default {
             showLoadMoreLoading: false,
             isReachBottom: false,
             roleType: pd.getRoleType(),
-            toPageName:'' //前往的页面名称 用于该返回时刷新
+            toPageName:'', //前往的页面名称 用于该返回时刷新
+
+            //发起人
+            salesmanId:0, //业务员id
+            salesman:'',//业务员姓名
+            salesmanList:[], //展示的业务员列表
+            salesmanListAll:[], //全部业务员列表
+
         };
     },
     components: {
@@ -167,6 +183,7 @@ export default {
         }else{
             this.getLabel();
         }
+        this.getSalesman();
     },
     onShow(){
         if(this.tab==2&&this.toPageName=='work-order-result'){
@@ -198,7 +215,7 @@ export default {
                 return;
             }
             this.tab = type;
-            if(this.tab==2&&!this.list.length){
+            if(this.tab==2){
                 this.loadPage();
             }
         },
@@ -272,8 +289,8 @@ export default {
             let onlineArr=[]; //线上图片数组
             let underlineArr=[]; //线下图片数组
             this.imageArr.forEach((item,i)=>{
-                // if(item.indexOf('wxfile')<0){
-                if(item.indexOf('tmp/wx')<0){
+                if(item.indexOf('wxfile')<0){
+                // if(item.indexOf('tmp/wx')<0){
                     onlineArr.push(item);
                 }else{
                     underlineArr.push(item);
@@ -282,7 +299,7 @@ export default {
             util.showLoadingDialog("提交中");
             // console.log('underlineArr',underlineArr)
             if(underlineArr.length>0){
-                http.uploadFiles(underlineArr,{type:'visit'}, res => {
+                http.uploadFiles(underlineArr,{type:'other'}, res => {
                     let resArr = res.map(ele => {
                         return ele.imgUrl;
                     });
@@ -359,6 +376,9 @@ export default {
             if (this.endTime) {
                 params.endTime = this.endTime;
             }
+            if(this.salesman){
+                params.userName=this.salesman;
+            }
             if (this.hisLabelId!=-1) {
                 params.labelId = this.hisLabelId;
             }
@@ -405,6 +425,36 @@ export default {
             this.page = 1;
             this.loadPage();
         },
+        // 发起人
+        salesmanChange(e){
+            let i=e.detail.value*1;
+            this.salesman=this.salesmanList[i].realName;
+            this.salesmanId=this.salesmanList[i].id;
+            this.page=1
+            this.loadPage();
+
+        },
+        getSalesman(salesman){
+            if(!salesman&&this.salesmanListAll.length){
+                this.salesmanList=JSON.parse(JSON.stringify(this.salesmanListAll))
+                return;
+            }
+            let params={};
+                params.type = 'work_sheet_select';
+            if(salesman){
+                params.keywords=salesman
+            }
+            http.request(
+                urls.SALESMAN_LIST,
+                "GET",
+                params
+            ).then(data => {
+                this.salesmanList=data.list;
+                if(!salesman){
+                    this.salesmanListAll=data.list;
+                }
+            })
+        },
         // 重置（全部条件）
         resetAll() {
             this.page = 1;
@@ -415,6 +465,11 @@ export default {
             this.hisLabelId = -1;
             this.statusName = "";
             this.status = -1;
+
+            this.salesmanId=0;
+            this.salesman='';
+            this.salesmanList=JSON.parse(JSON.stringify(this.salesmanListAll));
+
             this.loadPage();
         }
     }
