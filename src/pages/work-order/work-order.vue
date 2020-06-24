@@ -183,10 +183,12 @@ export default {
         }else{
             this.getLabel();
         }
-        this.getSalesman();
+        if(this.roleType==2){
+            this.getSalesman();
+        }
     },
     onShow(){
-        if(this.tab==2&&this.toPageName=='work-order-result'){
+        if(this.tab==2){
             //完结工单后返回
             this.page = 1;
             this.toPageName='';
@@ -238,6 +240,7 @@ export default {
                 count: this.count,
                 sizeType: ["compressed"],
                 success: res => {
+                    console.log('本地图片',res)
                     this.imageArr = [...this.imageArr, ...res.tempFilePaths];
                     this.count = 3 - this.imageArr.length;
                 }

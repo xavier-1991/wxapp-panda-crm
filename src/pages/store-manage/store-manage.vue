@@ -1,6 +1,6 @@
 <template lang="pug">
     view(v-if="hasData")
-        view(class="top-wrap")
+        view(class="top-wrap" @tap.stop="hideMask()")
             //- 搜索框
             view(class="df jcsb ai-center")
                 view(class="df jcsb input-wrap")
@@ -16,7 +16,7 @@
                 view(:class="['nav',state=='today'?'curr-nav':'']" @tap="changeState('today')") 今日
                 view(:class="['nav',state=='month'?'curr-nav':'']" @tap="changeState('month')") 本月
                 view(:class="['nav',state=='custom'?'curr-nav':'']" @tap="changeState('custom')") 自定义
-                view(:class="['nav','df','jcc','ai-center',storeType!=-1||storeStatus!=-1||audit!=-1||orderOrNot!=-1?'curr-nav':'']" @tap="toFilter")
+                view(:class="['nav','df','jcc','ai-center',storeType!=-1||storeStatus!=-1||audit!=-1||orderOrNot!=-1?'curr-nav':'']" @tap.stop="toFilter")
                     text 筛选
                     view(v-if="storeType!=-1||storeStatus!=-1||audit!=-1||orderOrNot!=-1")
                         image(v-if="filterShow" class="arrow ml5" src="../../static/image/arrow-up-blue.png")
@@ -317,6 +317,9 @@ export default {
                 this.showTime=false;
                 this.loadPage()
             }
+        },
+        hideMask(){
+            this.filterShow=false;
         },
         //筛选模块
         toStoreType(data){

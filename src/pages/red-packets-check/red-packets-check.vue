@@ -32,7 +32,7 @@
             view(class="ml30 mr15") 发
             view(class="i-item-inp w96") {{item.num}}
             view(class="ml15") 张
-        view(class="mt30 ml25" v-if="data.availableActivity.length")
+        view(class="mt30 ml25" v-if="hasActivity")
             view(class="fs28 cor df ")
                 view(class="fls0") 可用活动
                 view(style='margin-left:60rpx' class="df fw")
@@ -54,7 +54,8 @@ export default {
        return {
            hasData:false,
            data:{},
-           coupon:[]
+           coupon:[],
+           hasActivity:false
        }
     },
     onLoad(options) {
@@ -66,6 +67,11 @@ export default {
             util.showLoadingDialog("正在加载");
             http.request(`${urls.RED_PACKET}/${this.id}`,"GET").then(data => {
                 this.data=data;
+                data.availableActivity.forEach((item,i)=>{
+                    if(item.isSelected){
+                        this.hasActivity=true;
+                    }
+                })
                 data.fullMoney.forEach((item,i)=>{
                     let obj={
                         fullMoney:item,

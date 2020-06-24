@@ -164,7 +164,7 @@ export default {
     },
     onLoad() {
         if(this.$globalData.availableActivity.length){
-            this.addParams.availableActivityAll=this.$globalData.availableActivity;
+            this.addParams.availableActivityAll=JSON.parse(JSON.stringify(this.$globalData.availableActivity));
         }else{
             this.getActivity();
         }
@@ -209,7 +209,7 @@ export default {
             util.showLoadingDialog("正在加载");
             http.request(urls.RED_PACKET_ACTIVITIES, "GET").then(data => {
                 this.addParams.availableActivityAll=data.list;
-                this.$globalData.availableActivity=data.list;
+                this.$globalData.availableActivity=JSON.parse(JSON.stringify(data.list));
                 util.hideLoadingDialog();
             });
             
@@ -348,10 +348,13 @@ export default {
                 }else{
                     util.showToast("发放成功");
                 }
+                this.addParams.availableActivityAll.forEach((item,i)=>{
+                    item.isSelected=false;
+                })
                 this.addParams={
                     name:'',
                     mobile:'',
-                    availableActivityAll:[],
+                    availableActivityAll:this.addParams.availableActivityAll,
                     startTime: "",
                     endTime: "",
                     startTimeNum:"", 
@@ -364,6 +367,7 @@ export default {
                         }
                     ]
                 }
+                
             });
         },
         /*********** 红包记录 **************/

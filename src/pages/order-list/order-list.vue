@@ -1,6 +1,6 @@
 <template lang="pug">
     view(v-if="hasData")
-        view(class="top-wrap")
+        view(class="top-wrap" style="padding-bottom:0;")
             view(class="df jcsb ai-center")
                 view(class="df jcsb input-wrap")
                     view(class="df ai-center inp-left")
