@@ -26,16 +26,16 @@
                 view( class="inp") {{params.locationAddr}}
         view(class="item df ai-center jcsb re")
             view(class="item-left") 详细地址
-            view(class="fs28 cor item-right" style="padding:24rpx 0;height:auto;") {{params.address}}
+            view(class="fs28 cor item-right") {{params.address}}
         view(class="item df ai-center jcsb re")
             view(class="item-left") 门店类型
-            view(class="fs28 cor item-right" style="padding:24rpx 0;height:auto;") {{params.storeType==0?'单体门店':'连锁门店'}}
+            view(class="fs28 cor item-right") {{params.storeType==0?'单体门店':'连锁门店'}}
         view(class="item df ai-center jcsb re" v-if="params.hasSalesman")
             view(class="item-left") 业务员
-            view(class="fs28 cor item-right" style="padding:24rpx 0;height:auto;") {{params.salesmanName}}
+            view(class="fs28 cor item-right") {{params.salesmanName}}
         view(class="item df ai-center jcsb re" v-if="params.createTime")
             view(class="item-left") 注册时间
-            view(class="fs28 cor item-right" style="padding:24rpx 0;height:auto;") {{params.createTime}}
+            view(class="fs28 cor item-right") {{params.createTime}}
         view
             view(class="fs28 cor" style="margin:30rpx 0 0 24rpx") 资质信息
             view(class="camara-list df jcsb fw")

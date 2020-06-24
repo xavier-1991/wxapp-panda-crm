@@ -58,7 +58,6 @@ export default {
         };
     },
     onLoad(options) {
-        options.type ="edit";
         if (options.type == "add") {
             this.pageType="add";
             uni.setNavigationBarTitle({
