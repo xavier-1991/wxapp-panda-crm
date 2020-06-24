@@ -97,7 +97,7 @@
                 view(class="section2 df jcsba bk_f mt15")
                     view(class="analysis-item" @tap="toStore('audit','0')")
                         view(class="df jcc")
-                            image(class="icon" src="../../static/image/index/sales-support/icon-05.png")
+                            image(class="icon" src="../../static/image/index/sales-support/icon-07.png")
                         view(class="fs24 cor mt10") 门店审核
                     view(class="analysis-item" @tap="toRedPackets")
                         view(class="df jcc")
