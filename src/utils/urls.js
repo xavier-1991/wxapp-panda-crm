@@ -1,8 +1,8 @@
 
-// const HOST = "crm.pandamuying.com/";
-const HOST = "crm-test.pandamuying.com/";
+const HOST = "crm.pandamuying.com/";
+// const HOST = "crm-test.pandamuying.com/";
 // const HOST = "crm-new.pandamuying.com/";
-const HTTPS = "http://";
+const HTTPS = "https://";
 const URL_API_BASE = HTTPS.concat(HOST);
 var urls = {
     LOGIN: 'api/auth/login',
